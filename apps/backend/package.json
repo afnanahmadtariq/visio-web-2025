@@ -94,6 +94,25 @@
             "buildTarget": "@visio/backend:build:production"
           }
         }
+      },
+      "start": {
+        "executor": "@nx/js:node",
+        "defaultConfiguration": "production",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@visio/backend:build",
+          "runBuildTargetDependencies": false
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@visio/backend:build:development"
+          },
+          "production": {
+            "buildTarget": "@visio/backend:build:production"
+          }
+        }
       }
     }
   },
