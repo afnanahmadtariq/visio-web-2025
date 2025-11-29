@@ -62,7 +62,8 @@ export default function SignUpPage() {
           title: "Success",
           description: result.message,
         })
-        router.push("/")
+        // Redirect to login page after successful registration
+        router.push("/signin")
       } else {
         toast({
           title: "Error",
@@ -109,13 +110,13 @@ export default function SignUpPage() {
           <CardContent className="space-y-4">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="name">Username</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Enter your full name"
+                    placeholder="Enter your username"
                     className="pl-9"
                     {...register("name")}
                   />

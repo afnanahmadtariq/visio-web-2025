@@ -9,6 +9,8 @@ export const env = {
     host: process.env.HOST ?? '0.0.0.0',
     port: process.env.PORT ? Number(process.env.PORT) : 10000,
     nodeEnv: process.env.NODE_ENV || 'development',
+    isProduction: process.env.NODE_ENV === 'production',
+    isDevelopment: process.env.NODE_ENV === 'development',
 
     // Database URLs
     databaseUrl: process.env.DATABASE_URL!,
@@ -45,6 +47,12 @@ export const env = {
     // Security
     bcryptRounds: Number(process.env.BCRYPT_ROUNDS) || 12,
     maxFailedLoginAttempts: Number(process.env.MAX_FAILED_LOGIN_ATTEMPTS) || 5,
+
+    // EmailJS
+    EMAILJS_PUBLIC_KEY: process.env.EMAILJS_PUBLIC_KEY,
+    EMAILJS_PRIVATE_KEY: process.env.EMAILJS_PRIVATE_KEY,
+    EMAILJS_SERVICE_ID: process.env.EMAILJS_SERVICE_ID,
+    EMAILJS_TEMPLATE_ID: process.env.EMAILJS_TEMPLATE_ID,
 } as const;
 
 /**

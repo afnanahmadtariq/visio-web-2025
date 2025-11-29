@@ -14,6 +14,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { useCart } from "@/context/cart-context"
 import { useAuth } from "@/context/auth-context"
+import SearchBar from "@/components/search-bar"
 
 export default function Header() {
   const { itemCount } = useCart()
@@ -50,6 +51,10 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent side="left">
             <div className="flex flex-col gap-4 mt-8">
+              {/* Mobile Search */}
+              <div className="mb-4">
+                <SearchBar placeholder="Search products..." />
+              </div>
               <Link href="/products" className="text-lg font-medium hover:text-primary">
                 All Products
               </Link>
@@ -121,6 +126,11 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          {/* Search Bar - Desktop */}
+          <div className="hidden lg:block w-64">
+            <SearchBar placeholder="Search..." />
+          </div>
+
           <Link href="/cart" className="relative">
             <ShoppingBag className="h-5 w-5" />
             {itemCount > 0 && (

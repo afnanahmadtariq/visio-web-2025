@@ -61,46 +61,46 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/50">
+      {/* Hero Section - fits in remaining viewport height */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/50 h-[calc(100vh-4rem)] min-h-[500px]">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-pulse" />
-          <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-secondary/10 blur-3xl animate-pulse delay-1000" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-accent/5 blur-3xl" />
+          <div className="absolute -top-40 -right-40 h-60 w-60 rounded-full bg-primary/10 blur-3xl animate-pulse" />
+          <div className="absolute -bottom-40 -left-40 h-60 w-60 rounded-full bg-secondary/10 blur-3xl animate-pulse delay-1000" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-72 w-72 rounded-full bg-accent/5 blur-3xl" />
         </div>
         
-        <div className="container relative z-10 py-16 md:py-24 lg:py-32">
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+        <div className="container relative z-10 h-full flex items-center py-6 lg:py-8">
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center w-full">
             {/* Left Content */}
-            <div className="flex flex-col justify-center space-y-8">
-              <div className="space-y-6">
-                <Badge variant="secondary" className="w-fit px-4 py-1.5 text-sm font-medium bg-primary/10 text-primary border-0">
-                  <Sparkles className="mr-2 h-3.5 w-3.5" />
+            <div className="flex flex-col justify-center space-y-4 lg:space-y-6">
+              <div className="space-y-3 lg:space-y-4">
+                <Badge variant="secondary" className="w-fit px-3 py-1 text-xs lg:text-sm font-medium bg-primary/10 text-primary border-0">
+                  <Sparkles className="mr-1.5 h-3 w-3 lg:h-3.5 lg:w-3.5" />
                   New Collection 2025
                 </Badge>
                 
-                <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                <h1 className="text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl xl:text-6xl">
                   <span className="block">Elevate Your</span>
                   <span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
                     Style Game
                   </span>
                 </h1>
                 
-                <p className="max-w-[540px] text-lg text-muted-foreground md:text-xl leading-relaxed">
+                <p className="max-w-[500px] text-sm lg:text-base text-muted-foreground leading-relaxed">
                   Discover curated collections that blend timeless elegance with contemporary design. 
                   Premium quality, sustainable fashion.
                 </p>
               </div>
 
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <Button size="lg" className="group h-12 px-8 text-base bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30" asChild>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Button size="default" className="group h-10 lg:h-11 px-6 text-sm bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30" asChild>
                   <Link href="/products">
                     Shop Collection
-                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="h-12 px-8 text-base border-2 hover:bg-muted/50" asChild>
+                <Button size="default" variant="outline" className="h-10 lg:h-11 px-6 text-sm border-2 hover:bg-muted/50" asChild>
                   <Link href="/categories">
                     Explore Categories
                   </Link>
@@ -108,27 +108,27 @@ export default function Home() {
               </div>
 
               {/* Trust Badges */}
-              <div className="flex flex-wrap gap-6 pt-4">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Truck className="h-5 w-5 text-primary" />
+              <div className="flex flex-wrap gap-4 lg:gap-6 pt-2">
+                <div className="flex items-center gap-1.5 text-xs lg:text-sm text-muted-foreground">
+                  <Truck className="h-4 w-4 text-primary" />
                   <span>Free Shipping</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Shield className="h-5 w-5 text-primary" />
+                <div className="flex items-center gap-1.5 text-xs lg:text-sm text-muted-foreground">
+                  <Shield className="h-4 w-4 text-primary" />
                   <span>Secure Payment</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <RotateCcw className="h-5 w-5 text-primary" />
+                <div className="flex items-center gap-1.5 text-xs lg:text-sm text-muted-foreground">
+                  <RotateCcw className="h-4 w-4 text-primary" />
                   <span>Easy Returns</span>
                 </div>
               </div>
             </div>
 
             {/* Right Content - Image Grid */}
-            <div className="relative hidden lg:block">
-              <div className="grid grid-cols-2 gap-4">
+            <div className="relative hidden lg:flex items-center justify-center h-full max-h-[calc(100vh-8rem)]">
+              <div className="grid grid-cols-2 gap-3 w-full max-w-lg">
                 {/* Main large image */}
-                <div className="col-span-2 aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl">
+                <div className="col-span-2 aspect-[16/9] overflow-hidden rounded-xl shadow-2xl">
                   <img
                     src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
                     alt="Fashion collection"
@@ -136,14 +136,14 @@ export default function Home() {
                   />
                 </div>
                 {/* Two smaller images */}
-                <div className="aspect-square overflow-hidden rounded-2xl shadow-xl">
+                <div className="aspect-[4/3] overflow-hidden rounded-xl shadow-xl">
                   <img
                     src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
                     alt="Store interior"
                     className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
                   />
                 </div>
-                <div className="aspect-square overflow-hidden rounded-2xl shadow-xl">
+                <div className="aspect-[4/3] overflow-hidden rounded-xl shadow-xl">
                   <img
                     src="https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
                     alt="Fashion accessories"
@@ -153,20 +153,20 @@ export default function Home() {
               </div>
               
               {/* Floating Stats Card */}
-              <div className="absolute -left-8 bottom-24 rounded-xl bg-background/95 backdrop-blur-sm border shadow-xl p-4 animate-in slide-in-from-left duration-500">
-                <div className="flex items-center gap-3">
-                  <div className="flex -space-x-2">
-                    <div className="h-8 w-8 rounded-full bg-primary/20 border-2 border-background" />
-                    <div className="h-8 w-8 rounded-full bg-secondary/20 border-2 border-background" />
-                    <div className="h-8 w-8 rounded-full bg-accent/20 border-2 border-background" />
+              <div className="absolute left-0 bottom-8 rounded-lg bg-background/95 backdrop-blur-sm border shadow-xl p-3 animate-in slide-in-from-left duration-500">
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-1.5">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Customer" className="h-6 w-6 rounded-full border-2 border-background object-cover" />
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Customer" className="h-6 w-6 rounded-full border-2 border-background object-cover" />
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Customer" className="h-6 w-6 rounded-full border-2 border-background object-cover" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold">10K+ Happy Customers</p>
-                    <div className="flex items-center gap-1">
+                    <p className="text-xs font-semibold">10K+ Happy Customers</p>
+                    <div className="flex items-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-3 w-3 fill-secondary text-secondary" />
+                        <Star key={i} className="h-2.5 w-2.5 fill-secondary text-secondary" />
                       ))}
-                      <span className="text-xs text-muted-foreground ml-1">4.9/5</span>
+                      <span className="text-[10px] text-muted-foreground ml-1">4.9/5</span>
                     </div>
                   </div>
                 </div>

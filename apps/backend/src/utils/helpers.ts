@@ -21,7 +21,7 @@ export const comparePassword = async (
 /**
  * Generate a random string
  */
-export const generateRandomString = (length: number = 32): string => {
+export const generateRandomString = (length = 32): string => {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result = '';
     const randomValues = new Uint8Array(length);
@@ -60,8 +60,8 @@ export const calculateDiscountedPrice = (
  */
 export const formatCurrency = (
     amount: number,
-    currency: string = 'USD',
-    locale: string = 'en-US'
+    currency = 'USD',
+    locale = 'en-US'
 ): string => {
     return new Intl.NumberFormat(locale, {
         style: 'currency',
