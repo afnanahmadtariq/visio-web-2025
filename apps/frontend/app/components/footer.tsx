@@ -83,7 +83,7 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-medium">Contact</h3>
             <ul className="space-y-2 text-sm">
-              <li>Email: support@modernshop.com</li>
+              <li>Email: support@visiomart.com</li>
               <li>Phone: +1 (555) 123-4567</li>
               <li>Address: 123 Commerce St, City, Country</li>
             </ul>
@@ -91,7 +91,7 @@ export default function Footer() {
         </div>
         <div className="mt-8 border-t pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <p className="text-sm text-muted-foreground">© 2023 ModernShop. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground">© 2023 Visio Mart. All rights reserved.</p>
             <div className="flex gap-4">
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                 <span className="sr-only">Facebook</span>

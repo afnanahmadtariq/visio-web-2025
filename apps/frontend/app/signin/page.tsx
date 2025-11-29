@@ -2,8 +2,10 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { ArrowLeft, Eye, EyeOff, Lock, Mail } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,50 +15,45 @@ import { useToast } from "@/hooks/use-toast"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useAuth } from "@/context/auth-context"
+import { SignInSchema, type SignInFormData } from "@/lib/validations/auth"
 
 export default function SignInPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { toast } = useToast()
   const { signIn, isLoading } = useAuth()
   
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  })
   const [showPassword, setShowPassword] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+  // Use react-hook-form with Zod validation
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(SignInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!formData.email || !formData.password) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      })
-      return
-    }
-
+  const onSubmit = async (data: SignInFormData) => {
     setIsSubmitting(true)
     
     try {
-      const result = await signIn(formData.email, formData.password)
+      const result = await signIn(data.email, data.password)
       
       if (result.success) {
         toast({
           title: "Success",
           description: result.message,
         })
-        router.push("/")
+        // Redirect to original destination or home
+        const redirectTo = searchParams.get("redirect") || "/"
+        router.push(redirectTo)
       } else {
         toast({
           title: "Error",
@@ -75,38 +72,29 @@ export default function SignInPage() {
     }
   }
 
-  const handleDemoLogin = async () => {
-    setFormData({
-      email: "demo@modernshop.com",
-      password: "demo123"
-    })
+  const handleDemoLogin = async (type: "user" | "admin") => {
+    const credentials = type === "admin" 
+      ? { email: "admin@visiomart.com", password: "admin123" }
+      : { email: "demo@visiomart.com", password: "demo123" }
     
-    // First create demo user if it doesn't exist
-    const storedUsers = localStorage.getItem("users")
-    const users = storedUsers ? JSON.parse(storedUsers) : []
+    setValue("email", credentials.email)
+    setValue("password", credentials.password)
     
-    const demoUser = users.find((u: any) => u.email === "demo@modernshop.com")
-    if (!demoUser) {
-      const newDemoUser = {
-        id: "demo",
-        name: "Demo User",
-        email: "demo@modernshop.com",
-        password: "demo123",
-        createdAt: new Date().toISOString(),
-      }
-      users.push(newDemoUser)
-      localStorage.setItem("users", JSON.stringify(users))
-    }
-    
-    // Then sign in
     setIsSubmitting(true)
-    const result = await signIn("demo@modernshop.com", "demo123")
+    const result = await signIn(credentials.email, credentials.password)
     if (result.success) {
       toast({
         title: "Success",
-        description: "Signed in with demo account!",
+        description: `Signed in as ${type === "admin" ? "Admin" : "Demo"} user!`,
       })
-      router.push("/")
+      const redirectTo = searchParams.get("redirect") || "/"
+      router.push(redirectTo)
+    } else {
+      toast({
+        title: "Error",
+        description: result.message,
+        variant: "destructive",
+      })
     }
     setIsSubmitting(false)
   }
@@ -137,22 +125,22 @@ export default function SignInPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
-                    name="email"
                     type="email"
                     placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
                     className="pl-9"
-                    required
+                    {...register("email")}
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email.message}</p>
+                )}
               </div>
               
               <div className="space-y-2">
@@ -161,13 +149,10 @@ export default function SignInPage() {
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
-                    name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter your password"
-                    value={formData.password}
-                    onChange={handleChange}
                     className="pl-9 pr-9"
-                    required
+                    {...register("password")}
                   />
                   <Button
                     type="button"
@@ -183,6 +168,9 @@ export default function SignInPage() {
                     )}
                   </Button>
                 </div>
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password.message}</p>
+                )}
               </div>
 
               <Button 
@@ -196,17 +184,27 @@ export default function SignInPage() {
 
             <Separator />
 
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              onClick={handleDemoLogin}
-              disabled={isSubmitting}
-            >
-              Try Demo Account
-            </Button>
+            <div className="grid grid-cols-2 gap-2">
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={() => handleDemoLogin("user")}
+                disabled={isSubmitting}
+              >
+                Demo User
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={() => handleDemoLogin("admin")}
+                disabled={isSubmitting}
+              >
+                Demo Admin
+              </Button>
+            </div>
 
             <div className="text-center text-sm">
-              <span className="text-muted-foreground">Don't have an account? </span>
+              <span className="text-muted-foreground">Don&apos;t have an account? </span>
               <Link href="/signup" className="text-primary hover:underline">
                 Sign up
               </Link>

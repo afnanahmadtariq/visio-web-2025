@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Menu, ShoppingBag, User, LogOut } from "lucide-react"
+import { Menu, ShoppingBag, User, LogOut, Shield } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { 
@@ -17,7 +17,7 @@ import { useAuth } from "@/context/auth-context"
 
 export default function Header() {
   const { itemCount } = useCart()
-  const { user, isAuthenticated, signOut, isLoading } = useAuth()
+  const { user, isAuthenticated, isAdmin, signOut, isLoading } = useAuth()
 
   const handleSignOut = () => {
     signOut()
@@ -37,7 +37,7 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl">
           <ShoppingBag className="h-5 w-5 text-primary" />
-          <span>ModernShop</span>
+          <span>Visio Mart</span>
         </Link>
 
         {/* Mobile Navigation */}
@@ -62,12 +62,20 @@ export default function Header() {
               <Link href="/about" className="text-lg font-medium hover:text-primary">
                 About
               </Link>
+              {/* Only show admin link if user is admin - backend enforces RBAC */}
+              {!isLoading && isAdmin && (
+                <Link href="/admin" className="text-lg font-medium hover:text-primary flex items-center gap-2">
+                  <Shield className="h-4 w-4" />
+                  Admin
+                </Link>
+              )}
               <div className="flex flex-col gap-2 mt-4">
                 {!isLoading && (
                   isAuthenticated ? (
                     <>
                       <div className="text-sm text-muted-foreground mb-2">
                         Welcome, {user?.name}!
+                        {isAdmin && <span className="ml-1 text-primary">(Admin)</span>}
                       </div>
                       <Button variant="outline" className="w-full" onClick={handleSignOut}>
                         Sign Out
@@ -103,6 +111,13 @@ export default function Header() {
           <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
             About
           </Link>
+          {/* Only show admin link if user is admin - backend enforces RBAC */}
+          {!isLoading && isAdmin && (
+            <Link href="/admin" className="text-sm font-medium hover:text-primary transition-colors flex items-center gap-1">
+              <Shield className="h-3 w-3" />
+              Admin
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -129,7 +144,10 @@ export default function Header() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <div className="flex flex-col space-y-1 p-2">
-                    <p className="text-sm font-medium leading-none">{user?.name}</p>
+                    <p className="text-sm font-medium leading-none">
+                      {user?.name}
+                      {isAdmin && <span className="ml-1 text-xs text-primary">(Admin)</span>}
+                    </p>
                     <p className="text-xs leading-none text-muted-foreground">
                       {user?.email}
                     </p>
@@ -141,6 +159,17 @@ export default function Header() {
                       <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
+                  {/* Only show admin menu item if user is admin */}
+                  {isAdmin && (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin" className="flex items-center">
+                          <Shield className="mr-2 h-4 w-4" />
+                          <span>Admin Dashboard</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut}>
                     <LogOut className="mr-2 h-4 w-4" />

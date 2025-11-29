@@ -36,6 +36,8 @@
     "lib/**/*.ts",
     "context/**/*.ts",
     "context/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
     "hooks/**/*.ts",
     "../../apps/frontend/.next/types/**/*.ts",
     "../../dist/apps/frontend/.next/types/**/*.ts",

@@ -1,10 +1,8 @@
 "use client"
 
-import Link from "next/link"
-import { ArrowRight, Mail, MapPin, PhoneCall, ShoppingBag, Users, Smile } from "lucide-react"
+import { ArrowRight, Mail, MapPin, PhoneCall, ShoppingBag, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -15,7 +13,7 @@ const teamMembers = [
     id: "1",
     name: "Emma Johnson",
     role: "CEO & Founder",
-    bio: "Emma founded ModernShop in 2015 with a vision for accessible, quality products for every lifestyle.",
+    bio: "Emma founded Visio Mart in 2015 with a vision for accessible, quality products for every lifestyle.",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
   },
   {
@@ -36,7 +34,7 @@ const teamMembers = [
     id: "4",
     name: "Michael Rodriguez",
     role: "Customer Experience Director",
-    bio: "Michael is dedicated to making every customer interaction with ModernShop exceptional.",
+    bio: "Michael is dedicated to making every customer interaction with Visio Mart exceptional.",
     image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
   },
 ]
@@ -44,8 +42,8 @@ const teamMembers = [
 // Mock FAQ data
 const faqs = [
   {
-    question: "What makes ModernShop different from other online stores?",
-    answer: "ModernShop stands out with our curated selection of high-quality products, exceptional customer service, and commitment to sustainability. We personally test and review each product before offering it to our customers, ensuring you only get the best."
+    question: "What makes Visio Mart different from other online stores?",
+    answer: "Visio Mart stands out with our curated selection of high-quality products, exceptional customer service, and commitment to sustainability. We personally test and review each product before offering it to our customers, ensuring you only get the best."
   },
   {
     question: "How long does shipping take?",
@@ -57,11 +55,11 @@ const faqs = [
   },
   {
     question: "Do you offer discounts for bulk orders?",
-    answer: "Yes, we offer special pricing for bulk orders. Please contact our customer service team at bulk@modernshop.com with details about your order requirements for a custom quote."
+    answer: "Yes, we offer special pricing for bulk orders. Please contact our customer service team at bulk@visiomart.com with details about your order requirements for a custom quote."
   },
   {
     question: "How can I track my order?",
-    answer: "Once your order ships, you'll receive a confirmation email with tracking information. You can also log into your ModernShop account and view your order status and tracking details in the 'Order History' section."
+    answer: "Once your order ships, you'll receive a confirmation email with tracking information. You can also log into your Visio Mart account and view your order status and tracking details in the 'Order History' section."
   },
   {
     question: "Do you ship internationally?",
@@ -80,7 +78,7 @@ export default function AboutPage() {
         <div className="container relative z-10 py-16 md:py-24">
           <div className="max-w-[900px] mx-auto text-center space-y-4">
             <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-              About ModernShop
+              About Visio Mart
             </h1>
             <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl">
               Transforming online shopping with curated products and exceptional experiences since 2015.
@@ -96,13 +94,13 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold sm:text-3xl mb-4">Our Story</h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                ModernShop began in 2015 with a simple mission: to create an online shopping destination that offers carefully curated products for modern living. What started as a small operation has grown into a thriving marketplace trusted by customers worldwide.
+                Visio Mart began in 2015 with a simple mission: to create an online shopping destination that offers carefully curated products for modern living. What started as a small operation has grown into a thriving marketplace trusted by customers worldwide.
               </p>
               <p>
                 Our founder, Emma Johnson, recognized a gap in the market for a shopping platform that prioritizes quality, design, and customer satisfaction above all else. She assembled a team of passionate individuals who share her vision for redefining e-commerce.
               </p>
               <p>
-                Today, ModernShop serves over 500,000 customers globally, offering everything from home goods to fashion, electronics to wellness products - all selected with our discerning eye for quality and value.
+                Today, Visio Mart serves over 500,000 customers globally, offering everything from home goods to fashion, electronics to wellness products - all selected with our discerning eye for quality and value.
               </p>
             </div>
           </div>          <div className="relative aspect-video md:aspect-square overflow-hidden rounded-xl bg-muted">
@@ -166,7 +164,7 @@ export default function AboutPage() {
         <div className="mb-10 text-center">
           <h2 className="text-2xl font-bold sm:text-3xl">Meet Our Team</h2>
           <p className="mt-2 text-muted-foreground max-w-[600px] mx-auto">
-            The passionate people working behind the scenes to make ModernShop exceptional
+            The passionate people working behind the scenes to make Visio Mart exceptional
           </p>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -240,7 +238,7 @@ export default function AboutPage() {
                 <Mail className="h-5 w-5 text-primary mr-3 mt-0.5" />
                 <div>
                   <h3 className="font-medium">Email Us</h3>
-                  <p className="text-muted-foreground">support@modernshop.com</p>
+                  <p className="text-muted-foreground">support@visiomart.com</p>
                 </div>
               </div>
               <div className="flex items-start">

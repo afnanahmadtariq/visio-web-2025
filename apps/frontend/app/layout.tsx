@@ -9,9 +9,8 @@ import { Toaster } from "@/components/ui/toaster"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "ModernShop - Premium E-commerce Store",
+  title: "Visio Mart - Premium E-commerce Store",
   description: "Shop the latest trends in fashion, accessories, and home goods",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
