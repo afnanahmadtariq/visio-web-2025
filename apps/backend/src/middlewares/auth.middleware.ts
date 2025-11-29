@@ -7,49 +7,80 @@ import { prisma } from '../db/prisma';
  * JWT Payload interface
  */
 export interface JwtPayload {
+<<<<<<< Updated upstream
   id: string;
   role: 'USER' | 'ADMIN';
   iat?: number;
   exp?: number;
+=======
+    id: string;
+    role: 'USER' | 'ADMIN';
+    iat?: number;
+    exp?: number;
+>>>>>>> Stashed changes
 }
 
 /**
  * Extend Express Request to include user
  */
 declare global {
+<<<<<<< Updated upstream
   namespace Express {
     interface Request {
       user?: JwtPayload;
     }
   }
+=======
+    namespace Express {
+        interface Request {
+            user?: JwtPayload;
+        }
+    }
+>>>>>>> Stashed changes
 }
 
 /**
  * Verify and decode JWT token
  */
 export const verifyAccessToken = (token: string): JwtPayload => {
+<<<<<<< Updated upstream
   return jwt.verify(token, env.jwtSecret) as JwtPayload;
+=======
+    return jwt.verify(token, env.jwtSecret) as JwtPayload;
+>>>>>>> Stashed changes
 };
 
 /**
  * Sign a new access token
  */
 export const signAccessToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): string => {
+<<<<<<< Updated upstream
   return jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn });
+=======
+    return jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn });
+>>>>>>> Stashed changes
 };
 
 /**
  * Sign a new refresh token
  */
 export const signRefreshToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): string => {
+<<<<<<< Updated upstream
   return jwt.sign(payload, env.refreshSecret, { expiresIn: env.refreshExpiresIn });
+=======
+    return jwt.sign(payload, env.refreshSecret, { expiresIn: env.refreshExpiresIn });
+>>>>>>> Stashed changes
 };
 
 /**
  * Verify refresh token
  */
 export const verifyRefreshToken = (token: string): JwtPayload => {
+<<<<<<< Updated upstream
   return jwt.verify(token, env.refreshSecret) as JwtPayload;
+=======
+    return jwt.verify(token, env.refreshSecret) as JwtPayload;
+>>>>>>> Stashed changes
 };
 
 /**
@@ -57,6 +88,7 @@ export const verifyRefreshToken = (token: string): JwtPayload => {
  * Verifies JWT token and attaches user to request
  */
 export const isAuthenticated = async (
+<<<<<<< Updated upstream
   req: Request,
   res: Response,
   next: NextFunction
@@ -129,6 +161,80 @@ export const isAuthenticated = async (
 
     next(error);
   }
+=======
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader?.startsWith('Bearer ')) {
+            res.status(401).json({
+                success: false,
+                message: 'Authentication required',
+            });
+            return;
+        }
+
+        const token = authHeader.split(' ')[1];
+
+        if (!token) {
+            res.status(401).json({
+                success: false,
+                message: 'Invalid authentication token',
+            });
+            return;
+        }
+
+        const payload = verifyAccessToken(token);
+
+        // Verify user still exists and is not locked
+        const user = await prisma.user.findUnique({
+            where: { id: payload.id },
+            select: { id: true, role: true, isLocked: true, deletedAt: true },
+        });
+
+        if (!user || user.deletedAt || user.isLocked) {
+            res.status(401).json({
+                success: false,
+                message: 'Account is locked or does not exist',
+            });
+            return;
+        }
+
+        // Verify role hasn't changed
+        if (user.role !== payload.role) {
+            res.status(401).json({
+                success: false,
+                message: 'Token is stale, please re-authenticate',
+            });
+            return;
+        }
+
+        req.user = payload;
+        next();
+    } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+            res.status(401).json({
+                success: false,
+                message: 'Token has expired',
+                code: 'TOKEN_EXPIRED',
+            });
+            return;
+        }
+
+        if (error instanceof jwt.JsonWebTokenError) {
+            res.status(401).json({
+                success: false,
+                message: 'Invalid token',
+            });
+            return;
+        }
+
+        next(error);
+    }
+>>>>>>> Stashed changes
 };
 
 /**
@@ -136,6 +242,7 @@ export const isAuthenticated = async (
  * Must be used after isAuthenticated
  */
 export const isAdmin = (req: Request, res: Response, next: NextFunction): void => {
+<<<<<<< Updated upstream
   if (!req.user) {
     res.status(401).json({
       success: false,
@@ -153,6 +260,25 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): void =
   }
 
   next();
+=======
+    if (!req.user) {
+        res.status(401).json({
+            success: false,
+            message: 'Authentication required',
+        });
+        return;
+    }
+
+    if (req.user.role !== 'ADMIN') {
+        res.status(403).json({
+            success: false,
+            message: 'Admin access required',
+        });
+        return;
+    }
+
+    next();
+>>>>>>> Stashed changes
 };
 
 /**
@@ -160,6 +286,7 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): void =
  * Attaches user if token is valid, continues otherwise
  */
 export const optionalAuth = async (
+<<<<<<< Updated upstream
   req: Request,
   res: Response,
   next: NextFunction
@@ -186,4 +313,32 @@ export const optionalAuth = async (
     // Ignore errors for optional auth
     next();
   }
+=======
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader?.startsWith('Bearer ')) {
+            next();
+            return;
+        }
+
+        const token = authHeader.split(' ')[1];
+
+        if (!token) {
+            next();
+            return;
+        }
+
+        const payload = verifyAccessToken(token);
+        req.user = payload;
+        next();
+    } catch {
+        // Ignore errors for optional auth
+        next();
+    }
+>>>>>>> Stashed changes
 };

@@ -3,14 +3,22 @@ export { validateRequest, validateBody, validateQuery, validateParams } from './
 
 // Security middlewares
 export {
+<<<<<<< Updated upstream
   applySecurityMiddlewares,
   loginRateLimiter,
   apiRateLimiter,
   adminRateLimiter,
+=======
+    applySecurityMiddlewares,
+    loginRateLimiter,
+    apiRateLimiter,
+    adminRateLimiter,
+>>>>>>> Stashed changes
 } from './security.middleware';
 
 // Auth middlewares
 export {
+<<<<<<< Updated upstream
   isAuthenticated,
   isAdmin,
   optionalAuth,
@@ -19,10 +27,21 @@ export {
   verifyAccessToken,
   verifyRefreshToken,
   type JwtPayload,
+=======
+    isAuthenticated,
+    isAdmin,
+    optionalAuth,
+    signAccessToken,
+    signRefreshToken,
+    verifyAccessToken,
+    verifyRefreshToken,
+    type JwtPayload,
+>>>>>>> Stashed changes
 } from './auth.middleware';
 
 // Error handling
 export {
+<<<<<<< Updated upstream
   errorHandler,
   notFoundHandler,
   asyncHandler,
@@ -32,6 +51,17 @@ export {
   ForbiddenError,
   BadRequestError,
   ConflictError,
+=======
+    errorHandler,
+    notFoundHandler,
+    asyncHandler,
+    ApiError,
+    NotFoundError,
+    UnauthorizedError,
+    ForbiddenError,
+    BadRequestError,
+    ConflictError,
+>>>>>>> Stashed changes
 } from './errorHandler.middleware';
 
 // Request logging

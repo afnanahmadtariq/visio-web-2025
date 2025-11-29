@@ -4,6 +4,7 @@ import { z } from 'zod';
  * User Address Create/Update Schema
  */
 export const AddressSchema = z.object({
+<<<<<<< Updated upstream
   label: z.string().max(50, 'Label too long').optional().nullable(),
   fullName: z
     .string()
@@ -30,6 +31,34 @@ export const AddressSchema = z.object({
     .optional()
     .nullable(),
   isDefault: z.boolean().optional().default(false),
+=======
+    label: z.string().max(50, 'Label too long').optional().nullable(),
+    fullName: z
+        .string()
+        .min(2, 'Full name must be at least 2 characters')
+        .max(100, 'Full name too long'),
+    line1: z
+        .string()
+        .min(5, 'Address line 1 must be at least 5 characters')
+        .max(200, 'Address line 1 too long'),
+    line2: z.string().max(200, 'Address line 2 too long').optional().nullable(),
+    city: z
+        .string()
+        .min(2, 'City must be at least 2 characters')
+        .max(100, 'City name too long'),
+    state: z.string().max(100, 'State name too long').optional().nullable(),
+    postalCode: z.string().max(20, 'Postal code too long').optional().nullable(),
+    country: z
+        .string()
+        .min(2, 'Country must be at least 2 characters')
+        .max(100, 'Country name too long'),
+    phone: z
+        .string()
+        .regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number format')
+        .optional()
+        .nullable(),
+    isDefault: z.boolean().optional().default(false),
+>>>>>>> Stashed changes
 });
 
 /**
@@ -41,7 +70,11 @@ export const AddressUpdateSchema = AddressSchema.partial();
  * Address ID Param Schema
  */
 export const AddressIdSchema = z.object({
+<<<<<<< Updated upstream
   id: z.string().cuid('Invalid address ID'),
+=======
+    id: z.string().cuid('Invalid address ID'),
+>>>>>>> Stashed changes
 });
 
 // Type exports

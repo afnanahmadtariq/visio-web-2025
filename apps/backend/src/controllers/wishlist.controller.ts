@@ -10,9 +10,15 @@ import type { AuthenticatedRequest } from '../middlewares/auth.middleware';
  * @access  Private
  */
 export const getWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const wishlist = await wishlistService.getWishlist(userId);
   return res.json(successResponse(wishlist));
+=======
+    const userId = req.user!.id;
+    const wishlist = await wishlistService.getWishlist(userId);
+    return res.json(successResponse(wishlist));
+>>>>>>> Stashed changes
 });
 
 /**
@@ -21,11 +27,19 @@ export const getWishlist = asyncHandler(async (req: AuthenticatedRequest, res: R
  * @access  Private
  */
 export const addToWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { productId } = req.params;
 
   const wishlist = await wishlistService.addToWishlist(userId, productId);
   return res.json(successResponse(wishlist, 'Added to wishlist'));
+=======
+    const userId = req.user!.id;
+    const { productId } = req.params;
+
+    const wishlist = await wishlistService.addToWishlist(userId, productId);
+    return res.json(successResponse(wishlist, 'Added to wishlist'));
+>>>>>>> Stashed changes
 });
 
 /**
@@ -34,11 +48,19 @@ export const addToWishlist = asyncHandler(async (req: AuthenticatedRequest, res:
  * @access  Private
  */
 export const removeFromWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { productId } = req.params;
 
   const wishlist = await wishlistService.removeFromWishlist(userId, productId);
   return res.json(successResponse(wishlist, 'Removed from wishlist'));
+=======
+    const userId = req.user!.id;
+    const { productId } = req.params;
+
+    const wishlist = await wishlistService.removeFromWishlist(userId, productId);
+    return res.json(successResponse(wishlist, 'Removed from wishlist'));
+>>>>>>> Stashed changes
 });
 
 /**
@@ -47,11 +69,19 @@ export const removeFromWishlist = asyncHandler(async (req: AuthenticatedRequest,
  * @access  Private
  */
 export const checkWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { productId } = req.params;
 
   const isInWishlist = await wishlistService.isInWishlist(userId, productId);
   return res.json(successResponse({ isInWishlist }));
+=======
+    const userId = req.user!.id;
+    const { productId } = req.params;
+
+    const isInWishlist = await wishlistService.isInWishlist(userId, productId);
+    return res.json(successResponse({ isInWishlist }));
+>>>>>>> Stashed changes
 });
 
 /**
@@ -60,11 +90,19 @@ export const checkWishlist = asyncHandler(async (req: AuthenticatedRequest, res:
  * @access  Private
  */
 export const moveToCart = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { productId } = req.params;
 
   await wishlistService.moveToCart(userId, productId);
   return res.json(successResponse(null, 'Moved to cart'));
+=======
+    const userId = req.user!.id;
+    const { productId } = req.params;
+
+    await wishlistService.moveToCart(userId, productId);
+    return res.json(successResponse(null, 'Moved to cart'));
+>>>>>>> Stashed changes
 });
 
 /**
@@ -73,6 +111,7 @@ export const moveToCart = asyncHandler(async (req: AuthenticatedRequest, res: Re
  * @access  Private
  */
 export const clearWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   await wishlistService.clearWishlist(userId);
   return res.json(successResponse(null, 'Wishlist cleared'));
@@ -85,6 +124,20 @@ export const wishlistController = {
   checkWishlist,
   moveToCart,
   clearWishlist,
+=======
+    const userId = req.user!.id;
+    await wishlistService.clearWishlist(userId);
+    return res.json(successResponse(null, 'Wishlist cleared'));
+});
+
+export const wishlistController = {
+    getWishlist,
+    addToWishlist,
+    removeFromWishlist,
+    checkWishlist,
+    moveToCart,
+    clearWishlist,
+>>>>>>> Stashed changes
 };
 
 export default wishlistController;
