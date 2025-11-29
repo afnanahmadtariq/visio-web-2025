@@ -51,9 +51,15 @@ function SignInForm() {
           title: "Success",
           description: result.message,
         })
-        // Redirect to original destination or home
-        const redirectTo = searchParams.get("redirect") || "/"
-        router.push(redirectTo)
+        // Role-based redirect: admin goes to admin panel, users go to homepage or original destination
+        const redirectTo = searchParams.get("redirect")
+        if (redirectTo) {
+          router.push(redirectTo)
+        } else if (result.isAdmin) {
+          router.push("/admin")
+        } else {
+          router.push("/")
+        }
       } else {
         toast({
           title: "Error",
@@ -87,8 +93,15 @@ function SignInForm() {
         title: "Success",
         description: `Signed in as ${type === "admin" ? "Admin" : "Demo"} user!`,
       })
-      const redirectTo = searchParams.get("redirect") || "/"
-      router.push(redirectTo)
+      // Role-based redirect: admin goes to admin panel, users go to homepage or original destination
+      const redirectTo = searchParams.get("redirect")
+      if (redirectTo) {
+        router.push(redirectTo)
+      } else if (type === "admin") {
+        router.push("/admin")
+      } else {
+        router.push("/")
+      }
     } else {
       toast({
         title: "Error",

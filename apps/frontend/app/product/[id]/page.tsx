@@ -2,14 +2,69 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { ArrowLeft, Check, Minus, Plus, Star } from "lucide-react"
+import { ArrowLeft, Check, Minus, Plus, Star, Heart, ThumbsUp, MessageSquare, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
+import { useToast } from "@/hooks/use-toast"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useCart } from "@/context/cart-context"
+import { useAuth } from "@/context/auth-context"
+
+// Mock reviews data
+const mockReviews = [
+  {
+    id: "1",
+    userId: "user1",
+    userName: "John D.",
+    rating: 5,
+    title: "Excellent quality!",
+    comment: "This is exactly what I was looking for. The leather is genuine and the craftsmanship is outstanding. Highly recommend!",
+    date: "2025-11-25",
+    helpful: 12,
+    verified: true,
+  },
+  {
+    id: "2",
+    userId: "user2",
+    userName: "Sarah M.",
+    rating: 4,
+    title: "Great product, minor issues",
+    comment: "Overall a great product. The quality is excellent and it looks even better in person. Only giving 4 stars because shipping took longer than expected.",
+    date: "2025-11-20",
+    helpful: 8,
+    verified: true,
+  },
+  {
+    id: "3",
+    userId: "user3",
+    userName: "Mike R.",
+    rating: 5,
+    title: "Perfect for daily use",
+    comment: "I've been using this for a month now and it's holding up great. Very spacious and comfortable to carry.",
+    date: "2025-11-15",
+    helpful: 5,
+    verified: false,
+  },
+  {
+    id: "4",
+    userId: "user4",
+    userName: "Emily L.",
+    rating: 3,
+    title: "Good but pricey",
+    comment: "The quality is good but I feel it's a bit overpriced for what you get. Still a decent product overall.",
+    date: "2025-11-10",
+    helpful: 3,
+    verified: true,
+  },
+]
 
 // Mock product database
 const productsData = [
@@ -127,9 +182,18 @@ const productsData = [
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const { addItem } = useCart()
+  const { isAuthenticated, user } = useAuth()
+  const { toast } = useToast()
   const [quantity, setQuantity] = useState(1)
   const [selectedColor, setSelectedColor] = useState(0)
   const [selectedImage, setSelectedImage] = useState(0)
+  const [reviews, setReviews] = useState(mockReviews)
+  const [showReviewForm, setShowReviewForm] = useState(false)
+  const [reviewForm, setReviewForm] = useState({
+    rating: 5,
+    title: "",
+    comment: "",
+  })
 
   // Find the product by ID
   const product = productsData.find((p) => p.id === params.id) || productsData[0]
@@ -147,11 +211,93 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       color: product.colors[selectedColor],
     })
 
-    // Show a toast or notification here
-
-    // Optionally navigate to cart
-    // router.push('/cart');
+    toast({
+      title: "Added to Cart",
+      description: `${product.name} has been added to your cart`,
+    })
   }
+
+  const handleAddToWishlist = () => {
+    // Get existing wishlist from localStorage
+    const savedWishlist = localStorage.getItem("wishlist")
+    const wishlist = savedWishlist ? JSON.parse(savedWishlist) : []
+    
+    // Check if item already exists
+    if (wishlist.some((item: any) => item.id === product.id)) {
+      toast({
+        title: "Already in Wishlist",
+        description: "This item is already in your wishlist",
+      })
+      return
+    }
+    
+    // Add to wishlist
+    wishlist.push({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      rating: product.rating,
+      reviews: product.reviews,
+      image: product.images[0],
+      stock: product.stock,
+      addedAt: new Date().toISOString(),
+    })
+    
+    localStorage.setItem("wishlist", JSON.stringify(wishlist))
+    toast({
+      title: "Added to Wishlist",
+      description: `${product.name} has been added to your wishlist`,
+    })
+  }
+
+  const handleSubmitReview = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Sign in required",
+        description: "Please sign in to leave a review",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (!reviewForm.title.trim() || !reviewForm.comment.trim()) {
+      toast({
+        title: "Missing fields",
+        description: "Please fill in all fields",
+        variant: "destructive",
+      })
+      return
+    }
+
+    const newReview = {
+      id: Date.now().toString(),
+      userId: user?.id || "unknown",
+      userName: user?.name || "Anonymous",
+      rating: reviewForm.rating,
+      title: reviewForm.title,
+      comment: reviewForm.comment,
+      date: new Date().toISOString().split("T")[0],
+      helpful: 0,
+      verified: true,
+    }
+
+    setReviews([newReview, ...reviews])
+    setReviewForm({ rating: 5, title: "", comment: "" })
+    setShowReviewForm(false)
+    toast({
+      title: "Review submitted",
+      description: "Thank you for your review!",
+    })
+  }
+
+  // Calculate rating distribution
+  const ratingDistribution = [5, 4, 3, 2, 1].map(rating => ({
+    rating,
+    count: reviews.filter(r => r.rating === rating).length,
+    percentage: (reviews.filter(r => r.rating === rating).length / reviews.length) * 100,
+  }))
+
+  const averageRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -304,10 +450,18 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               <Button size="lg" className="flex-1 bg-primary hover:bg-primary/90" onClick={handleAddToCart}>
                 Add to Cart
               </Button>
-              <Button size="lg" variant="outline" className="flex-1 border-primary text-primary hover:bg-primary/10">
+              <Button size="lg" variant="outline" className="flex-1 border-primary text-primary hover:bg-primary/10" onClick={handleAddToWishlist}>
+                <Heart className="mr-2 h-4 w-4" />
                 Add to Wishlist
               </Button>
             </div>
+
+            {/* Stock Counter */}
+            {product.stock <= 10 && product.stock > 0 && (
+              <div className="flex items-center gap-2 text-amber-600 bg-amber-50 p-3 rounded-lg">
+                <span className="text-sm font-medium">🔥 Only {product.stock} left in stock!</span>
+              </div>
+            )}
 
             <Separator />
 
@@ -340,6 +494,156 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 </div>
               </TabsContent>
             </Tabs>
+          </div>
+        </div>
+
+        {/* Reviews Section */}
+        <div className="mt-16">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold flex items-center gap-2">
+              <MessageSquare className="h-6 w-6" />
+              Customer Reviews
+            </h2>
+            {isAuthenticated && (
+              <Button onClick={() => setShowReviewForm(!showReviewForm)}>
+                Write a Review
+              </Button>
+            )}
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {/* Rating Summary */}
+            <div className="lg:col-span-1">
+              <Card className="p-6">
+                <div className="text-center mb-6">
+                  <div className="text-5xl font-bold mb-2">{averageRating.toFixed(1)}</div>
+                  <div className="flex justify-center mb-2">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <Star
+                        key={star}
+                        className={`h-5 w-5 ${star <= Math.round(averageRating) ? "fill-secondary text-secondary" : "text-muted-foreground"}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground">Based on {reviews.length} reviews</p>
+                </div>
+
+                <div className="space-y-3">
+                  {ratingDistribution.map(({ rating, count, percentage }) => (
+                    <div key={rating} className="flex items-center gap-3">
+                      <span className="text-sm w-8">{rating} ★</span>
+                      <Progress value={percentage} className="flex-1 h-2" />
+                      <span className="text-sm text-muted-foreground w-8">{count}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {!isAuthenticated && (
+                  <div className="mt-6 pt-6 border-t">
+                    <p className="text-sm text-muted-foreground text-center mb-3">
+                      Sign in to write a review
+                    </p>
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link href="/signin">Sign In</Link>
+                    </Button>
+                  </div>
+                )}
+              </Card>
+            </div>
+
+            {/* Reviews List */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Review Form */}
+              {showReviewForm && isAuthenticated && (
+                <Card className="p-6">
+                  <h3 className="font-medium mb-4">Write Your Review</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <Label>Rating</Label>
+                      <div className="flex gap-1 mt-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => setReviewForm(prev => ({ ...prev, rating: star }))}
+                            className="focus:outline-none"
+                          >
+                            <Star
+                              className={`h-8 w-8 cursor-pointer transition-colors ${
+                                star <= reviewForm.rating ? "fill-secondary text-secondary" : "text-muted-foreground hover:text-secondary"
+                              }`}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="review-title">Title</Label>
+                      <Input
+                        id="review-title"
+                        placeholder="Summarize your review"
+                        value={reviewForm.title}
+                        onChange={(e) => setReviewForm(prev => ({ ...prev, title: e.target.value }))}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="review-comment">Review</Label>
+                      <Textarea
+                        id="review-comment"
+                        placeholder="Share your experience with this product..."
+                        rows={4}
+                        value={reviewForm.comment}
+                        onChange={(e) => setReviewForm(prev => ({ ...prev, comment: e.target.value }))}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button onClick={handleSubmitReview}>Submit Review</Button>
+                      <Button variant="outline" onClick={() => setShowReviewForm(false)}>Cancel</Button>
+                    </div>
+                  </div>
+                </Card>
+              )}
+
+              {/* Individual Reviews */}
+              {reviews.map((review) => (
+                <Card key={review.id} className="p-6">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                        <User className="h-5 w-5 text-muted-foreground" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-medium">{review.userName}</span>
+                          {review.verified && (
+                            <Badge variant="secondary" className="text-xs">Verified Purchase</Badge>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="flex">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <Star
+                                key={star}
+                                className={`h-4 w-4 ${star <= review.rating ? "fill-secondary text-secondary" : "text-muted-foreground"}`}
+                              />
+                            ))}
+                          </div>
+                          <span className="text-sm text-muted-foreground">{review.date}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <h4 className="font-medium mb-2">{review.title}</h4>
+                  <p className="text-muted-foreground mb-4">{review.comment}</p>
+                  <div className="flex items-center gap-4">
+                    <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+                      <ThumbsUp className="h-4 w-4" />
+                      Helpful ({review.helpful})
+                    </button>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
 
