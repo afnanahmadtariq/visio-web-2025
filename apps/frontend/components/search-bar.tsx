@@ -4,28 +4,14 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Search, X, Loader2 } from "lucide-react"
 import { Input } from "@/components/ui/input"
-
-// Mock product data for autocomplete - in production this would be fetched from API
-const mockProducts = [
-  { id: "1", name: "Minimalist Watch", category: "Accessories", price: 149.99 },
-  { id: "2", name: "Leather Backpack", category: "Accessories", price: 89.99 },
-  { id: "3", name: "Wireless Headphones", category: "Electronics", price: 199.99 },
-  { id: "4", name: "Cotton T-Shirt", category: "Clothing", price: 29.99 },
-  { id: "5", name: "Running Shoes", category: "Footwear", price: 119.99 },
-  { id: "6", name: "Ceramic Mug", category: "Home", price: 19.99 },
-  { id: "7", name: "Denim Jeans", category: "Clothing", price: 59.99 },
-  { id: "8", name: "Sunglasses", category: "Accessories", price: 79.99 },
-  { id: "9", name: "Smart Watch", category: "Electronics", price: 249.99 },
-  { id: "10", name: "Desk Lamp", category: "Home", price: 39.99 },
-  { id: "11", name: "Winter Jacket", category: "Clothing", price: 129.99 },
-  { id: "12", name: "Premium Leather Bag", category: "Accessories", price: 129.99 },
-]
+import { searchProducts, type Product } from "@/lib/api/products"
 
 interface SearchResult {
   id: string
   name: string
   category: string
   price: number
+  image: string
 }
 
 // Custom debounce hook
@@ -63,8 +49,8 @@ export default function SearchBar({ className = "", placeholder = "Search produc
   // Debounce search query by 300ms
   const debouncedQuery = useDebounce(query, 300)
 
-  // Search function
-  const searchProducts = useCallback(async (searchQuery: string) => {
+  // Search function using backend API
+  const doSearch = useCallback(async (searchQuery: string) => {
     if (!searchQuery.trim()) {
       setResults([])
       return
@@ -72,23 +58,34 @@ export default function SearchBar({ className = "", placeholder = "Search produc
 
     setIsLoading(true)
 
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 150))
+    try {
+      // Call backend API for search
+      const response = await searchProducts(searchQuery, 6)
+      
+      // Transform products to search results
+      const searchResults: SearchResult[] = response.products.map((product: Product) => ({
+        id: product.id,
+        name: product.name,
+        category: product.category?.name || "Uncategorized",
+        price: product.discountPercent 
+          ? product.price * (1 - product.discountPercent / 100)
+          : product.price,
+        image: product.images[0] || "/placeholder.svg",
+      }))
 
-    // In production: const response = await fetch(`/api/products?search=${searchQuery}`)
-    const filtered = mockProducts.filter(product =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchQuery.toLowerCase())
-    ).slice(0, 6) // Limit to 6 results
-
-    setResults(filtered)
-    setIsLoading(false)
+      setResults(searchResults)
+    } catch (error) {
+      console.error("Search failed:", error)
+      setResults([])
+    } finally {
+      setIsLoading(false)
+    }
   }, [])
 
   // Trigger search when debounced query changes
   useEffect(() => {
-    searchProducts(debouncedQuery)
-  }, [debouncedQuery, searchProducts])
+    doSearch(debouncedQuery)
+  }, [debouncedQuery, doSearch])
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -201,17 +198,22 @@ export default function SearchBar({ className = "", placeholder = "Search produc
             </div>
           ) : results.length > 0 ? (
             <>
-              <div className="max-h-64 overflow-y-auto">
+              <div className="max-h-80 overflow-y-auto">
                 {results.map((result, index) => (
                   <button
                     key={result.id}
                     onClick={() => handleSelectResult(result)}
-                    className={`w-full px-4 py-3 text-left hover:bg-muted flex items-center justify-between ${
+                    className={`w-full px-4 py-3 text-left hover:bg-muted flex items-center gap-3 ${
                       index === selectedIndex ? "bg-muted" : ""
                     }`}
                   >
-                    <div>
-                      <div className="font-medium">{result.name}</div>
+                    <img
+                      src={result.image}
+                      alt={result.name}
+                      className="w-12 h-12 object-cover rounded"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium truncate">{result.name}</div>
                       <div className="text-sm text-muted-foreground">{result.category}</div>
                     </div>
                     <div className="text-sm font-medium">${result.price.toFixed(2)}</div>
@@ -223,13 +225,13 @@ export default function SearchBar({ className = "", placeholder = "Search produc
                   onClick={handleSearch}
                   className="text-sm text-primary hover:underline w-full text-left"
                 >
-                  See all results for "{query}"
+                  See all results for &quot;{query}&quot;
                 </button>
               </div>
             </>
           ) : query.trim() ? (
             <div className="p-4 text-center text-muted-foreground">
-              No products found for "{query}"
+              No products found for &quot;{query}&quot;
             </div>
           ) : null}
         </div>
