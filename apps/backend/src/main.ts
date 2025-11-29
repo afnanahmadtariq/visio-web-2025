@@ -1,26 +1,119 @@
 import 'dotenv/config';
 import express from 'express';
-import { prisma } from './lib/prisma';
+import cookieParser from 'cookie-parser';
+import compression from 'compression';
 
-const host = process.env.HOST ?? '0.0.0.0';
-const port = process.env.PORT ? Number(process.env.PORT) : 10000;
+import { env, validateEnv } from './config/env';
+import { connectMongo } from './db/mongo';
+import { prisma } from './db/prisma';
+import {
+  helmetMiddleware,
+  corsMiddleware,
+  globalRateLimiter,
+  mongoSanitize,
+} from './middlewares/security.middleware';
+import { requestLogger } from './middlewares/requestLogger.middleware';
+import { globalErrorHandler, NotFoundError } from './middlewares/errorHandler.middleware';
+import routes from './routes';
+
+// Validate environment on startup
+validateEnv();
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send({ message: 'Hello API' });
+// ============================================
+// Security Middlewares
+// ============================================
+app.use(helmetMiddleware);
+app.use(corsMiddleware);
+app.use(globalRateLimiter);
+
+// ============================================
+// Body Parsers
+// ============================================
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(cookieParser());
+app.use(compression());
+app.use(mongoSanitize());
+
+// ============================================
+// Request Logging (after body parsing)
+// ============================================
+app.use(requestLogger);
+
+// ============================================
+// Trust Proxy (for rate limiting behind reverse proxy)
+// ============================================
+if (env.isProduction) {
+  app.set('trust proxy', 1);
+}
+
+// ============================================
+// API Routes
+// ============================================
+app.use('/api', routes);
+
+// ============================================
+// 404 Handler
+// ============================================
+app.use((req, res, next) => {
+  next(new NotFoundError('Route'));
 });
 
-// Health check endpoint with database connection test
-app.get('/health', async (req, res) => {
+// ============================================
+// Global Error Handler
+// ============================================
+app.use(globalErrorHandler);
+
+// ============================================
+// Graceful Shutdown
+// ============================================
+const gracefulShutdown = async (signal: string) => {
+  console.log(`\n${signal} received. Shutting down gracefully...`);
+
   try {
-    await prisma.$queryRaw`SELECT 1`;
-    res.send({ status: 'ok', database: 'connected' });
-  } catch (error) {
-    res.status(500).send({ status: 'error', database: 'disconnected' });
+    await prisma.$disconnect();
+    console.log('Prisma disconnected');
+  } catch (err) {
+    console.error('Error disconnecting Prisma:', err);
   }
-});
 
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
-});
+  process.exit(0);
+};
+
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+
+// ============================================
+// Start Server
+// ============================================
+const startServer = async () => {
+  try {
+    // Connect to MongoDB (optional - logs will be skipped if not connected)
+    await connectMongo();
+
+    // Start listening
+    app.listen(env.port, () => {
+      console.log(`
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║   🚀 Server is running!                                       ║
+║                                                               ║
+║   Environment: ${env.nodeEnv.padEnd(10)}                            ║
+║   Port:        ${env.port.toString().padEnd(10)}                            ║
+║   API:         http://localhost:${env.port}/api                    ║
+║   Health:      http://localhost:${env.port}/api/health             ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+      `);
+    });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+};
+
+startServer();
+
+export default app;
