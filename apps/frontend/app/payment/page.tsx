@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, CreditCard, Check, X, RefreshCw, Lock, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -25,9 +24,6 @@ interface PaymentFormData {
 }
 
 export default function PaymentPage() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const orderId = searchParams.get("orderId")
   const { toast } = useToast()
   const { items, subtotal, clearCart } = useCart()
   
