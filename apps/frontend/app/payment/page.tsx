@@ -13,7 +13,6 @@ import { useToast } from "@/hooks/use-toast"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useCart } from "@/context/cart-context"
-import { post } from "@/lib/api/client"
 
 type PaymentStatus = "pending" | "processing" | "success" | "failed"
 
