@@ -1,4 +1,5 @@
 import './global.css';
+import Navbar from './components/Navbar';
 
 export const metadata = {
   title: 'Welcome to ',
@@ -12,7 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-gray-50 min-h-screen text-gray-900">
+        <Navbar />
+        <main>{children}</main>
+      </body>
     </html>
   );
 }
