@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useCart } from "@/context/cart-context"
-import { useRouter } from "next/navigation"
 
 // Mock product database
 const productsData = [
@@ -127,7 +126,6 @@ const productsData = [
 ]
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-  const router = useRouter()
   const { addItem } = useCart()
   const [quantity, setQuantity] = useState(1)
   const [selectedColor, setSelectedColor] = useState(0)

@@ -10,7 +10,6 @@ import {
   selectIsAdmin,
   selectIsLoading,
 } from "@/lib/stores/auth-store"
-import { post } from "@/lib/api/client"
 
 // Re-export types for convenience
 export type { AuthUser as User, UserRole }

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Calendar, ChevronRight, Percent, ShoppingBag, Tag, Timer } from "lucide-react"
+import { ChevronRight, Timer } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
