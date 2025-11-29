@@ -4,6 +4,8 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { ArrowLeft, Eye, EyeOff, Lock, Mail, User } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,101 +15,47 @@ import { useToast } from "@/hooks/use-toast"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useAuth } from "@/context/auth-context"
+import { SignUpSchema, type SignUpFormData } from "@/lib/validations/auth"
 
 export default function SignUpPage() {
   const router = useRouter()
   const { toast } = useToast()
   const { signUp, isLoading } = useAuth()
   
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  })
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [agreeToTerms, setAgreeToTerms] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
-  }
+  // Use react-hook-form with Zod validation
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(SignUpSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  })
 
-  const validateForm = () => {
-    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-      toast({
-        title: "Error",
-        description: "Please fill in all fields",
-        variant: "destructive",
-      })
-      return false
-    }
-
-    if (formData.name.length < 2) {
-      toast({
-        title: "Error",
-        description: "Name must be at least 2 characters long",
-        variant: "destructive",
-      })
-      return false
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Error",
-        description: "Please enter a valid email address",
-        variant: "destructive",
-      })
-      return false
-    }
-
-    if (formData.password.length < 6) {
-      toast({
-        title: "Error",
-        description: "Password must be at least 6 characters long",
-        variant: "destructive",
-      })
-      return false
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      toast({
-        title: "Error",
-        description: "Passwords do not match",
-        variant: "destructive",
-      })
-      return false
-    }
-
+  const onSubmit = async (data: SignUpFormData) => {
     if (!agreeToTerms) {
       toast({
         title: "Error",
         description: "Please agree to the terms and conditions",
         variant: "destructive",
       })
-      return false
-    }
-
-    return true
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) {
       return
     }
 
     setIsSubmitting(true)
     
     try {
-      const result = await signUp(formData.name, formData.email, formData.password)
+      const result = await signUp(data.name, data.email, data.password)
       
       if (result.success) {
         toast({
@@ -155,26 +103,26 @@ export default function SignUpPage() {
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
             <CardDescription>
-              Join ModernShop to start your shopping journey
+              Join Visio Mart to start your shopping journey
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Full Name</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="name"
-                    name="name"
                     type="text"
                     placeholder="Enter your full name"
-                    value={formData.name}
-                    onChange={handleChange}
                     className="pl-9"
-                    required
+                    {...register("name")}
                   />
                 </div>
+                {errors.name && (
+                  <p className="text-sm text-destructive">{errors.name.message}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -183,15 +131,15 @@ export default function SignUpPage() {
                   <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
-                    name="email"
                     type="email"
                     placeholder="Enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
                     className="pl-9"
-                    required
+                    {...register("email")}
                   />
                 </div>
+                {errors.email && (
+                  <p className="text-sm text-destructive">{errors.email.message}</p>
+                )}
               </div>
               
               <div className="space-y-2">
@@ -200,13 +148,10 @@ export default function SignUpPage() {
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
-                    name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Create a password"
-                    value={formData.password}
-                    onChange={handleChange}
                     className="pl-9 pr-9"
-                    required
+                    {...register("password")}
                   />
                   <Button
                     type="button"
@@ -222,6 +167,9 @@ export default function SignUpPage() {
                     )}
                   </Button>
                 </div>
+                {errors.password && (
+                  <p className="text-sm text-destructive">{errors.password.message}</p>
+                )}
               </div>
 
               <div className="space-y-2">
@@ -230,13 +178,10 @@ export default function SignUpPage() {
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="confirmPassword"
-                    name="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
                     className="pl-9 pr-9"
-                    required
+                    {...register("confirmPassword")}
                   />
                   <Button
                     type="button"
@@ -252,6 +197,9 @@ export default function SignUpPage() {
                     )}
                   </Button>
                 </div>
+                {errors.confirmPassword && (
+                  <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+                )}
               </div>
 
               <div className="flex items-center space-x-2">
