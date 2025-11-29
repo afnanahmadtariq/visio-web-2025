@@ -11,21 +11,9 @@ import type { AddressInput, AddressUpdateInput } from '../validations/address.va
  * @access  Private
  */
 export const getAddresses = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const userId = req.user!.id;
-  const addresses = await addressService.getAddresses(userId);
-  return res.json(successResponse(addresses));
-=======
     const userId = req.user!.id;
     const addresses = await addressService.getAddresses(userId);
     return res.json(successResponse(addresses));
->>>>>>> Stashed changes
-=======
-    const userId = req.user!.id;
-    const addresses = await addressService.getAddresses(userId);
-    return res.json(successResponse(addresses));
->>>>>>> Stashed changes
 });
 
 /**
@@ -34,25 +22,11 @@ export const getAddresses = asyncHandler(async (req: AuthenticatedRequest, res: 
  * @access  Private
  */
 export const getAddressById = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const userId = req.user!.id;
-  const { id } = req.params;
-
-  const address = await addressService.getAddressById(userId, id);
-  return res.json(successResponse(address));
-=======
-=======
->>>>>>> Stashed changes
     const userId = req.user!.id;
     const { id } = req.params;
 
     const address = await addressService.getAddressById(userId, id);
     return res.json(successResponse(address));
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 });
 
 /**
@@ -61,25 +35,11 @@ export const getAddressById = asyncHandler(async (req: AuthenticatedRequest, res
  * @access  Private
  */
 export const createAddress = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const userId = req.user!.id;
-  const input: AddressInput = req.body;
-
-  const address = await addressService.createAddress(userId, input);
-  return res.status(201).json(successResponse(address, 'Address created successfully'));
-=======
-=======
->>>>>>> Stashed changes
     const userId = req.user!.id;
     const input: AddressInput = req.body;
 
     const address = await addressService.createAddress(userId, input);
     return res.status(201).json(successResponse(address, 'Address created successfully'));
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 });
 
 /**
@@ -88,27 +48,12 @@ export const createAddress = asyncHandler(async (req: AuthenticatedRequest, res:
  * @access  Private
  */
 export const updateAddress = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const userId = req.user!.id;
-  const { id } = req.params;
-  const input: AddressUpdateInput = req.body;
-
-  const address = await addressService.updateAddress(userId, id, input);
-  return res.json(successResponse(address, 'Address updated successfully'));
-=======
-=======
->>>>>>> Stashed changes
     const userId = req.user!.id;
     const { id } = req.params;
     const input: AddressUpdateInput = req.body;
 
     const address = await addressService.updateAddress(userId, id, input);
     return res.json(successResponse(address, 'Address updated successfully'));
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 });
 
 /**
@@ -117,25 +62,11 @@ export const updateAddress = asyncHandler(async (req: AuthenticatedRequest, res:
  * @access  Private
  */
 export const deleteAddress = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const userId = req.user!.id;
-  const { id } = req.params;
-
-  await addressService.deleteAddress(userId, id);
-  return res.json(successResponse(null, 'Address deleted successfully'));
-=======
-=======
->>>>>>> Stashed changes
     const userId = req.user!.id;
     const { id } = req.params;
 
     await addressService.deleteAddress(userId, id);
     return res.json(successResponse(null, 'Address deleted successfully'));
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 });
 
 /**
@@ -144,25 +75,6 @@ export const deleteAddress = asyncHandler(async (req: AuthenticatedRequest, res:
  * @access  Private
  */
 export const setDefaultAddress = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  const userId = req.user!.id;
-  const { id } = req.params;
-
-  const addresses = await addressService.setDefaultAddress(userId, id);
-  return res.json(successResponse(addresses, 'Default address updated'));
-});
-
-export const addressController = {
-  getAddresses,
-  getAddressById,
-  createAddress,
-  updateAddress,
-  deleteAddress,
-  setDefaultAddress,
-=======
-=======
->>>>>>> Stashed changes
     const userId = req.user!.id;
     const { id } = req.params;
 
@@ -177,10 +89,6 @@ export const addressController = {
     updateAddress,
     deleteAddress,
     setDefaultAddress,
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 };
 
 export default addressController;

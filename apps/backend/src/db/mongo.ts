@@ -8,34 +8,6 @@ let isConnected = false;
  * Used for logging, AI chat, and security events
  */
 export async function connectMongo(): Promise<void> {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  if (isConnected) {
-    console.log('MongoDB already connected');
-    return;
-  }
-
-  if (!env.mongoUrl) {
-    console.warn('MONGO_URL not configured, MongoDB features will be disabled');
-    return;
-  }
-
-  try {
-    await mongoose.connect(env.mongoUrl, {
-      maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-    });
-
-    isConnected = true;
-    console.log('MongoDB connected successfully');
-  } catch (error) {
-    console.error('MongoDB connection failed:', error);
-    // Don't throw - allow app to run without MongoDB
-  }
-=======
-=======
->>>>>>> Stashed changes
     if (isConnected) {
         console.log('MongoDB already connected');
         return;
@@ -59,30 +31,12 @@ export async function connectMongo(): Promise<void> {
         console.error('MongoDB connection failed:', error);
         // Don't throw - allow app to run without MongoDB
     }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 }
 
 /**
  * Disconnect from MongoDB
  */
 export async function disconnectMongo(): Promise<void> {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  if (!isConnected) return;
-
-  try {
-    await mongoose.disconnect();
-    isConnected = false;
-    console.log('MongoDB disconnected');
-  } catch (error) {
-    console.error('MongoDB disconnect error:', error);
-  }
-=======
-=======
->>>>>>> Stashed changes
     if (!isConnected) return;
 
     try {
@@ -92,25 +46,13 @@ export async function disconnectMongo(): Promise<void> {
     } catch (error) {
         console.error('MongoDB disconnect error:', error);
     }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 }
 
 /**
  * Check if MongoDB is connected
  */
 export function isMongoConnected(): boolean {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  return isConnected && mongoose.connection.readyState === 1;
-=======
     return isConnected && mongoose.connection.readyState === 1;
->>>>>>> Stashed changes
-=======
-    return isConnected && mongoose.connection.readyState === 1;
->>>>>>> Stashed changes
 }
 
 export default { connectMongo, disconnectMongo, isMongoConnected };

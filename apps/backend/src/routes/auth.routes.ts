@@ -4,21 +4,9 @@ import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { isAuthenticated } from '../middlewares/auth.middleware';
 import { loginRateLimiter } from '../middlewares/security.middleware';
 import {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  RegisterSchema,
-  LoginSchema,
-  ChangePasswordSchema,
-=======
     RegisterSchema,
     LoginSchema,
     ChangePasswordSchema,
->>>>>>> Stashed changes
-=======
-    RegisterSchema,
-    LoginSchema,
-    ChangePasswordSchema,
->>>>>>> Stashed changes
 } from '../validations/auth.validation';
 
 const router = Router();
@@ -29,21 +17,9 @@ const router = Router();
  * @access  Public
  */
 router.post(
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  '/register',
-  validateRequest(RegisterSchema),
-  authController.register
-=======
     '/register',
     validateRequest(RegisterSchema),
     authController.register
->>>>>>> Stashed changes
-=======
-    '/register',
-    validateRequest(RegisterSchema),
-    authController.register
->>>>>>> Stashed changes
 );
 
 /**
@@ -52,23 +28,10 @@ router.post(
  * @access  Public
  */
 router.post(
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  '/login',
-  loginRateLimiter,
-  validateRequest(LoginSchema),
-  authController.login
-=======
-=======
->>>>>>> Stashed changes
     '/login',
     loginRateLimiter,
     validateRequest(LoginSchema),
     authController.login
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 );
 
 /**
@@ -98,23 +61,10 @@ router.get('/me', isAuthenticated, authController.getProfile);
  * @access  Private
  */
 router.put(
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  '/password',
-  isAuthenticated,
-  validateRequest(ChangePasswordSchema),
-  authController.changePassword
-=======
-=======
->>>>>>> Stashed changes
     '/password',
     isAuthenticated,
     validateRequest(ChangePasswordSchema),
     authController.changePassword
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 );
 
 export default router;
