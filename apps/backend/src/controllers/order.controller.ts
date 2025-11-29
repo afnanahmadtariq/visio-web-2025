@@ -11,11 +11,11 @@ import type { CheckoutInput, OrderQueryInput, OrderStatusUpdateInput } from '../
  * @access  Private
  */
 export const checkout = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const input: CheckoutInput = req.body;
+    const userId = req.user!.id;
+    const input: CheckoutInput = req.body;
 
-  const order = await orderService.checkout(userId, input);
-  return res.status(201).json(successResponse(order, 'Order placed successfully'));
+    const order = await orderService.checkout(userId, input);
+    return res.status(201).json(successResponse(order, 'Order placed successfully'));
 });
 
 /**
@@ -24,15 +24,15 @@ export const checkout = asyncHandler(async (req: AuthenticatedRequest, res: Resp
  * @access  Private
  */
 export const getOrders = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const query: OrderQueryInput = {
-    page: Number(req.query.page) || 1,
-    limit: Number(req.query.limit) || 10,
-    status: req.query.status as any,
-  };
+    const userId = req.user!.id;
+    const query: OrderQueryInput = {
+        page: Number(req.query.page) || 1,
+        limit: Number(req.query.limit) || 10,
+        status: req.query.status as any,
+    };
 
-  const result = await orderService.getOrders(userId, query);
-  return res.json(paginatedResponse(result.data, result.pagination));
+    const result = await orderService.getOrders(userId, query);
+    return res.json(paginatedResponse(result.data, result.pagination));
 });
 
 /**
@@ -41,12 +41,12 @@ export const getOrders = asyncHandler(async (req: AuthenticatedRequest, res: Res
  * @access  Private
  */
 export const getOrderById = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const { id } = req.params;
-  const isAdmin = req.user!.role === 'ADMIN';
+    const userId = req.user!.id;
+    const { id } = req.params;
+    const isAdmin = req.user!.role === 'ADMIN';
 
-  const order = await orderService.getOrderById(userId, id, isAdmin);
-  return res.json(successResponse(order));
+    const order = await orderService.getOrderById(userId, id, isAdmin);
+    return res.json(successResponse(order));
 });
 
 /**
@@ -55,11 +55,11 @@ export const getOrderById = asyncHandler(async (req: AuthenticatedRequest, res: 
  * @access  Admin
  */
 export const updateOrderStatus = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const { id } = req.params;
-  const input: OrderStatusUpdateInput = req.body;
+    const { id } = req.params;
+    const input: OrderStatusUpdateInput = req.body;
 
-  const order = await orderService.updateOrderStatus(id, input);
-  return res.json(successResponse(order, 'Order status updated'));
+    const order = await orderService.updateOrderStatus(id, input);
+    return res.json(successResponse(order, 'Order status updated'));
 });
 
 /**
@@ -68,19 +68,19 @@ export const updateOrderStatus = asyncHandler(async (req: AuthenticatedRequest, 
  * @access  Private
  */
 export const cancelOrder = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const { id } = req.params;
+    const userId = req.user!.id;
+    const { id } = req.params;
 
-  await orderService.cancelOrder(userId, id);
-  return res.json(successResponse(null, 'Order cancelled successfully'));
+    await orderService.cancelOrder(userId, id);
+    return res.json(successResponse(null, 'Order cancelled successfully'));
 });
 
 export const orderController = {
-  checkout,
-  getOrders,
-  getOrderById,
-  updateOrderStatus,
-  cancelOrder,
+    checkout,
+    getOrders,
+    getOrderById,
+    updateOrderStatus,
+    cancelOrder,
 };
 
 export default orderController;

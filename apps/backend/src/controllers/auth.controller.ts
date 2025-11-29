@@ -11,26 +11,26 @@ import type { RegisterInput, LoginInput, ChangePasswordInput } from '../validati
  * @access  Public
  */
 export const register = asyncHandler(async (req: Request, res: Response) => {
-  const input: RegisterInput = req.body;
-  const ip = req.ip || req.socket.remoteAddress;
-  const userAgent = req.get('user-agent');
+    const input: RegisterInput = req.body;
+    const ip = req.ip || req.socket.remoteAddress;
+    const userAgent = req.get('user-agent');
 
-  const result = await authService.register(input, ip, userAgent);
+    const result = await authService.register(input, ip, userAgent);
 
-  // Set refresh token in HTTP-only cookie
-  res.cookie('refreshToken', result.refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  });
+    // Set refresh token in HTTP-only cookie
+    res.cookie('refreshToken', result.refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
-  return res.status(201).json(
-    successResponse({
-      user: result.user,
-      accessToken: result.accessToken,
-    }, 'Registration successful')
-  );
+    return res.status(201).json(
+        successResponse({
+            user: result.user,
+            accessToken: result.accessToken,
+        }, 'Registration successful')
+    );
 });
 
 /**
@@ -39,26 +39,26 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
  * @access  Public
  */
 export const login = asyncHandler(async (req: Request, res: Response) => {
-  const input: LoginInput = req.body;
-  const ip = req.ip || req.socket.remoteAddress;
-  const userAgent = req.get('user-agent');
+    const input: LoginInput = req.body;
+    const ip = req.ip || req.socket.remoteAddress;
+    const userAgent = req.get('user-agent');
 
-  const result = await authService.login(input, ip, userAgent);
+    const result = await authService.login(input, ip, userAgent);
 
-  // Set refresh token in HTTP-only cookie
-  res.cookie('refreshToken', result.refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  });
+    // Set refresh token in HTTP-only cookie
+    res.cookie('refreshToken', result.refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
-  return res.json(
-    successResponse({
-      user: result.user,
-      accessToken: result.accessToken,
-    }, 'Login successful')
-  );
+    return res.json(
+        successResponse({
+            user: result.user,
+            accessToken: result.accessToken,
+        }, 'Login successful')
+    );
 });
 
 /**
@@ -67,25 +67,25 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
  * @access  Public
  */
 export const refreshToken = asyncHandler(async (req: Request, res: Response) => {
-  const token = req.cookies?.refreshToken || req.body.refreshToken;
+    const token = req.cookies?.refreshToken || req.body.refreshToken;
 
-  if (!token) {
-    return res.status(401).json({ success: false, message: 'Refresh token required' });
-  }
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'Refresh token required' });
+    }
 
-  const result = await authService.refreshTokens(token);
+    const result = await authService.refreshTokens(token);
 
-  // Update refresh token cookie
-  res.cookie('refreshToken', result.refreshToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  });
+    // Update refresh token cookie
+    res.cookie('refreshToken', result.refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
 
-  return res.json(
-    successResponse({ accessToken: result.accessToken }, 'Token refreshed')
-  );
+    return res.json(
+        successResponse({ accessToken: result.accessToken }, 'Token refreshed')
+    );
 });
 
 /**
@@ -94,8 +94,8 @@ export const refreshToken = asyncHandler(async (req: Request, res: Response) => 
  * @access  Public
  */
 export const logout = asyncHandler(async (req: Request, res: Response) => {
-  res.clearCookie('refreshToken');
-  return res.json(successResponse(null, 'Logged out successfully'));
+    res.clearCookie('refreshToken');
+    return res.json(successResponse(null, 'Logged out successfully'));
 });
 
 /**
@@ -104,9 +104,9 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
  * @access  Private
  */
 export const getProfile = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const profile = await authService.getProfile(userId);
-  return res.json(successResponse(profile));
+    const userId = req.user!.id;
+    const profile = await authService.getProfile(userId);
+    return res.json(successResponse(profile));
 });
 
 /**
@@ -115,21 +115,21 @@ export const getProfile = asyncHandler(async (req: AuthenticatedRequest, res: Re
  * @access  Private
  */
 export const changePassword = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const { currentPassword, newPassword }: ChangePasswordInput = req.body;
+    const userId = req.user!.id;
+    const { currentPassword, newPassword }: ChangePasswordInput = req.body;
 
-  await authService.changePassword(userId, currentPassword, newPassword);
+    await authService.changePassword(userId, currentPassword, newPassword);
 
-  return res.json(successResponse(null, 'Password changed successfully'));
+    return res.json(successResponse(null, 'Password changed successfully'));
 });
 
 export const authController = {
-  register,
-  login,
-  refreshToken,
-  logout,
-  getProfile,
-  changePassword,
+    register,
+    login,
+    refreshToken,
+    logout,
+    getProfile,
+    changePassword,
 };
 
 export default authController;

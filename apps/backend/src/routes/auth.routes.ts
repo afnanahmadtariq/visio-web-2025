@@ -4,9 +4,9 @@ import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { isAuthenticated } from '../middlewares/auth.middleware';
 import { loginRateLimiter } from '../middlewares/security.middleware';
 import {
-  RegisterSchema,
-  LoginSchema,
-  ChangePasswordSchema,
+    RegisterSchema,
+    LoginSchema,
+    ChangePasswordSchema,
 } from '../validations/auth.validation';
 
 const router = Router();
@@ -17,9 +17,9 @@ const router = Router();
  * @access  Public
  */
 router.post(
-  '/register',
-  validateRequest(RegisterSchema),
-  authController.register
+    '/register',
+    validateRequest(RegisterSchema),
+    authController.register
 );
 
 /**
@@ -28,10 +28,10 @@ router.post(
  * @access  Public
  */
 router.post(
-  '/login',
-  loginRateLimiter,
-  validateRequest(LoginSchema),
-  authController.login
+    '/login',
+    loginRateLimiter,
+    validateRequest(LoginSchema),
+    authController.login
 );
 
 /**
@@ -61,10 +61,10 @@ router.get('/me', isAuthenticated, authController.getProfile);
  * @access  Private
  */
 router.put(
-  '/password',
-  isAuthenticated,
-  validateRequest(ChangePasswordSchema),
-  authController.changePassword
+    '/password',
+    isAuthenticated,
+    validateRequest(ChangePasswordSchema),
+    authController.changePassword
 );
 
 export default router;

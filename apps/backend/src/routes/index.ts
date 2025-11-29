@@ -13,11 +13,11 @@ const router = Router();
 
 // Health check
 router.get('/health', (req, res) => {
-  res.json({
-    success: true,
-    message: 'API is running',
-    timestamp: new Date().toISOString(),
-  });
+    res.json({
+        success: true,
+        message: 'API is running',
+        timestamp: new Date().toISOString(),
+    });
 });
 
 // Mount routes

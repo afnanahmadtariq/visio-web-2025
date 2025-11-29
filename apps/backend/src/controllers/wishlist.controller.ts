@@ -10,9 +10,9 @@ import type { AuthenticatedRequest } from '../middlewares/auth.middleware';
  * @access  Private
  */
 export const getWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const wishlist = await wishlistService.getWishlist(userId);
-  return res.json(successResponse(wishlist));
+    const userId = req.user!.id;
+    const wishlist = await wishlistService.getWishlist(userId);
+    return res.json(successResponse(wishlist));
 });
 
 /**
@@ -21,11 +21,11 @@ export const getWishlist = asyncHandler(async (req: AuthenticatedRequest, res: R
  * @access  Private
  */
 export const addToWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const { productId } = req.params;
+    const userId = req.user!.id;
+    const { productId } = req.params;
 
-  const wishlist = await wishlistService.addToWishlist(userId, productId);
-  return res.json(successResponse(wishlist, 'Added to wishlist'));
+    const wishlist = await wishlistService.addToWishlist(userId, productId);
+    return res.json(successResponse(wishlist, 'Added to wishlist'));
 });
 
 /**
@@ -34,11 +34,11 @@ export const addToWishlist = asyncHandler(async (req: AuthenticatedRequest, res:
  * @access  Private
  */
 export const removeFromWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const { productId } = req.params;
+    const userId = req.user!.id;
+    const { productId } = req.params;
 
-  const wishlist = await wishlistService.removeFromWishlist(userId, productId);
-  return res.json(successResponse(wishlist, 'Removed from wishlist'));
+    const wishlist = await wishlistService.removeFromWishlist(userId, productId);
+    return res.json(successResponse(wishlist, 'Removed from wishlist'));
 });
 
 /**
@@ -47,11 +47,11 @@ export const removeFromWishlist = asyncHandler(async (req: AuthenticatedRequest,
  * @access  Private
  */
 export const checkWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const { productId } = req.params;
+    const userId = req.user!.id;
+    const { productId } = req.params;
 
-  const isInWishlist = await wishlistService.isInWishlist(userId, productId);
-  return res.json(successResponse({ isInWishlist }));
+    const isInWishlist = await wishlistService.isInWishlist(userId, productId);
+    return res.json(successResponse({ isInWishlist }));
 });
 
 /**
@@ -60,11 +60,11 @@ export const checkWishlist = asyncHandler(async (req: AuthenticatedRequest, res:
  * @access  Private
  */
 export const moveToCart = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  const { productId } = req.params;
+    const userId = req.user!.id;
+    const { productId } = req.params;
 
-  await wishlistService.moveToCart(userId, productId);
-  return res.json(successResponse(null, 'Moved to cart'));
+    await wishlistService.moveToCart(userId, productId);
+    return res.json(successResponse(null, 'Moved to cart'));
 });
 
 /**
@@ -73,18 +73,18 @@ export const moveToCart = asyncHandler(async (req: AuthenticatedRequest, res: Re
  * @access  Private
  */
 export const clearWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user!.id;
-  await wishlistService.clearWishlist(userId);
-  return res.json(successResponse(null, 'Wishlist cleared'));
+    const userId = req.user!.id;
+    await wishlistService.clearWishlist(userId);
+    return res.json(successResponse(null, 'Wishlist cleared'));
 });
 
 export const wishlistController = {
-  getWishlist,
-  addToWishlist,
-  removeFromWishlist,
-  checkWishlist,
-  moveToCart,
-  clearWishlist,
+    getWishlist,
+    addToWishlist,
+    removeFromWishlist,
+    checkWishlist,
+    moveToCart,
+    clearWishlist,
 };
 
 export default wishlistController;

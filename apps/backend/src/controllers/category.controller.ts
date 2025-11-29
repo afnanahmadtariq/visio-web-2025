@@ -11,8 +11,8 @@ import type { CategoryInput, CategoryUpdateInput } from '../validations/category
  * @access  Public
  */
 export const getCategories = asyncHandler(async (req: Request, res: Response) => {
-  const categories = await categoryService.getCategories();
-  return res.json(successResponse(categories));
+    const categories = await categoryService.getCategories();
+    return res.json(successResponse(categories));
 });
 
 /**
@@ -21,8 +21,8 @@ export const getCategories = asyncHandler(async (req: Request, res: Response) =>
  * @access  Public
  */
 export const getRootCategories = asyncHandler(async (req: Request, res: Response) => {
-  const categories = await categoryService.getRootCategories();
-  return res.json(successResponse(categories));
+    const categories = await categoryService.getRootCategories();
+    return res.json(successResponse(categories));
 });
 
 /**
@@ -31,9 +31,9 @@ export const getRootCategories = asyncHandler(async (req: Request, res: Response
  * @access  Public
  */
 export const getCategoryById = asyncHandler(async (req: Request, res: Response) => {
-  const { idOrSlug } = req.params;
-  const category = await categoryService.getCategoryByIdOrSlug(idOrSlug);
-  return res.json(successResponse(category));
+    const { idOrSlug } = req.params;
+    const category = await categoryService.getCategoryByIdOrSlug(idOrSlug);
+    return res.json(successResponse(category));
 });
 
 /**
@@ -42,9 +42,9 @@ export const getCategoryById = asyncHandler(async (req: Request, res: Response) 
  * @access  Admin
  */
 export const createCategory = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const input: CategoryInput = req.body;
-  const category = await categoryService.createCategory(input);
-  return res.status(201).json(successResponse(category, 'Category created successfully'));
+    const input: CategoryInput = req.body;
+    const category = await categoryService.createCategory(input);
+    return res.status(201).json(successResponse(category, 'Category created successfully'));
 });
 
 /**
@@ -53,10 +53,10 @@ export const createCategory = asyncHandler(async (req: AuthenticatedRequest, res
  * @access  Admin
  */
 export const updateCategory = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const { id } = req.params;
-  const input: CategoryUpdateInput = req.body;
-  const category = await categoryService.updateCategory(id, input);
-  return res.json(successResponse(category, 'Category updated successfully'));
+    const { id } = req.params;
+    const input: CategoryUpdateInput = req.body;
+    const category = await categoryService.updateCategory(id, input);
+    return res.json(successResponse(category, 'Category updated successfully'));
 });
 
 /**
@@ -65,18 +65,18 @@ export const updateCategory = asyncHandler(async (req: AuthenticatedRequest, res
  * @access  Admin
  */
 export const deleteCategory = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-  const { id } = req.params;
-  await categoryService.deleteCategory(id);
-  return res.json(successResponse(null, 'Category deleted successfully'));
+    const { id } = req.params;
+    await categoryService.deleteCategory(id);
+    return res.json(successResponse(null, 'Category deleted successfully'));
 });
 
 export const categoryController = {
-  getCategories,
-  getRootCategories,
-  getCategoryById,
-  createCategory,
-  updateCategory,
-  deleteCategory,
+    getCategories,
+    getRootCategories,
+    getCategoryById,
+    createCategory,
+    updateCategory,
+    deleteCategory,
 };
 
 export default categoryController;

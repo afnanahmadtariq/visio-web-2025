@@ -1,52 +1,52 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IRequestLog extends Document {
-  method: string;
-  path: string;
-  statusCode: number;
-  responseTime: number;
-  userId?: string;
-  ip?: string;
-  userAgent?: string;
-  query?: Record<string, unknown>;
-  body?: Record<string, unknown>;
-  timestamp: Date;
+    method: string;
+    path: string;
+    statusCode: number;
+    responseTime: number;
+    userId?: string;
+    ip?: string;
+    userAgent?: string;
+    query?: Record<string, unknown>;
+    body?: Record<string, unknown>;
+    timestamp: Date;
 }
 
 const requestLogSchema = new Schema<IRequestLog>(
-  {
-    method: {
-      type: String,
-      required: true,
-      index: true,
+    {
+        method: {
+            type: String,
+            required: true,
+            index: true,
+        },
+        path: {
+            type: String,
+            required: true,
+            index: true,
+        },
+        statusCode: {
+            type: Number,
+            required: true,
+            index: true,
+        },
+        responseTime: {
+            type: Number,
+            required: true,
+        },
+        userId: {
+            type: String,
+            index: true,
+        },
+        ip: String,
+        userAgent: String,
+        query: Schema.Types.Mixed,
+        body: Schema.Types.Mixed,
     },
-    path: {
-      type: String,
-      required: true,
-      index: true,
-    },
-    statusCode: {
-      type: Number,
-      required: true,
-      index: true,
-    },
-    responseTime: {
-      type: Number,
-      required: true,
-    },
-    userId: {
-      type: String,
-      index: true,
-    },
-    ip: String,
-    userAgent: String,
-    query: Schema.Types.Mixed,
-    body: Schema.Types.Mixed,
-  },
-  {
-    timestamps: { createdAt: 'timestamp', updatedAt: false },
-    collection: 'request_logs',
-  }
+    {
+        timestamps: { createdAt: 'timestamp', updatedAt: false },
+        collection: 'request_logs',
+    }
 );
 
 // TTL index - auto-delete after 30 days
