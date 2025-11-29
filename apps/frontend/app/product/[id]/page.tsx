@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, use } from "react"
 import Link from "next/link"
-import { ArrowLeft, Check, Minus, Plus, Star, Heart, ThumbsUp, MessageSquare, User } from "lucide-react"
+import { ArrowLeft, Check, Minus, Plus, Star, Heart, ThumbsUp, MessageSquare, User, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
@@ -12,203 +12,120 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useCart } from "@/context/cart-context"
 import { useAuth } from "@/context/auth-context"
+import { getProduct, getProductReviews, getProducts, getDiscountedPrice, type Product, type Review } from "@/lib/api/products"
+import { addToWishlist as addToWishlistAPI } from "@/lib/api/wishlist"
+import { createReview } from "@/lib/api/reviews"
 
-// Mock reviews data
-const mockReviews = [
-  {
-    id: "1",
-    userId: "user1",
-    userName: "John D.",
-    rating: 5,
-    title: "Excellent quality!",
-    comment: "This is exactly what I was looking for. The leather is genuine and the craftsmanship is outstanding. Highly recommend!",
-    date: "2025-11-25",
-    helpful: 12,
-    verified: true,
-  },
-  {
-    id: "2",
-    userId: "user2",
-    userName: "Sarah M.",
-    rating: 4,
-    title: "Great product, minor issues",
-    comment: "Overall a great product. The quality is excellent and it looks even better in person. Only giving 4 stars because shipping took longer than expected.",
-    date: "2025-11-20",
-    helpful: 8,
-    verified: true,
-  },
-  {
-    id: "3",
-    userId: "user3",
-    userName: "Mike R.",
-    rating: 5,
-    title: "Perfect for daily use",
-    comment: "I've been using this for a month now and it's holding up great. Very spacious and comfortable to carry.",
-    date: "2025-11-15",
-    helpful: 5,
-    verified: false,
-  },
-  {
-    id: "4",
-    userId: "user4",
-    userName: "Emily L.",
-    rating: 3,
-    title: "Good but pricey",
-    comment: "The quality is good but I feel it's a bit overpriced for what you get. Still a decent product overall.",
-    date: "2025-11-10",
-    helpful: 3,
-    verified: true,
-  },
-]
+function ProductSkeleton() {
+  return (
+    <div className="container py-6 md:py-8">
+      <Skeleton className="h-4 w-32 mb-6" />
+      <div className="grid gap-8 md:grid-cols-2">
+        <div className="space-y-4">
+          <Skeleton className="aspect-square w-full rounded-lg" />
+          <div className="grid grid-cols-4 gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton key={i} className="aspect-square rounded-lg" />
+            ))}
+          </div>
+        </div>
+        <div className="space-y-6">
+          <Skeleton className="h-8 w-3/4" />
+          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-20 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </div>
+      </div>
+    </div>
+  )
+}
 
-// Mock product database
-const productsData = [
-  {
-    id: "1",
-    name: "Premium Leather Backpack",
-    price: 129.99,
-    rating: 4.8,
-    reviews: 156,
-    description:
-      "Crafted from premium full-grain leather, this backpack combines timeless style with modern functionality. Perfect for daily commutes or weekend getaways, it features multiple compartments, padded laptop sleeve, and adjustable shoulder straps for all-day comfort.",
-    features: [
-      "Made from premium full-grain leather",
-      "Water-resistant coating",
-      'Padded 15" laptop compartment',
-      "Multiple interior pockets",
-      "Adjustable shoulder straps",
-      "Brass hardware with antique finish",
-      'Dimensions: 16" x 12" x 6"',
-      "Capacity: 25L",
-    ],
-    colors: ["Brown", "Black", "Tan"],
-    images: [
-      "https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1622560480664-07b01f03bb5c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1622560481119-9103aff347cc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1622560481053-6c4c055e87ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-    ],
-    stock: 12,
-    sku: "BPK-1001-LTR",
-    category: "Accessories",
-    relatedProducts: ["2", "3", "4"],
-  },
-  {
-    id: "2",
-    name: "Canvas Messenger Bag",
-    price: 79.99,
-    rating: 4.5,
-    reviews: 124,
-    description:
-      "A versatile canvas messenger bag perfect for everyday use. Features a padded laptop compartment and multiple pockets for organization.",
-    features: [
-      "Durable canvas construction",
-      "Adjustable shoulder strap",
-      'Padded 15" laptop compartment',
-      "Water-resistant",
-      "Multiple organization pockets",
-      'Dimensions: 15" x 11" x 4"',
-    ],
-    colors: ["Navy", "Olive", "Gray"],
-    images: [
-      "https://images.unsplash.com/photo-1473186578172-c141e6798cf4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1473186505569-9ac64971f27f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1476231682828-37e571bc172f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-    ],
-    stock: 18,
-    sku: "MSG-2001-CNV",
-    category: "Accessories",
-    relatedProducts: ["1", "3", "5"],
-  },
-  {
-    id: "3",
-    name: "Leather Wallet",
-    price: 49.99,
-    rating: 4.7,
-    reviews: 98,
-    description: "A slim, elegant leather wallet with RFID protection. Perfect for the modern minimalist.",
-    features: [
-      "Genuine full-grain leather",
-      "RFID blocking technology",
-      "6 card slots",
-      "2 cash compartments",
-      "ID window",
-      "Slim profile design",
-    ],
-    colors: ["Brown", "Black", "Tan"],
-    images: [
-      "https://images.unsplash.com/photo-1627123424574-724758594e93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1627123424574-724758594e93?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-    ],
-    stock: 25,
-    sku: "WLT-3001-LTR",
-    category: "Accessories",
-    relatedProducts: ["1", "2", "4"],
-  },
-  {
-    id: "4",
-    name: "Travel Duffel Bag",
-    price: 149.99,
-    rating: 4.6,
-    reviews: 112,
-    description:
-      "A spacious duffel bag perfect for weekend trips or as a carry-on. Durable and stylish with plenty of organization options.",
-    features: [
-      "Water-resistant nylon construction",
-      "Shoe compartment",
-      "Padded shoulder strap",
-      "Multiple internal and external pockets",
-      "Luggage pass-through sleeve",
-      'Dimensions: 22" x 12" x 10"',
-      "Capacity: 45L",
-    ],
-    colors: ["Black", "Navy", "Burgundy"],
-    images: [
-      "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1547949003-9792a18a2fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1512117789060-5de1c1c4efcf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80",
-    ],
-    stock: 8,
-    sku: "DFL-4001-NYL",
-    category: "Accessories",
-    relatedProducts: ["1", "2", "3"],
-  },
-]
-
-export default function ProductPage({ params }: { params: { id: string } }) {
+export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params)
   const { addItem } = useCart()
   const { isAuthenticated, user } = useAuth()
   const { toast } = useToast()
+  
+  const [product, setProduct] = useState<Product | null>(null)
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  
   const [quantity, setQuantity] = useState(1)
   const [selectedColor, setSelectedColor] = useState(0)
   const [selectedImage, setSelectedImage] = useState(0)
-  const [reviews, setReviews] = useState(mockReviews)
   const [showReviewForm, setShowReviewForm] = useState(false)
+  const [submittingReview, setSubmittingReview] = useState(false)
+  const [addingToWishlist, setAddingToWishlist] = useState(false)
   const [reviewForm, setReviewForm] = useState({
     rating: 5,
     title: "",
     comment: "",
   })
 
-  // Find the product by ID
-  const product = productsData.find((p) => p.id === params.id) || productsData[0]
+  // Fetch product data
+  useEffect(() => {
+    async function loadProduct() {
+      try {
+        setLoading(true)
+        setError(null)
+        
+        // Fetch product details
+        const productData = await getProduct(resolvedParams.id)
+        setProduct(productData)
+        
+        // Fetch product reviews
+        try {
+          const reviewsData = await getProductReviews(resolvedParams.id)
+          setReviews(reviewsData.reviews)
+        } catch {
+          // Reviews might not exist
+          setReviews([])
+        }
+        
+        // Fetch related products (same category)
+        if (productData.categoryId) {
+          try {
+            const relatedResponse = await getProducts({ 
+              categoryId: productData.categoryId, 
+              limit: 4 
+            })
+            // Filter out current product
+            setRelatedProducts(relatedResponse.products.filter(p => p.id !== productData.id).slice(0, 4))
+          } catch {
+            setRelatedProducts([])
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load product:", err)
+        setError("Product not found or failed to load.")
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  // Get related products
-  const relatedProducts = product.relatedProducts.map((id) => productsData.find((p) => p.id === id)).filter(Boolean)
+    loadProduct()
+  }, [resolvedParams.id])
 
   const handleAddToCart = () => {
+    if (!product) return
+    
+    const price = getDiscountedPrice(product)
     addItem({
       id: product.id,
       name: product.name,
-      price: product.price,
-      image: product.images[0],
+      price: price,
+      image: product.images[0] || "/placeholder.svg",
       quantity: quantity,
-      color: product.colors[selectedColor],
+      color: product.colors?.[selectedColor],
     })
 
     toast({
@@ -217,40 +134,58 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     })
   }
 
-  const handleAddToWishlist = () => {
-    // Get existing wishlist from localStorage
-    const savedWishlist = localStorage.getItem("wishlist")
-    const wishlist = savedWishlist ? JSON.parse(savedWishlist) : []
+  const handleAddToWishlist = async () => {
+    if (!product) return
     
-    // Check if item already exists
-    if (wishlist.some((item: any) => item.id === product.id)) {
-      toast({
-        title: "Already in Wishlist",
-        description: "This item is already in your wishlist",
+    setAddingToWishlist(true)
+    try {
+      if (isAuthenticated) {
+        await addToWishlistAPI(product.id)
+      }
+      
+      // Also save to localStorage for persistence
+      const savedWishlist = localStorage.getItem("wishlist")
+      const wishlist = savedWishlist ? JSON.parse(savedWishlist) : []
+      
+      // Check if item already exists
+      if (wishlist.some((item: any) => item.id === product.id)) {
+        toast({
+          title: "Already in Wishlist",
+          description: "This item is already in your wishlist",
+        })
+        return
+      }
+      
+      // Add to wishlist
+      wishlist.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        rating: product.rating,
+        reviews: product.reviewCount,
+        image: product.images[0],
+        stock: product.stock,
+        addedAt: new Date().toISOString(),
       })
-      return
+      
+      localStorage.setItem("wishlist", JSON.stringify(wishlist))
+      toast({
+        title: "Added to Wishlist",
+        description: `${product.name} has been added to your wishlist`,
+      })
+    } catch (err) {
+      console.error("Failed to add to wishlist:", err)
+      toast({
+        title: "Error",
+        description: "Failed to add to wishlist. Please try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setAddingToWishlist(false)
     }
-    
-    // Add to wishlist
-    wishlist.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      rating: product.rating,
-      reviews: product.reviews,
-      image: product.images[0],
-      stock: product.stock,
-      addedAt: new Date().toISOString(),
-    })
-    
-    localStorage.setItem("wishlist", JSON.stringify(wishlist))
-    toast({
-      title: "Added to Wishlist",
-      description: `${product.name} has been added to your wishlist`,
-    })
   }
 
-  const handleSubmitReview = () => {
+  const handleSubmitReview = async () => {
     if (!isAuthenticated) {
       toast({
         title: "Sign in required",
@@ -269,35 +204,58 @@ export default function ProductPage({ params }: { params: { id: string } }) {
       return
     }
 
-    const newReview = {
-      id: Date.now().toString(),
-      userId: user?.id || "unknown",
-      userName: user?.name || "Anonymous",
-      rating: reviewForm.rating,
-      title: reviewForm.title,
-      comment: reviewForm.comment,
-      date: new Date().toISOString().split("T")[0],
-      helpful: 0,
-      verified: true,
-    }
+    setSubmittingReview(true)
+    try {
+      const newReview = await createReview({
+        productId: resolvedParams.id,
+        rating: reviewForm.rating,
+        title: reviewForm.title,
+        comment: reviewForm.comment,
+      })
 
-    setReviews([newReview, ...reviews])
-    setReviewForm({ rating: 5, title: "", comment: "" })
-    setShowReviewForm(false)
-    toast({
-      title: "Review submitted",
-      description: "Thank you for your review!",
-    })
+      setReviews([newReview, ...reviews])
+      setReviewForm({ rating: 5, title: "", comment: "" })
+      setShowReviewForm(false)
+      toast({
+        title: "Review submitted",
+        description: "Thank you for your review!",
+      })
+    } catch (err) {
+      console.error("Failed to submit review:", err)
+      // Add review locally as fallback
+      const localReview: Review = {
+        id: Date.now().toString(),
+        userId: user?.id || "unknown",
+        userName: user?.name || "Anonymous",
+        rating: reviewForm.rating,
+        title: reviewForm.title,
+        comment: reviewForm.comment,
+        createdAt: new Date().toISOString(),
+        helpful: 0,
+        verified: true,
+      }
+      setReviews([localReview, ...reviews])
+      setReviewForm({ rating: 5, title: "", comment: "" })
+      setShowReviewForm(false)
+      toast({
+        title: "Review submitted",
+        description: "Thank you for your review!",
+      })
+    } finally {
+      setSubmittingReview(false)
+    }
   }
 
   // Calculate rating distribution
   const ratingDistribution = [5, 4, 3, 2, 1].map(rating => ({
     rating,
     count: reviews.filter(r => r.rating === rating).length,
-    percentage: (reviews.filter(r => r.rating === rating).length / reviews.length) * 100,
+    percentage: reviews.length > 0 ? (reviews.filter(r => r.rating === rating).length / reviews.length) * 100 : 0,
   }))
 
-  const averageRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
+  const averageRating = reviews.length > 0 
+    ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length 
+    : product?.rating || 0
 
   const decreaseQuantity = () => {
     if (quantity > 1) {
@@ -306,10 +264,41 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   }
 
   const increaseQuantity = () => {
-    if (quantity < product.stock) {
+    if (product && quantity < product.stock) {
       setQuantity(quantity + 1)
     }
   }
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <ProductSkeleton />
+        <Footer />
+      </div>
+    )
+  }
+
+  if (error || !product) {
+    return (
+      <div className="flex min-h-screen flex-col">
+        <Header />
+        <div className="container flex-1 py-12 flex flex-col items-center justify-center">
+          <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
+          <p className="text-muted-foreground mb-6">{error || "The product you're looking for doesn't exist."}</p>
+          <Button asChild>
+            <Link href="/products">Browse Products</Link>
+          </Button>
+        </div>
+        <Footer />
+      </div>
+    )
+  }
+
+  const discountedPrice = getDiscountedPrice(product)
+  const hasDiscount = product.discountPercent && product.discountPercent > 0
+  const colors = product.colors || ["Default"]
+  const features = product.features || []
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -326,7 +315,12 @@ export default function ProductPage({ params }: { params: { id: string } }) {
         <div className="grid gap-8 md:grid-cols-2">
           {/* Product Images */}
           <div className="space-y-4">
-            <div className="overflow-hidden rounded-lg border bg-muted/50">
+            <div className="overflow-hidden rounded-lg border bg-muted/50 relative">
+              {hasDiscount && (
+                <Badge className="absolute top-3 right-3 bg-primary z-10">
+                  {Math.round(product.discountPercent!)}% OFF
+                </Badge>
+              )}
               <img
                 src={product.images[selectedImage] || "/placeholder.svg"}
                 alt={product.name}
@@ -335,23 +329,25 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 className="h-full w-full object-cover"
               />
             </div>
-            <div className="grid grid-cols-4 gap-4">
-              {product.images.map((image, index) => (
-                <div
-                  key={index}
-                  className={`overflow-hidden rounded-lg border cursor-pointer ${index === selectedImage ? "ring-2 ring-primary" : ""}`}
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <img
-                    src={image || "/placeholder.svg"}
-                    alt={`${product.name} view ${index + 1}`}
-                    width={150}
-                    height={150}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
+            {product.images.length > 1 && (
+              <div className="grid grid-cols-4 gap-4">
+                {product.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className={`overflow-hidden rounded-lg border cursor-pointer ${index === selectedImage ? "ring-2 ring-primary" : ""}`}
+                    onClick={() => setSelectedImage(index)}
+                  >
+                    <img
+                      src={image || "/placeholder.svg"}
+                      alt={`${product.name} view ${index + 1}`}
+                      width={150}
+                      height={150}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Details */}
@@ -363,60 +359,63 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                   {Array.from({ length: 5 }).map((_, i) => (
                     <Star
                       key={i}
-                      className={`h-5 w-5 ${i < Math.floor(product.rating) ? "fill-secondary text-secondary" : "text-muted-foreground"}`}
+                      className={`h-5 w-5 ${i < Math.floor(averageRating) ? "fill-secondary text-secondary" : "text-muted-foreground"}`}
                     />
                   ))}
                 </div>
-                <span className="text-sm text-muted-foreground">({product.reviews} reviews)</span>
+                <span className="text-sm text-muted-foreground">({product.reviewCount || reviews.length} reviews)</span>
               </div>
             </div>
 
             <div>
-              <p className="text-2xl font-bold">${product.price.toFixed(2)}</p>
+              <div className="flex items-center gap-3">
+                <p className="text-2xl font-bold">${discountedPrice.toFixed(2)}</p>
+                {hasDiscount && (
+                  <p className="text-lg text-muted-foreground line-through">${product.price.toFixed(2)}</p>
+                )}
+              </div>
               <p className="text-sm text-muted-foreground">Free shipping on orders over $50</p>
             </div>
 
             <Separator />
 
-            <div>
-              <h3 className="mb-3 font-medium">Color</h3>
-              <div className="flex gap-2">
-                {product.colors.map((color, index) => {
-                  const bgColor =
-                    color === "Brown"
-                      ? "#8B4513"
-                      : color === "Black"
-                        ? "#000"
-                        : color === "Tan"
-                          ? "#D2B48C"
-                          : color === "Navy"
-                            ? "#000080"
-                            : color === "Olive"
-                              ? "#556B2F"
-                              : color === "Gray"
-                                ? "#808080"
-                                : color === "Burgundy"
-                                  ? "#800020"
-                                  : "#CCCCCC"
+            {colors.length > 1 && (
+              <div>
+                <h3 className="mb-3 font-medium">Color: {colors[selectedColor]}</h3>
+                <div className="flex gap-2">
+                  {colors.map((color, index) => {
+                    const bgColor =
+                      color === "Brown" ? "#8B4513" :
+                      color === "Black" ? "#000" :
+                      color === "Tan" ? "#D2B48C" :
+                      color === "Navy" ? "#000080" :
+                      color === "Olive" ? "#556B2F" :
+                      color === "Gray" ? "#808080" :
+                      color === "Burgundy" ? "#800020" :
+                      color === "White" ? "#FFFFFF" :
+                      color === "Red" ? "#FF0000" :
+                      color === "Blue" ? "#0000FF" :
+                      "#CCCCCC"
 
-                  return (
-                    <div
-                      key={color}
-                      className={`relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border ${index === selectedColor ? "ring-2 ring-primary ring-offset-2" : ""}`}
-                      style={{ backgroundColor: bgColor }}
-                      onClick={() => setSelectedColor(index)}
-                    >
-                      {index === selectedColor && (
-                        <Check
-                          className={`h-4 w-4 ${["Black", "Navy", "Burgundy"].includes(color) ? "text-white" : "text-white"}`}
-                        />
-                      )}
-                      <span className="sr-only">{color}</span>
-                    </div>
-                  )
-                })}
+                    return (
+                      <div
+                        key={color}
+                        className={`relative flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border ${index === selectedColor ? "ring-2 ring-primary ring-offset-2" : ""}`}
+                        style={{ backgroundColor: bgColor }}
+                        onClick={() => setSelectedColor(index)}
+                      >
+                        {index === selectedColor && (
+                          <Check
+                            className={`h-4 w-4 ${["Black", "Navy", "Burgundy", "Blue"].includes(color) ? "text-white" : "text-black"}`}
+                          />
+                        )}
+                        <span className="sr-only">{color}</span>
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
+            )}
 
             <div>
               <h3 className="mb-3 font-medium">Quantity</h3>
@@ -447,11 +446,26 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             </div>
 
             <div className="flex flex-col gap-2 sm:flex-row">
-              <Button size="lg" className="flex-1 bg-primary hover:bg-primary/90" onClick={handleAddToCart}>
-                Add to Cart
+              <Button 
+                size="lg" 
+                className="flex-1 bg-primary hover:bg-primary/90" 
+                onClick={handleAddToCart}
+                disabled={product.stock === 0}
+              >
+                {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
               </Button>
-              <Button size="lg" variant="outline" className="flex-1 border-primary text-primary hover:bg-primary/10" onClick={handleAddToWishlist}>
-                <Heart className="mr-2 h-4 w-4" />
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="flex-1 border-primary text-primary hover:bg-primary/10" 
+                onClick={handleAddToWishlist}
+                disabled={addingToWishlist}
+              >
+                {addingToWishlist ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <Heart className="mr-2 h-4 w-4" />
+                )}
                 Add to Wishlist
               </Button>
             </div>
@@ -475,11 +489,15 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 <p className="text-muted-foreground">{product.description}</p>
               </TabsContent>
               <TabsContent value="features" className="pt-4">
-                <ul className="list-inside list-disc space-y-2 text-muted-foreground">
-                  {product.features.map((feature, index) => (
-                    <li key={index}>{feature}</li>
-                  ))}
-                </ul>
+                {features.length > 0 ? (
+                  <ul className="list-inside list-disc space-y-2 text-muted-foreground">
+                    {features.map((feature, index) => (
+                      <li key={index}>{feature}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-muted-foreground">No features listed for this product.</p>
+                )}
               </TabsContent>
               <TabsContent value="shipping" className="pt-4">
                 <div className="space-y-4 text-muted-foreground">
@@ -597,7 +615,10 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                       />
                     </div>
                     <div className="flex gap-2">
-                      <Button onClick={handleSubmitReview}>Submit Review</Button>
+                      <Button onClick={handleSubmitReview} disabled={submittingReview}>
+                        {submittingReview && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        Submit Review
+                      </Button>
                       <Button variant="outline" onClick={() => setShowReviewForm(false)}>Cancel</Button>
                     </div>
                   </div>
@@ -605,83 +626,106 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               )}
 
               {/* Individual Reviews */}
-              {reviews.map((review) => (
-                <Card key={review.id} className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                        <User className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium">{review.userName}</span>
-                          {review.verified && (
-                            <Badge variant="secondary" className="text-xs">Verified Purchase</Badge>
-                          )}
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <Card key={review.id} className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                          <User className="h-5 w-5 text-muted-foreground" />
                         </div>
-                        <div className="flex items-center gap-2">
-                          <div className="flex">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <Star
-                                key={star}
-                                className={`h-4 w-4 ${star <= review.rating ? "fill-secondary text-secondary" : "text-muted-foreground"}`}
-                              />
-                            ))}
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="font-medium">{review.userName}</span>
+                            {review.verified && (
+                              <Badge variant="secondary" className="text-xs">Verified Purchase</Badge>
+                            )}
                           </div>
-                          <span className="text-sm text-muted-foreground">{review.date}</span>
+                          <div className="flex items-center gap-2">
+                            <div className="flex">
+                              {[1, 2, 3, 4, 5].map((star) => (
+                                <Star
+                                  key={star}
+                                  className={`h-4 w-4 ${star <= review.rating ? "fill-secondary text-secondary" : "text-muted-foreground"}`}
+                                />
+                              ))}
+                            </div>
+                            <span className="text-sm text-muted-foreground">
+                              {new Date(review.createdAt).toLocaleDateString()}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <h4 className="font-medium mb-2">{review.title}</h4>
-                  <p className="text-muted-foreground mb-4">{review.comment}</p>
-                  <div className="flex items-center gap-4">
-                    <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-                      <ThumbsUp className="h-4 w-4" />
-                      Helpful ({review.helpful})
-                    </button>
-                  </div>
+                    <h4 className="font-medium mb-2">{review.title}</h4>
+                    <p className="text-muted-foreground mb-4">{review.comment}</p>
+                    <div className="flex items-center gap-4">
+                      <button className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
+                        <ThumbsUp className="h-4 w-4" />
+                        Helpful ({review.helpful})
+                      </button>
+                    </div>
+                  </Card>
+                ))
+              ) : (
+                <Card className="p-6 text-center">
+                  <p className="text-muted-foreground">No reviews yet. Be the first to review this product!</p>
                 </Card>
-              ))}
+              )}
             </div>
           </div>
         </div>
 
         {/* Related Products */}
-        <div className="mt-16">
-          <h2 className="mb-6 text-2xl font-bold">You May Also Like</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {relatedProducts.map((relatedProduct) => (
-              <Card key={relatedProduct?.id} className="overflow-hidden group">
-                <Link href={`/product/${relatedProduct?.id}`}>
-                  <div className="aspect-square relative overflow-hidden">
-                    <img
-                      src={relatedProduct?.images[0] || "/placeholder.svg"}
-                      alt={relatedProduct?.name}
-                      width={300}
-                      height={300}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                </Link>
-                <div className="p-4">
-                  <div className="space-y-1">
-                    <Link href={`/product/${relatedProduct?.id}`}>
-                      <h3 className="font-medium hover:text-primary transition-colors">{relatedProduct?.name}</h3>
+        {relatedProducts.length > 0 && (
+          <div className="mt-16">
+            <h2 className="mb-6 text-2xl font-bold">You May Also Like</h2>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {relatedProducts.map((relatedProduct) => {
+                const relatedPrice = getDiscountedPrice(relatedProduct)
+                return (
+                  <Card key={relatedProduct.id} className="overflow-hidden group">
+                    <Link href={`/product/${relatedProduct.id}`}>
+                      <div className="aspect-square relative overflow-hidden">
+                        {relatedProduct.discountPercent && relatedProduct.discountPercent > 0 && (
+                          <Badge className="absolute top-2 right-2 bg-primary z-10">
+                            {Math.round(relatedProduct.discountPercent)}% OFF
+                          </Badge>
+                        )}
+                        <img
+                          src={relatedProduct.images[0] || "/placeholder.svg"}
+                          alt={relatedProduct.name}
+                          width={300}
+                          height={300}
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
                     </Link>
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center">
-                        <Star className="h-4 w-4 fill-secondary text-secondary" />
-                        <span className="ml-1 text-sm">{relatedProduct?.rating}</span>
+                    <div className="p-4">
+                      <div className="space-y-1">
+                        <Link href={`/product/${relatedProduct.id}`}>
+                          <h3 className="font-medium hover:text-primary transition-colors line-clamp-1">{relatedProduct.name}</h3>
+                        </Link>
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center">
+                            <Star className="h-4 w-4 fill-secondary text-secondary" />
+                            <span className="ml-1 text-sm">{relatedProduct.rating?.toFixed(1) || "N/A"}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <p className="font-medium">${relatedPrice.toFixed(2)}</p>
+                          {relatedProduct.discountPercent && relatedProduct.discountPercent > 0 && (
+                            <p className="text-sm text-muted-foreground line-through">${relatedProduct.price.toFixed(2)}</p>
+                          )}
+                        </div>
                       </div>
                     </div>
-                    <p className="font-medium">${relatedProduct?.price.toFixed(2)}</p>
-                  </div>
-                </div>
-              </Card>
-            ))}
+                  </Card>
+                )
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <Footer />
