@@ -8,15 +8,21 @@ import { prisma } from '../db/prisma';
  */
 export interface JwtPayload {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   id: string;
   role: 'USER' | 'ADMIN';
   iat?: number;
   exp?: number;
 =======
+=======
+>>>>>>> Stashed changes
     id: string;
     role: 'USER' | 'ADMIN';
     iat?: number;
     exp?: number;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -25,17 +31,23 @@ export interface JwtPayload {
  */
 declare global {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   namespace Express {
     interface Request {
       user?: JwtPayload;
     }
   }
 =======
+=======
+>>>>>>> Stashed changes
     namespace Express {
         interface Request {
             user?: JwtPayload;
         }
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -44,7 +56,11 @@ declare global {
  */
 export const verifyAccessToken = (token: string): JwtPayload => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   return jwt.verify(token, env.jwtSecret) as JwtPayload;
+=======
+    return jwt.verify(token, env.jwtSecret) as JwtPayload;
+>>>>>>> Stashed changes
 =======
     return jwt.verify(token, env.jwtSecret) as JwtPayload;
 >>>>>>> Stashed changes
@@ -55,7 +71,11 @@ export const verifyAccessToken = (token: string): JwtPayload => {
  */
 export const signAccessToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): string => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   return jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn });
+=======
+    return jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn });
+>>>>>>> Stashed changes
 =======
     return jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn });
 >>>>>>> Stashed changes
@@ -66,7 +86,11 @@ export const signAccessToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): strin
  */
 export const signRefreshToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): string => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   return jwt.sign(payload, env.refreshSecret, { expiresIn: env.refreshExpiresIn });
+=======
+    return jwt.sign(payload, env.refreshSecret, { expiresIn: env.refreshExpiresIn });
+>>>>>>> Stashed changes
 =======
     return jwt.sign(payload, env.refreshSecret, { expiresIn: env.refreshExpiresIn });
 >>>>>>> Stashed changes
@@ -77,7 +101,11 @@ export const signRefreshToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): stri
  */
 export const verifyRefreshToken = (token: string): JwtPayload => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   return jwt.verify(token, env.refreshSecret) as JwtPayload;
+=======
+    return jwt.verify(token, env.refreshSecret) as JwtPayload;
+>>>>>>> Stashed changes
 =======
     return jwt.verify(token, env.refreshSecret) as JwtPayload;
 >>>>>>> Stashed changes
@@ -88,6 +116,7 @@ export const verifyRefreshToken = (token: string): JwtPayload => {
  * Verifies JWT token and attaches user to request
  */
 export const isAuthenticated = async (
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   req: Request,
   res: Response,
@@ -162,6 +191,8 @@ export const isAuthenticated = async (
     next(error);
   }
 =======
+=======
+>>>>>>> Stashed changes
     req: Request,
     res: Response,
     next: NextFunction
@@ -234,6 +265,9 @@ export const isAuthenticated = async (
 
         next(error);
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -242,6 +276,7 @@ export const isAuthenticated = async (
  * Must be used after isAuthenticated
  */
 export const isAdmin = (req: Request, res: Response, next: NextFunction): void => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   if (!req.user) {
     res.status(401).json({
@@ -261,6 +296,8 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): void =
 
   next();
 =======
+=======
+>>>>>>> Stashed changes
     if (!req.user) {
         res.status(401).json({
             success: false,
@@ -278,6 +315,9 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): void =
     }
 
     next();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -286,6 +326,7 @@ export const isAdmin = (req: Request, res: Response, next: NextFunction): void =
  * Attaches user if token is valid, continues otherwise
  */
 export const optionalAuth = async (
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   req: Request,
   res: Response,
@@ -314,6 +355,8 @@ export const optionalAuth = async (
     next();
   }
 =======
+=======
+>>>>>>> Stashed changes
     req: Request,
     res: Response,
     next: NextFunction
@@ -340,5 +383,8 @@ export const optionalAuth = async (
         // Ignore errors for optional auth
         next();
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };

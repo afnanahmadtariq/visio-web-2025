@@ -6,6 +6,7 @@ import 'dotenv/config';
  */
 export const env = {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // Server
   host: process.env.HOST ?? '0.0.0.0',
   port: process.env.PORT ? Number(process.env.PORT) : 10000,
@@ -47,6 +48,8 @@ export const env = {
   bcryptRounds: Number(process.env.BCRYPT_ROUNDS) || 12,
   maxFailedLoginAttempts: Number(process.env.MAX_FAILED_LOGIN_ATTEMPTS) || 5,
 =======
+=======
+>>>>>>> Stashed changes
     // Server
     host: process.env.HOST ?? '0.0.0.0',
     port: process.env.PORT ? Number(process.env.PORT) : 10000,
@@ -87,6 +90,9 @@ export const env = {
     // Security
     bcryptRounds: Number(process.env.BCRYPT_ROUNDS) || 12,
     maxFailedLoginAttempts: Number(process.env.MAX_FAILED_LOGIN_ATTEMPTS) || 5,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 } as const;
 
@@ -95,6 +101,7 @@ export const env = {
  * Throws error if critical variables are missing
  */
 export function validateEnv(): void {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const required = [
     'DATABASE_URL',
@@ -108,6 +115,8 @@ export function validateEnv(): void {
     throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
   }
 =======
+=======
+>>>>>>> Stashed changes
     const required = [
         'DATABASE_URL',
         'JWT_SECRET',
@@ -119,6 +128,9 @@ export function validateEnv(): void {
     if (missing.length > 0) {
         throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 

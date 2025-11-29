@@ -8,6 +8,7 @@ import type { ReviewInput, ReviewUpdateInput, ReviewQueryInput } from '../valida
  */
 export const getProductReviews = async (productId: string, query: ReviewQueryInput) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { page, limit, sortBy, sortOrder } = query;
 
   const where = { productId };
@@ -61,6 +62,8 @@ export const getProductReviews = async (productId: string, query: ReviewQueryInp
     pagination: createPaginationMeta(total, page, limit),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const { page, limit, sortBy, sortOrder } = query;
 
     const where = { productId };
@@ -113,6 +116,9 @@ export const getProductReviews = async (productId: string, query: ReviewQueryInp
         },
         pagination: createPaginationMeta(total, page, limit),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -120,6 +126,7 @@ export const getProductReviews = async (productId: string, query: ReviewQueryInp
  * Get user's reviews
  */
 export const getUserReviews = async (userId: string, query: ReviewQueryInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { page, limit, sortBy, sortOrder } = query;
 
@@ -149,6 +156,8 @@ export const getUserReviews = async (userId: string, query: ReviewQueryInput) =>
     pagination: createPaginationMeta(total, page, limit),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const { page, limit, sortBy, sortOrder } = query;
 
     const where = { userId };
@@ -176,6 +185,9 @@ export const getUserReviews = async (userId: string, query: ReviewQueryInput) =>
         data: reviews,
         pagination: createPaginationMeta(total, page, limit),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -183,6 +195,7 @@ export const getUserReviews = async (userId: string, query: ReviewQueryInput) =>
  * Create or update a review
  */
 export const createOrUpdateReview = async (userId: string, input: ReviewInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { productId, rating, title, comment } = input;
 
@@ -243,6 +256,8 @@ export const createOrUpdateReview = async (userId: string, input: ReviewInput) =
 
   return review;
 =======
+=======
+>>>>>>> Stashed changes
     const { productId, rating, title, comment } = input;
 
     // Verify product exists
@@ -301,6 +316,9 @@ export const createOrUpdateReview = async (userId: string, input: ReviewInput) =
     });
 
     return review;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -308,6 +326,7 @@ export const createOrUpdateReview = async (userId: string, input: ReviewInput) =
  * Update a review
  */
 export const updateReview = async (userId: string, reviewId: string, input: ReviewUpdateInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const review = await prisma.review.findFirst({
     where: { id: reviewId, userId },
@@ -332,6 +351,8 @@ export const updateReview = async (userId: string, reviewId: string, input: Revi
 
   return updated;
 =======
+=======
+>>>>>>> Stashed changes
     const review = await prisma.review.findFirst({
         where: { id: reviewId, userId },
     });
@@ -354,6 +375,9 @@ export const updateReview = async (userId: string, reviewId: string, input: Revi
     });
 
     return updated;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -361,6 +385,7 @@ export const updateReview = async (userId: string, reviewId: string, input: Revi
  * Delete a review
  */
 export const deleteReview = async (userId: string, reviewId: string, isAdmin = false) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const where = isAdmin ? { id: reviewId } : { id: reviewId, userId };
 
@@ -384,6 +409,8 @@ export const reviewService = {
   updateReview,
   deleteReview,
 =======
+=======
+>>>>>>> Stashed changes
     const where = isAdmin ? { id: reviewId } : { id: reviewId, userId };
 
     const review = await prisma.review.findFirst({ where });
@@ -405,6 +432,9 @@ export const reviewService = {
     createOrUpdateReview,
     updateReview,
     deleteReview,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

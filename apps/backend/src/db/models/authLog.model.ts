@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IAuthLog extends Document {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   type: 'LOGIN_SUCCESS' | 'LOGIN_FAIL' | 'REGISTER' | 'LOGOUT' | 'PASSWORD_RESET';
   email?: string;
   userId?: string;
@@ -36,6 +37,8 @@ const authLogSchema = new Schema<IAuthLog>(
     collection: 'auth_logs',
   }
 =======
+=======
+>>>>>>> Stashed changes
     type: 'LOGIN_SUCCESS' | 'LOGIN_FAIL' | 'REGISTER' | 'LOGOUT' | 'PASSWORD_RESET';
     email?: string;
     userId?: string;
@@ -69,6 +72,9 @@ const authLogSchema = new Schema<IAuthLog>(
         timestamps: { createdAt: 'timestamp', updatedAt: false },
         collection: 'auth_logs',
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 );
 

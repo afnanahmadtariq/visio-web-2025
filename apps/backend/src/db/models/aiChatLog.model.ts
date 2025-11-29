@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IAiChatMessage {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   role: 'user' | 'assistant' | 'system';
   content: string;
   timestamp: Date;
@@ -71,6 +72,8 @@ const aiChatLogSchema = new Schema<IAiChatLog>(
     collection: 'ai_chat_logs',
   }
 =======
+=======
+>>>>>>> Stashed changes
     role: 'user' | 'assistant' | 'system';
     content: string;
     timestamp: Date;
@@ -139,6 +142,9 @@ const aiChatLogSchema = new Schema<IAiChatLog>(
         timestamps: true,
         collection: 'ai_chat_logs',
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 );
 

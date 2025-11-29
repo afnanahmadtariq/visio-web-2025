@@ -12,17 +12,23 @@ import type { CheckoutInput, OrderQueryInput, OrderStatusUpdateInput } from '../
  */
 export const checkout = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const input: CheckoutInput = req.body;
 
   const order = await orderService.checkout(userId, input);
   return res.status(201).json(successResponse(order, 'Order placed successfully'));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const input: CheckoutInput = req.body;
 
     const order = await orderService.checkout(userId, input);
     return res.status(201).json(successResponse(order, 'Order placed successfully'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -32,6 +38,7 @@ export const checkout = asyncHandler(async (req: AuthenticatedRequest, res: Resp
  * @access  Private
  */
 export const getOrders = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const userId = req.user!.id;
   const query: OrderQueryInput = {
@@ -43,6 +50,8 @@ export const getOrders = asyncHandler(async (req: AuthenticatedRequest, res: Res
   const result = await orderService.getOrders(userId, query);
   return res.json(paginatedResponse(result.data, result.pagination));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const query: OrderQueryInput = {
         page: Number(req.query.page) || 1,
@@ -52,6 +61,9 @@ export const getOrders = asyncHandler(async (req: AuthenticatedRequest, res: Res
 
     const result = await orderService.getOrders(userId, query);
     return res.json(paginatedResponse(result.data, result.pagination));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -62,6 +74,7 @@ export const getOrders = asyncHandler(async (req: AuthenticatedRequest, res: Res
  */
 export const getOrderById = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { id } = req.params;
   const isAdmin = req.user!.role === 'ADMIN';
@@ -69,12 +82,17 @@ export const getOrderById = asyncHandler(async (req: AuthenticatedRequest, res: 
   const order = await orderService.getOrderById(userId, id, isAdmin);
   return res.json(successResponse(order));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { id } = req.params;
     const isAdmin = req.user!.role === 'ADMIN';
 
     const order = await orderService.getOrderById(userId, id, isAdmin);
     return res.json(successResponse(order));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -85,17 +103,23 @@ export const getOrderById = asyncHandler(async (req: AuthenticatedRequest, res: 
  */
 export const updateOrderStatus = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { id } = req.params;
   const input: OrderStatusUpdateInput = req.body;
 
   const order = await orderService.updateOrderStatus(id, input);
   return res.json(successResponse(order, 'Order status updated'));
 =======
+=======
+>>>>>>> Stashed changes
     const { id } = req.params;
     const input: OrderStatusUpdateInput = req.body;
 
     const order = await orderService.updateOrderStatus(id, input);
     return res.json(successResponse(order, 'Order status updated'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -105,6 +129,7 @@ export const updateOrderStatus = asyncHandler(async (req: AuthenticatedRequest, 
  * @access  Private
  */
 export const cancelOrder = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const userId = req.user!.id;
   const { id } = req.params;
@@ -120,6 +145,8 @@ export const orderController = {
   updateOrderStatus,
   cancelOrder,
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { id } = req.params;
 
@@ -133,6 +160,9 @@ export const orderController = {
     getOrderById,
     updateOrderStatus,
     cancelOrder,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

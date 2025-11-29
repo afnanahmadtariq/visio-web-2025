@@ -12,8 +12,13 @@ import type { CategoryInput, CategoryUpdateInput } from '../validations/category
  */
 export const getCategories = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const categories = await categoryService.getCategories();
   return res.json(successResponse(categories));
+=======
+    const categories = await categoryService.getCategories();
+    return res.json(successResponse(categories));
+>>>>>>> Stashed changes
 =======
     const categories = await categoryService.getCategories();
     return res.json(successResponse(categories));
@@ -27,8 +32,13 @@ export const getCategories = asyncHandler(async (req: Request, res: Response) =>
  */
 export const getRootCategories = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const categories = await categoryService.getRootCategories();
   return res.json(successResponse(categories));
+=======
+    const categories = await categoryService.getRootCategories();
+    return res.json(successResponse(categories));
+>>>>>>> Stashed changes
 =======
     const categories = await categoryService.getRootCategories();
     return res.json(successResponse(categories));
@@ -42,9 +52,15 @@ export const getRootCategories = asyncHandler(async (req: Request, res: Response
  */
 export const getCategoryById = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { idOrSlug } = req.params;
   const category = await categoryService.getCategoryByIdOrSlug(idOrSlug);
   return res.json(successResponse(category));
+=======
+    const { idOrSlug } = req.params;
+    const category = await categoryService.getCategoryByIdOrSlug(idOrSlug);
+    return res.json(successResponse(category));
+>>>>>>> Stashed changes
 =======
     const { idOrSlug } = req.params;
     const category = await categoryService.getCategoryByIdOrSlug(idOrSlug);
@@ -59,9 +75,15 @@ export const getCategoryById = asyncHandler(async (req: Request, res: Response) 
  */
 export const createCategory = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const input: CategoryInput = req.body;
   const category = await categoryService.createCategory(input);
   return res.status(201).json(successResponse(category, 'Category created successfully'));
+=======
+    const input: CategoryInput = req.body;
+    const category = await categoryService.createCategory(input);
+    return res.status(201).json(successResponse(category, 'Category created successfully'));
+>>>>>>> Stashed changes
 =======
     const input: CategoryInput = req.body;
     const category = await categoryService.createCategory(input);
@@ -76,15 +98,21 @@ export const createCategory = asyncHandler(async (req: AuthenticatedRequest, res
  */
 export const updateCategory = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { id } = req.params;
   const input: CategoryUpdateInput = req.body;
   const category = await categoryService.updateCategory(id, input);
   return res.json(successResponse(category, 'Category updated successfully'));
 =======
+=======
+>>>>>>> Stashed changes
     const { id } = req.params;
     const input: CategoryUpdateInput = req.body;
     const category = await categoryService.updateCategory(id, input);
     return res.json(successResponse(category, 'Category updated successfully'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -94,6 +122,7 @@ export const updateCategory = asyncHandler(async (req: AuthenticatedRequest, res
  * @access  Admin
  */
 export const deleteCategory = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { id } = req.params;
   await categoryService.deleteCategory(id);
@@ -108,6 +137,8 @@ export const categoryController = {
   updateCategory,
   deleteCategory,
 =======
+=======
+>>>>>>> Stashed changes
     const { id } = req.params;
     await categoryService.deleteCategory(id);
     return res.json(successResponse(null, 'Category deleted successfully'));
@@ -120,6 +151,9 @@ export const categoryController = {
     createCategory,
     updateCategory,
     deleteCategory,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

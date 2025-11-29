@@ -9,6 +9,7 @@ let redis: Redis | null = null;
  */
 export function getRedis(): Redis | null {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   if (redis) return redis;
 
   if (!env.redisUrl || !env.redisToken) {
@@ -28,6 +29,8 @@ export function getRedis(): Redis | null {
     return null;
   }
 =======
+=======
+>>>>>>> Stashed changes
     if (redis) return redis;
 
     if (!env.redisUrl || !env.redisToken) {
@@ -46,11 +49,15 @@ export function getRedis(): Redis | null {
         console.error('Redis initialization failed:', error);
         return null;
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
 // Cache key prefixes
 export const CACHE_KEYS = {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   // Product keys
   PRODUCT_BY_ID: (id: string) => `product:id:${id}`,
@@ -69,6 +76,8 @@ export const CACHE_KEYS = {
   // Stock keys
   STOCK: (productId: string) => `stock:${productId}`,
 =======
+=======
+>>>>>>> Stashed changes
     // Product keys
     PRODUCT_BY_ID: (id: string) => `product:id:${id}`,
     PRODUCT_LIST_ALL: 'product:list:all',
@@ -85,21 +94,30 @@ export const CACHE_KEYS = {
 
     // Stock keys
     STOCK: (productId: string) => `stock:${productId}`,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 } as const;
 
 // Default TTLs in seconds
 export const CACHE_TTL = {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   PRODUCT_LIST: 60, // 1 minute
   PRODUCT_DETAIL: 120, // 2 minutes
   USER_SESSION: 900, // 15 minutes
   STOCK: 30, // 30 seconds
 =======
+=======
+>>>>>>> Stashed changes
     PRODUCT_LIST: 60, // 1 minute
     PRODUCT_DETAIL: 120, // 2 minutes
     USER_SESSION: 900, // 15 minutes
     STOCK: 30, // 30 seconds
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 } as const;
 
@@ -108,6 +126,7 @@ export const CACHE_TTL = {
  * Called after admin CRUD operations
  */
 export async function invalidateProductCaches(productId?: string): Promise<void> {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const client = getRedis();
   if (!client) return;
@@ -129,6 +148,8 @@ export async function invalidateProductCaches(productId?: string): Promise<void>
     console.error('Failed to invalidate product caches:', error);
   }
 =======
+=======
+>>>>>>> Stashed changes
     const client = getRedis();
     if (!client) return;
 
@@ -148,6 +169,9 @@ export async function invalidateProductCaches(productId?: string): Promise<void>
     } catch (error) {
         console.error('Failed to invalidate product caches:', error);
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 

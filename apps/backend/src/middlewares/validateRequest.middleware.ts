@@ -7,6 +7,7 @@ import { AnyZodObject, ZodError } from 'zod';
  */
 export const validateRequest = (schema: AnyZodObject) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = await schema.safeParseAsync({
@@ -46,6 +47,8 @@ export const validateRequest = (schema: AnyZodObject) => {
     }
   };
 =======
+=======
+>>>>>>> Stashed changes
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await schema.safeParseAsync({
@@ -84,6 +87,9 @@ export const validateRequest = (schema: AnyZodObject) => {
             next(error);
         }
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -91,6 +97,7 @@ export const validateRequest = (schema: AnyZodObject) => {
  * Validate only request body
  */
 export const validateBody = (schema: AnyZodObject) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -111,6 +118,8 @@ export const validateBody = (schema: AnyZodObject) => {
     }
   };
 =======
+=======
+>>>>>>> Stashed changes
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await schema.safeParseAsync(req.body);
@@ -129,6 +138,9 @@ export const validateBody = (schema: AnyZodObject) => {
             next(error);
         }
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -136,6 +148,7 @@ export const validateBody = (schema: AnyZodObject) => {
  * Validate only query parameters
  */
 export const validateQuery = (schema: AnyZodObject) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -156,6 +169,8 @@ export const validateQuery = (schema: AnyZodObject) => {
     }
   };
 =======
+=======
+>>>>>>> Stashed changes
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await schema.safeParseAsync(req.query);
@@ -174,6 +189,9 @@ export const validateQuery = (schema: AnyZodObject) => {
             next(error);
         }
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -181,6 +199,7 @@ export const validateQuery = (schema: AnyZodObject) => {
  * Validate only route parameters
  */
 export const validateParams = (schema: AnyZodObject) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -201,6 +220,8 @@ export const validateParams = (schema: AnyZodObject) => {
     }
   };
 =======
+=======
+>>>>>>> Stashed changes
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await schema.safeParseAsync(req.params);
@@ -219,5 +240,8 @@ export const validateParams = (schema: AnyZodObject) => {
             next(error);
         }
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };

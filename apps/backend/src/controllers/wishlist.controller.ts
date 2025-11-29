@@ -11,9 +11,15 @@ import type { AuthenticatedRequest } from '../middlewares/auth.middleware';
  */
 export const getWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const wishlist = await wishlistService.getWishlist(userId);
   return res.json(successResponse(wishlist));
+=======
+    const userId = req.user!.id;
+    const wishlist = await wishlistService.getWishlist(userId);
+    return res.json(successResponse(wishlist));
+>>>>>>> Stashed changes
 =======
     const userId = req.user!.id;
     const wishlist = await wishlistService.getWishlist(userId);
@@ -28,17 +34,23 @@ export const getWishlist = asyncHandler(async (req: AuthenticatedRequest, res: R
  */
 export const addToWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { productId } = req.params;
 
   const wishlist = await wishlistService.addToWishlist(userId, productId);
   return res.json(successResponse(wishlist, 'Added to wishlist'));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { productId } = req.params;
 
     const wishlist = await wishlistService.addToWishlist(userId, productId);
     return res.json(successResponse(wishlist, 'Added to wishlist'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -49,17 +61,23 @@ export const addToWishlist = asyncHandler(async (req: AuthenticatedRequest, res:
  */
 export const removeFromWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { productId } = req.params;
 
   const wishlist = await wishlistService.removeFromWishlist(userId, productId);
   return res.json(successResponse(wishlist, 'Removed from wishlist'));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { productId } = req.params;
 
     const wishlist = await wishlistService.removeFromWishlist(userId, productId);
     return res.json(successResponse(wishlist, 'Removed from wishlist'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -70,17 +88,23 @@ export const removeFromWishlist = asyncHandler(async (req: AuthenticatedRequest,
  */
 export const checkWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { productId } = req.params;
 
   const isInWishlist = await wishlistService.isInWishlist(userId, productId);
   return res.json(successResponse({ isInWishlist }));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { productId } = req.params;
 
     const isInWishlist = await wishlistService.isInWishlist(userId, productId);
     return res.json(successResponse({ isInWishlist }));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -91,17 +115,23 @@ export const checkWishlist = asyncHandler(async (req: AuthenticatedRequest, res:
  */
 export const moveToCart = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { productId } = req.params;
 
   await wishlistService.moveToCart(userId, productId);
   return res.json(successResponse(null, 'Moved to cart'));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { productId } = req.params;
 
     await wishlistService.moveToCart(userId, productId);
     return res.json(successResponse(null, 'Moved to cart'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -111,6 +141,7 @@ export const moveToCart = asyncHandler(async (req: AuthenticatedRequest, res: Re
  * @access  Private
  */
 export const clearWishlist = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const userId = req.user!.id;
   await wishlistService.clearWishlist(userId);
@@ -125,6 +156,8 @@ export const wishlistController = {
   moveToCart,
   clearWishlist,
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     await wishlistService.clearWishlist(userId);
     return res.json(successResponse(null, 'Wishlist cleared'));
@@ -137,6 +170,9 @@ export const wishlistController = {
     checkWishlist,
     moveToCart,
     clearWishlist,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

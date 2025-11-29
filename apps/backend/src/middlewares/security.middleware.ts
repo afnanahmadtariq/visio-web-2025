@@ -10,6 +10,7 @@ import { env } from '../config/env';
  */
 export const applySecurityMiddlewares = (app: Application): void => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // Helmet - Security headers
   app.use(
     helmet({
@@ -66,6 +67,8 @@ export const applySecurityMiddlewares = (app: Application): void => {
     })
   );
 =======
+=======
+>>>>>>> Stashed changes
     // Helmet - Security headers
     app.use(
         helmet({
@@ -121,6 +124,9 @@ export const applySecurityMiddlewares = (app: Application): void => {
             },
         })
     );
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -128,6 +134,7 @@ export const applySecurityMiddlewares = (app: Application): void => {
  * Login-specific rate limiter (stricter)
  */
 export const loginRateLimiter = rateLimit({
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   windowMs: env.loginRateLimitWindowMs,
   max: env.loginRateLimitMax,
@@ -143,6 +150,8 @@ export const loginRateLimiter = rateLimit({
     return `${req.ip}-${email}`;
   },
 =======
+=======
+>>>>>>> Stashed changes
     windowMs: env.loginRateLimitWindowMs,
     max: env.loginRateLimitMax,
     standardHeaders: true,
@@ -156,6 +165,9 @@ export const loginRateLimiter = rateLimit({
         const email = req.body?.email || '';
         return `${req.ip}-${email}`;
     },
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -163,6 +175,7 @@ export const loginRateLimiter = rateLimit({
  * API rate limiter for authenticated users (more lenient)
  */
 export const apiRateLimiter = rateLimit({
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   windowMs: 60 * 1000, // 1 minute
   max: 100, // 100 requests per minute
@@ -173,6 +186,8 @@ export const apiRateLimiter = rateLimit({
     message: 'API rate limit exceeded, please slow down.',
   },
 =======
+=======
+>>>>>>> Stashed changes
     windowMs: 60 * 1000, // 1 minute
     max: 100, // 100 requests per minute
     standardHeaders: true,
@@ -181,6 +196,9 @@ export const apiRateLimiter = rateLimit({
         success: false,
         message: 'API rate limit exceeded, please slow down.',
     },
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -188,6 +206,7 @@ export const apiRateLimiter = rateLimit({
  * Admin API rate limiter
  */
 export const adminRateLimiter = rateLimit({
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   windowMs: 60 * 1000, // 1 minute
   max: 50, // 50 requests per minute for admin operations
@@ -198,6 +217,8 @@ export const adminRateLimiter = rateLimit({
     message: 'Admin rate limit exceeded.',
   },
 =======
+=======
+>>>>>>> Stashed changes
     windowMs: 60 * 1000, // 1 minute
     max: 50, // 50 requests per minute for admin operations
     standardHeaders: true,
@@ -206,5 +227,8 @@ export const adminRateLimiter = rateLimit({
         success: false,
         message: 'Admin rate limit exceeded.',
     },
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });

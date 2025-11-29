@@ -7,6 +7,7 @@ import type { ProductInput, ProductUpdateInput, ProductQueryInput } from '../val
 
 export interface ProductWithDetails {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   id: string;
   name: string;
   slug: string;
@@ -34,6 +35,8 @@ export interface ProductWithDetails {
   averageRating?: number;
   reviewCount?: number;
 =======
+=======
+>>>>>>> Stashed changes
     id: string;
     name: string;
     slug: string;
@@ -60,6 +63,9 @@ export interface ProductWithDetails {
     }>;
     averageRating?: number;
     reviewCount?: number;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -67,6 +73,7 @@ export interface ProductWithDetails {
  * Get all products with filtering and pagination
  */
 export const getProducts = async (query: ProductQueryInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { page, limit, category, search, minPrice, maxPrice, onSale, sortBy, sortOrder } = query;
 
@@ -170,6 +177,8 @@ export const getProducts = async (query: ProductQueryInput) => {
     pagination: createPaginationMeta(total, page, limit),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const { page, limit, category, search, minPrice, maxPrice, onSale, sortBy, sortOrder } = query;
 
     // Build where clause
@@ -271,6 +280,9 @@ export const getProducts = async (query: ProductQueryInput) => {
         data: transformedProducts,
         pagination: createPaginationMeta(total, page, limit),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -278,6 +290,7 @@ export const getProducts = async (query: ProductQueryInput) => {
  * Get product by ID or slug
  */
 export const getProductById = async (idOrSlug: string): Promise<ProductWithDetails> => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const redis = getRedis();
 
@@ -345,6 +358,8 @@ export const getProductById = async (idOrSlug: string): Promise<ProductWithDetai
 
   return result;
 =======
+=======
+>>>>>>> Stashed changes
     const redis = getRedis();
 
     // Try cache first
@@ -410,6 +425,9 @@ export const getProductById = async (idOrSlug: string): Promise<ProductWithDetai
     }
 
     return result;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -417,6 +435,7 @@ export const getProductById = async (idOrSlug: string): Promise<ProductWithDetai
  * Get products on sale
  */
 export const getSaleProducts = async (page = 1, limit = 20) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   return getProducts({
     page,
@@ -426,6 +445,8 @@ export const getSaleProducts = async (page = 1, limit = 20) => {
     sortOrder: 'desc',
   });
 =======
+=======
+>>>>>>> Stashed changes
     return getProducts({
         page,
         limit,
@@ -433,6 +454,9 @@ export const getSaleProducts = async (page = 1, limit = 20) => {
         sortBy: 'createdAt',
         sortOrder: 'desc',
     });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -440,6 +464,7 @@ export const getSaleProducts = async (page = 1, limit = 20) => {
  * Get products by category
  */
 export const getProductsByCategory = async (categorySlug: string, page = 1, limit = 20) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   return getProducts({
     page,
@@ -449,6 +474,8 @@ export const getProductsByCategory = async (categorySlug: string, page = 1, limi
     sortOrder: 'desc',
   });
 =======
+=======
+>>>>>>> Stashed changes
     return getProducts({
         page,
         limit,
@@ -456,6 +483,9 @@ export const getProductsByCategory = async (categorySlug: string, page = 1, limi
         sortBy: 'createdAt',
         sortOrder: 'desc',
     });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -463,6 +493,7 @@ export const getProductsByCategory = async (categorySlug: string, page = 1, limi
  * Create a new product (Admin)
  */
 export const createProduct = async (input: ProductInput, adminId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { categories, ...productData } = input;
 
@@ -519,6 +550,8 @@ export const createProduct = async (input: ProductInput, adminId: string) => {
     categories: product.categories.map((c) => c.category),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const { categories, ...productData } = input;
 
     // Check if slug exists
@@ -573,6 +606,9 @@ export const createProduct = async (input: ProductInput, adminId: string) => {
         price: Number(product.price),
         categories: product.categories.map((c) => c.category),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -580,6 +616,7 @@ export const createProduct = async (input: ProductInput, adminId: string) => {
  * Update a product (Admin)
  */
 export const updateProduct = async (id: string, input: ProductUpdateInput, adminId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { categories, ...productData } = input;
 
@@ -652,6 +689,8 @@ export const updateProduct = async (id: string, input: ProductUpdateInput, admin
     categories: product.categories.map((c) => c.category),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const { categories, ...productData } = input;
 
     // Check product exists
@@ -722,6 +761,9 @@ export const updateProduct = async (id: string, input: ProductUpdateInput, admin
         price: Number(product.price),
         categories: product.categories.map((c) => c.category),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -729,6 +771,7 @@ export const updateProduct = async (id: string, input: ProductUpdateInput, admin
  * Delete a product (Admin - soft delete)
  */
 export const deleteProduct = async (id: string, adminId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const product = await prisma.product.findUnique({
     where: { id },
@@ -759,6 +802,8 @@ export const productService = {
   updateProduct,
   deleteProduct,
 =======
+=======
+>>>>>>> Stashed changes
     const product = await prisma.product.findUnique({
         where: { id },
         select: { id: true },
@@ -787,6 +832,9 @@ export const productService = {
     createProduct,
     updateProduct,
     deleteProduct,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

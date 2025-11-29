@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IPaymentLog extends Document {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   orderId: string;
   userId: string;
   status: 'PENDING' | 'SUCCESS' | 'FAILED' | 'REFUNDED';
@@ -50,6 +51,8 @@ const paymentLogSchema = new Schema<IPaymentLog>(
     collection: 'payment_logs',
   }
 =======
+=======
+>>>>>>> Stashed changes
     orderId: string;
     userId: string;
     status: 'PENDING' | 'SUCCESS' | 'FAILED' | 'REFUNDED';
@@ -97,6 +100,9 @@ const paymentLogSchema = new Schema<IPaymentLog>(
         timestamps: { createdAt: 'timestamp', updatedAt: false },
         collection: 'payment_logs',
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 );
 

@@ -12,6 +12,7 @@ import type { RegisterInput, LoginInput, ChangePasswordInput } from '../validati
  */
 export const register = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const input: RegisterInput = req.body;
   const ip = req.ip || req.socket.remoteAddress;
   const userAgent = req.get('user-agent');
@@ -33,6 +34,8 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
     }, 'Registration successful')
   );
 =======
+=======
+>>>>>>> Stashed changes
     const input: RegisterInput = req.body;
     const ip = req.ip || req.socket.remoteAddress;
     const userAgent = req.get('user-agent');
@@ -53,6 +56,9 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
             accessToken: result.accessToken,
         }, 'Registration successful')
     );
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -62,6 +68,7 @@ export const register = asyncHandler(async (req: Request, res: Response) => {
  * @access  Public
  */
 export const login = asyncHandler(async (req: Request, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const input: LoginInput = req.body;
   const ip = req.ip || req.socket.remoteAddress;
@@ -84,6 +91,8 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
     }, 'Login successful')
   );
 =======
+=======
+>>>>>>> Stashed changes
     const input: LoginInput = req.body;
     const ip = req.ip || req.socket.remoteAddress;
     const userAgent = req.get('user-agent');
@@ -104,6 +113,9 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
             accessToken: result.accessToken,
         }, 'Login successful')
     );
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -113,6 +125,7 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
  * @access  Public
  */
 export const refreshToken = asyncHandler(async (req: Request, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const token = req.cookies?.refreshToken || req.body.refreshToken;
 
@@ -134,6 +147,8 @@ export const refreshToken = asyncHandler(async (req: Request, res: Response) => 
     successResponse({ accessToken: result.accessToken }, 'Token refreshed')
   );
 =======
+=======
+>>>>>>> Stashed changes
     const token = req.cookies?.refreshToken || req.body.refreshToken;
 
     if (!token) {
@@ -153,6 +168,9 @@ export const refreshToken = asyncHandler(async (req: Request, res: Response) => 
     return res.json(
         successResponse({ accessToken: result.accessToken }, 'Token refreshed')
     );
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -163,8 +181,13 @@ export const refreshToken = asyncHandler(async (req: Request, res: Response) => 
  */
 export const logout = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   res.clearCookie('refreshToken');
   return res.json(successResponse(null, 'Logged out successfully'));
+=======
+    res.clearCookie('refreshToken');
+    return res.json(successResponse(null, 'Logged out successfully'));
+>>>>>>> Stashed changes
 =======
     res.clearCookie('refreshToken');
     return res.json(successResponse(null, 'Logged out successfully'));
@@ -178,9 +201,15 @@ export const logout = asyncHandler(async (req: Request, res: Response) => {
  */
 export const getProfile = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const profile = await authService.getProfile(userId);
   return res.json(successResponse(profile));
+=======
+    const userId = req.user!.id;
+    const profile = await authService.getProfile(userId);
+    return res.json(successResponse(profile));
+>>>>>>> Stashed changes
 =======
     const userId = req.user!.id;
     const profile = await authService.getProfile(userId);
@@ -194,6 +223,7 @@ export const getProfile = asyncHandler(async (req: AuthenticatedRequest, res: Re
  * @access  Private
  */
 export const changePassword = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const userId = req.user!.id;
   const { currentPassword, newPassword }: ChangePasswordInput = req.body;
@@ -211,6 +241,8 @@ export const authController = {
   getProfile,
   changePassword,
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { currentPassword, newPassword }: ChangePasswordInput = req.body;
 
@@ -226,6 +258,9 @@ export const authController = {
     logout,
     getProfile,
     changePassword,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

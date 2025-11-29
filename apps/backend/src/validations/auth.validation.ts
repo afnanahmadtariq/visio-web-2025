@@ -5,6 +5,7 @@ import { z } from 'zod';
  */
 export const RegisterSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   email: z
     .string()
     .email('Invalid email format')
@@ -24,6 +25,8 @@ export const RegisterSchema = z.object({
       'Password must contain at least one lowercase, one uppercase, and one number'
     ),
 =======
+=======
+>>>>>>> Stashed changes
     email: z
         .string()
         .email('Invalid email format')
@@ -42,6 +45,9 @@ export const RegisterSchema = z.object({
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
             'Password must contain at least one lowercase, one uppercase, and one number'
         ),
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -50,8 +56,13 @@ export const RegisterSchema = z.object({
  */
 export const LoginSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   email: z.string().email('Invalid email format'),
   password: z.string().min(1, 'Password is required'),
+=======
+    email: z.string().email('Invalid email format'),
+    password: z.string().min(1, 'Password is required'),
+>>>>>>> Stashed changes
 =======
     email: z.string().email('Invalid email format'),
     password: z.string().min(1, 'Password is required'),
@@ -63,7 +74,11 @@ export const LoginSchema = z.object({
  */
 export const RefreshTokenSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   refreshToken: z.string().min(1, 'Refresh token is required'),
+=======
+    refreshToken: z.string().min(1, 'Refresh token is required'),
+>>>>>>> Stashed changes
 =======
     refreshToken: z.string().min(1, 'Refresh token is required'),
 >>>>>>> Stashed changes
@@ -73,6 +88,7 @@ export const RefreshTokenSchema = z.object({
  * Change Password Schema
  */
 export const ChangePasswordSchema = z.object({
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   currentPassword: z.string().min(1, 'Current password is required'),
   newPassword: z
@@ -84,6 +100,8 @@ export const ChangePasswordSchema = z.object({
       'Password must contain at least one lowercase, one uppercase, and one number'
     ),
 =======
+=======
+>>>>>>> Stashed changes
     currentPassword: z.string().min(1, 'Current password is required'),
     newPassword: z
         .string()
@@ -93,6 +111,9 @@ export const ChangePasswordSchema = z.object({
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
             'Password must contain at least one lowercase, one uppercase, and one number'
         ),
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -101,6 +122,7 @@ export const ChangePasswordSchema = z.object({
  */
 export const UpdateProfileSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   username: z
     .string()
     .min(3, 'Username must be at least 3 characters')
@@ -108,12 +130,17 @@ export const UpdateProfileSchema = z.object({
     .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores')
     .optional(),
 =======
+=======
+>>>>>>> Stashed changes
     username: z
         .string()
         .min(3, 'Username must be at least 3 characters')
         .max(20, 'Username must not exceed 20 characters')
         .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores')
         .optional(),
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 

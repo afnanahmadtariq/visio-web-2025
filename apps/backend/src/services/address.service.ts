@@ -7,6 +7,7 @@ import type { AddressInput, AddressUpdateInput } from '../validations/address.va
  */
 export const getAddresses = async (userId: string) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const addresses = await prisma.userAddress.findMany({
     where: { userId, deletedAt: null },
     orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }],
@@ -14,12 +15,17 @@ export const getAddresses = async (userId: string) => {
 
   return addresses;
 =======
+=======
+>>>>>>> Stashed changes
     const addresses = await prisma.userAddress.findMany({
         where: { userId, deletedAt: null },
         orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }],
     });
 
     return addresses;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -27,6 +33,7 @@ export const getAddresses = async (userId: string) => {
  * Get address by ID
  */
 export const getAddressById = async (userId: string, addressId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const address = await prisma.userAddress.findFirst({
     where: { id: addressId, userId, deletedAt: null },
@@ -38,6 +45,8 @@ export const getAddressById = async (userId: string, addressId: string) => {
 
   return address;
 =======
+=======
+>>>>>>> Stashed changes
     const address = await prisma.userAddress.findFirst({
         where: { id: addressId, userId, deletedAt: null },
     });
@@ -47,6 +56,9 @@ export const getAddressById = async (userId: string, addressId: string) => {
     }
 
     return address;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -54,6 +66,7 @@ export const getAddressById = async (userId: string, addressId: string) => {
  * Create a new address
  */
 export const createAddress = async (userId: string, input: AddressInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   // If this is set as default, unset other defaults
   if (input.isDefault) {
@@ -78,6 +91,8 @@ export const createAddress = async (userId: string, input: AddressInput) => {
 
   return address;
 =======
+=======
+>>>>>>> Stashed changes
     // If this is set as default, unset other defaults
     if (input.isDefault) {
         await prisma.userAddress.updateMany({
@@ -100,6 +115,9 @@ export const createAddress = async (userId: string, input: AddressInput) => {
     });
 
     return address;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -107,6 +125,7 @@ export const createAddress = async (userId: string, input: AddressInput) => {
  * Update an address
  */
 export const updateAddress = async (userId: string, addressId: string, input: AddressUpdateInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const existing = await prisma.userAddress.findFirst({
     where: { id: addressId, userId, deletedAt: null },
@@ -131,6 +150,8 @@ export const updateAddress = async (userId: string, addressId: string, input: Ad
 
   return address;
 =======
+=======
+>>>>>>> Stashed changes
     const existing = await prisma.userAddress.findFirst({
         where: { id: addressId, userId, deletedAt: null },
     });
@@ -153,6 +174,9 @@ export const updateAddress = async (userId: string, addressId: string, input: Ad
     });
 
     return address;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -160,6 +184,7 @@ export const updateAddress = async (userId: string, addressId: string, input: Ad
  * Delete an address (soft delete)
  */
 export const deleteAddress = async (userId: string, addressId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const address = await prisma.userAddress.findFirst({
     where: { id: addressId, userId, deletedAt: null },
@@ -203,6 +228,8 @@ export const deleteAddress = async (userId: string, addressId: string) => {
 
   return { success: true };
 =======
+=======
+>>>>>>> Stashed changes
     const address = await prisma.userAddress.findFirst({
         where: { id: addressId, userId, deletedAt: null },
     });
@@ -244,6 +271,9 @@ export const deleteAddress = async (userId: string, addressId: string) => {
     }
 
     return { success: true };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -251,6 +281,7 @@ export const deleteAddress = async (userId: string, addressId: string) => {
  * Set address as default
  */
 export const setDefaultAddress = async (userId: string, addressId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const address = await prisma.userAddress.findFirst({
     where: { id: addressId, userId, deletedAt: null },
@@ -282,6 +313,8 @@ export const addressService = {
   deleteAddress,
   setDefaultAddress,
 =======
+=======
+>>>>>>> Stashed changes
     const address = await prisma.userAddress.findFirst({
         where: { id: addressId, userId, deletedAt: null },
     });
@@ -311,6 +344,9 @@ export const addressService = {
     updateAddress,
     deleteAddress,
     setDefaultAddress,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

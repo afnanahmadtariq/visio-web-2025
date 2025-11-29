@@ -14,17 +14,23 @@ const router = Router();
 // Health check
 router.get('/health', (req, res) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   res.json({
     success: true,
     message: 'API is running',
     timestamp: new Date().toISOString(),
   });
 =======
+=======
+>>>>>>> Stashed changes
     res.json({
         success: true,
         message: 'API is running',
         timestamp: new Date().toISOString(),
     });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 

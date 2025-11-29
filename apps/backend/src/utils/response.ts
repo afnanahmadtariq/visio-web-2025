@@ -3,6 +3,7 @@
  */
 export interface ApiResponse<T = unknown> {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   success: boolean;
   message?: string;
   data?: T;
@@ -20,6 +21,8 @@ export interface ApiResponse<T = unknown> {
   errors?: Record<string, unknown>;
   code?: string;
 =======
+=======
+>>>>>>> Stashed changes
     success: boolean;
     message?: string;
     data?: T;
@@ -36,6 +39,9 @@ export interface ApiResponse<T = unknown> {
     };
     errors?: Record<string, unknown>;
     code?: string;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -43,6 +49,7 @@ export interface ApiResponse<T = unknown> {
  * Create a success response
  */
 export const successResponse = <T>(
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   data: T,
   message?: string,
@@ -55,6 +62,8 @@ export const successResponse = <T>(
     meta,
   };
 =======
+=======
+>>>>>>> Stashed changes
     data: T,
     message?: string,
     meta?: ApiResponse['meta']
@@ -65,6 +74,9 @@ export const successResponse = <T>(
         data,
         meta,
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -72,6 +84,7 @@ export const successResponse = <T>(
  * Create a paginated response
  */
 export const paginatedResponse = <T>(
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   data: T[],
   pagination: {
@@ -93,6 +106,8 @@ export const paginatedResponse = <T>(
     },
   };
 =======
+=======
+>>>>>>> Stashed changes
     data: T[],
     pagination: {
         total: number;
@@ -112,6 +127,9 @@ export const paginatedResponse = <T>(
             pagination,
         },
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -119,6 +137,7 @@ export const paginatedResponse = <T>(
  * Create an error response
  */
 export const errorResponse = (
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   message: string,
   code?: string,
@@ -131,6 +150,8 @@ export const errorResponse = (
     errors,
   };
 =======
+=======
+>>>>>>> Stashed changes
     message: string,
     code?: string,
     errors?: Record<string, unknown>
@@ -141,5 +162,8 @@ export const errorResponse = (
         code,
         errors,
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };

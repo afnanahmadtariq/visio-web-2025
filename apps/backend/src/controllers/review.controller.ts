@@ -12,6 +12,7 @@ import type { ReviewInput, ReviewUpdateInput, ReviewQueryInput } from '../valida
  */
 export const getProductReviews = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { productId } = req.params;
   const query: ReviewQueryInput = {
     page: Number(req.query.page) || 1,
@@ -27,6 +28,8 @@ export const getProductReviews = asyncHandler(async (req: Request, res: Response
     stats: result.stats,
   });
 =======
+=======
+>>>>>>> Stashed changes
     const { productId } = req.params;
     const query: ReviewQueryInput = {
         page: Number(req.query.page) || 1,
@@ -41,6 +44,9 @@ export const getProductReviews = asyncHandler(async (req: Request, res: Response
         ...paginatedResponse(result.data, result.pagination),
         stats: result.stats,
     });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -50,6 +56,7 @@ export const getProductReviews = asyncHandler(async (req: Request, res: Response
  * @access  Private
  */
 export const getMyReviews = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const userId = req.user!.id;
   const query: ReviewQueryInput = {
@@ -62,6 +69,8 @@ export const getMyReviews = asyncHandler(async (req: AuthenticatedRequest, res: 
   const result = await reviewService.getUserReviews(userId, query);
   return res.json(paginatedResponse(result.data, result.pagination));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const query: ReviewQueryInput = {
         page: Number(req.query.page) || 1,
@@ -72,6 +81,9 @@ export const getMyReviews = asyncHandler(async (req: AuthenticatedRequest, res: 
 
     const result = await reviewService.getUserReviews(userId, query);
     return res.json(paginatedResponse(result.data, result.pagination));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -82,17 +94,23 @@ export const getMyReviews = asyncHandler(async (req: AuthenticatedRequest, res: 
  */
 export const createReview = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const input: ReviewInput = req.body;
 
   const review = await reviewService.createOrUpdateReview(userId, input);
   return res.status(201).json(successResponse(review, 'Review submitted successfully'));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const input: ReviewInput = req.body;
 
     const review = await reviewService.createOrUpdateReview(userId, input);
     return res.status(201).json(successResponse(review, 'Review submitted successfully'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -103,6 +121,7 @@ export const createReview = asyncHandler(async (req: AuthenticatedRequest, res: 
  */
 export const updateReview = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const userId = req.user!.id;
   const { id } = req.params;
   const input: ReviewUpdateInput = req.body;
@@ -110,12 +129,17 @@ export const updateReview = asyncHandler(async (req: AuthenticatedRequest, res: 
   const review = await reviewService.updateReview(userId, id, input);
   return res.json(successResponse(review, 'Review updated successfully'));
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { id } = req.params;
     const input: ReviewUpdateInput = req.body;
 
     const review = await reviewService.updateReview(userId, id, input);
     return res.json(successResponse(review, 'Review updated successfully'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -125,6 +149,7 @@ export const updateReview = asyncHandler(async (req: AuthenticatedRequest, res: 
  * @access  Private/Admin
  */
 export const deleteReview = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const userId = req.user!.id;
   const { id } = req.params;
@@ -141,6 +166,8 @@ export const reviewController = {
   updateReview,
   deleteReview,
 =======
+=======
+>>>>>>> Stashed changes
     const userId = req.user!.id;
     const { id } = req.params;
     const isAdmin = req.user!.role === 'ADMIN';
@@ -155,6 +182,9 @@ export const reviewController = {
     createReview,
     updateReview,
     deleteReview,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

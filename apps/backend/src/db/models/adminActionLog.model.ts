@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export type AdminAction =
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   | 'PRODUCT_CREATE'
   | 'PRODUCT_UPDATE'
   | 'PRODUCT_DELETE'
@@ -63,6 +64,8 @@ const adminActionLogSchema = new Schema<IAdminActionLog>(
     collection: 'admin_action_logs',
   }
 =======
+=======
+>>>>>>> Stashed changes
     | 'PRODUCT_CREATE'
     | 'PRODUCT_UPDATE'
     | 'PRODUCT_DELETE'
@@ -123,6 +126,9 @@ const adminActionLogSchema = new Schema<IAdminActionLog>(
         timestamps: { createdAt: 'timestamp', updatedAt: false },
         collection: 'admin_action_logs',
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 );
 

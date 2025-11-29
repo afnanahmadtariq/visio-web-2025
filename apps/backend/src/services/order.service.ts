@@ -11,6 +11,7 @@ import type { CheckoutInput, OrderQueryInput, OrderStatusUpdateInput } from '../
  */
 export const checkout = async (userId: string, input: CheckoutInput) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { shippingAddressId, billingAddressId, paymentMethod, useSameAddressForBilling } = input;
 
   // Get user's cart
@@ -172,6 +173,8 @@ export const checkout = async (userId: string, input: CheckoutInput) => {
     })),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const { shippingAddressId, billingAddressId, paymentMethod, useSameAddressForBilling } = input;
 
     // Get user's cart
@@ -332,6 +335,9 @@ export const checkout = async (userId: string, input: CheckoutInput) => {
             unitPrice: Number(item.unitPrice),
         })),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -339,6 +345,7 @@ export const checkout = async (userId: string, input: CheckoutInput) => {
  * Get user's orders
  */
 export const getOrders = async (userId: string, query: OrderQueryInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { page, limit, status } = query;
 
@@ -380,6 +387,8 @@ export const getOrders = async (userId: string, query: OrderQueryInput) => {
     pagination: createPaginationMeta(total, page, limit),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const { page, limit, status } = query;
 
     const where = {
@@ -419,6 +428,9 @@ export const getOrders = async (userId: string, query: OrderQueryInput) => {
         })),
         pagination: createPaginationMeta(total, page, limit),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -426,6 +438,7 @@ export const getOrders = async (userId: string, query: OrderQueryInput) => {
  * Get order by ID
  */
 export const getOrderById = async (userId: string, orderId: string, isAdmin = false) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const where = isAdmin ? { id: orderId } : { id: orderId, userId };
 
@@ -461,6 +474,8 @@ export const getOrderById = async (userId: string, orderId: string, isAdmin = fa
       : null,
   };
 =======
+=======
+>>>>>>> Stashed changes
     const where = isAdmin ? { id: orderId } : { id: orderId, userId };
 
     const order = await prisma.order.findFirst({
@@ -494,6 +509,9 @@ export const getOrderById = async (userId: string, orderId: string, isAdmin = fa
             ? { ...order.payment, amount: Number(order.payment.amount) }
             : null,
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -501,6 +519,7 @@ export const getOrderById = async (userId: string, orderId: string, isAdmin = fa
  * Update order status (Admin)
  */
 export const updateOrderStatus = async (orderId: string, input: OrderStatusUpdateInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const order = await prisma.order.findUnique({
     where: { id: orderId },
@@ -521,6 +540,8 @@ export const updateOrderStatus = async (orderId: string, input: OrderStatusUpdat
     totalAmount: Number(updated.totalAmount),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const order = await prisma.order.findUnique({
         where: { id: orderId },
         select: { id: true, status: true },
@@ -539,6 +560,9 @@ export const updateOrderStatus = async (orderId: string, input: OrderStatusUpdat
         ...updated,
         totalAmount: Number(updated.totalAmount),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -546,6 +570,7 @@ export const updateOrderStatus = async (orderId: string, input: OrderStatusUpdat
  * Cancel order
  */
 export const cancelOrder = async (userId: string, orderId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const order = await prisma.order.findFirst({
     where: { id: orderId, userId },
@@ -623,6 +648,8 @@ export const orderService = {
   updateOrderStatus,
   cancelOrder,
 =======
+=======
+>>>>>>> Stashed changes
     const order = await prisma.order.findFirst({
         where: { id: orderId, userId },
         include: {
@@ -698,6 +725,9 @@ export const orderService = {
     getOrderById,
     updateOrderStatus,
     cancelOrder,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

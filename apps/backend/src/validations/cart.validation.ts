@@ -5,8 +5,13 @@ import { z } from 'zod';
  */
 export const AddToCartSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   productId: z.string().cuid('Invalid product ID'),
   quantity: z.number().int().min(1, 'Quantity must be at least 1').max(99, 'Quantity too high'),
+=======
+    productId: z.string().cuid('Invalid product ID'),
+    quantity: z.number().int().min(1, 'Quantity must be at least 1').max(99, 'Quantity too high'),
+>>>>>>> Stashed changes
 =======
     productId: z.string().cuid('Invalid product ID'),
     quantity: z.number().int().min(1, 'Quantity must be at least 1').max(99, 'Quantity too high'),
@@ -18,7 +23,11 @@ export const AddToCartSchema = z.object({
  */
 export const UpdateCartItemSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   quantity: z.number().int().min(1, 'Quantity must be at least 1').max(99, 'Quantity too high'),
+=======
+    quantity: z.number().int().min(1, 'Quantity must be at least 1').max(99, 'Quantity too high'),
+>>>>>>> Stashed changes
 =======
     quantity: z.number().int().min(1, 'Quantity must be at least 1').max(99, 'Quantity too high'),
 >>>>>>> Stashed changes
@@ -29,7 +38,11 @@ export const UpdateCartItemSchema = z.object({
  */
 export const CartItemIdSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   itemId: z.string().cuid('Invalid cart item ID'),
+=======
+    itemId: z.string().cuid('Invalid cart item ID'),
+>>>>>>> Stashed changes
 =======
     itemId: z.string().cuid('Invalid cart item ID'),
 >>>>>>> Stashed changes

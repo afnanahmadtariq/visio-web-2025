@@ -5,7 +5,11 @@ import { z } from 'zod';
  */
 export const WishlistAddSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   productId: z.string().cuid('Invalid product ID'),
+=======
+    productId: z.string().cuid('Invalid product ID'),
+>>>>>>> Stashed changes
 =======
     productId: z.string().cuid('Invalid product ID'),
 >>>>>>> Stashed changes
@@ -16,7 +20,11 @@ export const WishlistAddSchema = z.object({
  */
 export const WishlistProductIdSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   productId: z.string().cuid('Invalid product ID'),
+=======
+    productId: z.string().cuid('Invalid product ID'),
+>>>>>>> Stashed changes
 =======
     productId: z.string().cuid('Invalid product ID'),
 >>>>>>> Stashed changes

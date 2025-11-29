@@ -3,9 +3,15 @@ import { AuthLog } from '../db/models';
 import { isMongoConnected } from '../db/mongo';
 import {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   signAccessToken,
   signRefreshToken,
   verifyRefreshToken,
+=======
+    signAccessToken,
+    signRefreshToken,
+    verifyRefreshToken,
+>>>>>>> Stashed changes
 =======
     signAccessToken,
     signRefreshToken,
@@ -19,6 +25,7 @@ import type { RegisterInput, LoginInput } from '../validations/auth.validation';
 
 export interface AuthResult {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   user: {
     id: string;
     email: string;
@@ -29,6 +36,8 @@ export interface AuthResult {
   accessToken: string;
   refreshToken: string;
 =======
+=======
+>>>>>>> Stashed changes
     user: {
         id: string;
         email: string;
@@ -38,6 +47,9 @@ export interface AuthResult {
     };
     accessToken: string;
     refreshToken: string;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -45,6 +57,7 @@ export interface AuthResult {
  * Register a new user
  */
 export const register = async (
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   input: RegisterInput,
   ip?: string,
@@ -130,6 +143,8 @@ export const register = async (
     refreshToken,
   };
 =======
+=======
+>>>>>>> Stashed changes
     input: RegisterInput,
     ip?: string,
     userAgent?: string
@@ -213,6 +228,9 @@ export const register = async (
         accessToken,
         refreshToken,
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -220,6 +238,7 @@ export const register = async (
  * Login user
  */
 export const login = async (
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   input: LoginInput,
   ip?: string,
@@ -349,6 +368,8 @@ export const login = async (
     refreshToken,
   };
 =======
+=======
+>>>>>>> Stashed changes
     input: LoginInput,
     ip?: string,
     userAgent?: string
@@ -476,6 +497,9 @@ export const login = async (
         accessToken,
         refreshToken,
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -483,6 +507,7 @@ export const login = async (
  * Refresh tokens
  */
 export const refreshTokens = async (token: string): Promise<{ accessToken: string; refreshToken: string }> => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   try {
     const payload = verifyRefreshToken(token);
@@ -506,6 +531,8 @@ export const refreshTokens = async (token: string): Promise<{ accessToken: strin
     throw new UnauthorizedError('Invalid or expired refresh token');
   }
 =======
+=======
+>>>>>>> Stashed changes
     try {
         const payload = verifyRefreshToken(token);
 
@@ -527,6 +554,9 @@ export const refreshTokens = async (token: string): Promise<{ accessToken: strin
     } catch {
         throw new UnauthorizedError('Invalid or expired refresh token');
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -534,6 +564,7 @@ export const refreshTokens = async (token: string): Promise<{ accessToken: strin
  * Get user profile
  */
 export const getProfile = async (userId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -561,6 +592,8 @@ export const getProfile = async (userId: string) => {
     creditBalance: Number(user.creditBalance),
   };
 =======
+=======
+>>>>>>> Stashed changes
     const user = await prisma.user.findUnique({
         where: { id: userId },
         select: {
@@ -586,6 +619,9 @@ export const getProfile = async (userId: string) => {
         ...user,
         creditBalance: Number(user.creditBalance),
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -593,6 +629,7 @@ export const getProfile = async (userId: string) => {
  * Change password
  */
 export const changePassword = async (
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   userId: string,
   currentPassword: string,
@@ -626,6 +663,8 @@ export const authService = {
   getProfile,
   changePassword,
 =======
+=======
+>>>>>>> Stashed changes
     userId: string,
     currentPassword: string,
     newPassword: string
@@ -657,6 +696,9 @@ export const authService = {
     refreshTokens,
     getProfile,
     changePassword,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

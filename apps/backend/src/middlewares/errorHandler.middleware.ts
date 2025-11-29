@@ -7,6 +7,7 @@ import { isMongoConnected } from '../db/mongo';
  */
 export class ApiError extends Error {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   constructor(
     public statusCode: number,
     message: string,
@@ -18,6 +19,8 @@ export class ApiError extends Error {
     Error.captureStackTrace(this, this.constructor);
   }
 =======
+=======
+>>>>>>> Stashed changes
     constructor(
         public statusCode: number,
         message: string,
@@ -28,6 +31,9 @@ export class ApiError extends Error {
         this.name = 'ApiError';
         Error.captureStackTrace(this, this.constructor);
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -36,9 +42,15 @@ export class ApiError extends Error {
  */
 export class NotFoundError extends ApiError {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   constructor(resource: string = 'Resource') {
     super(404, `${resource} not found`, 'NOT_FOUND');
   }
+=======
+    constructor(resource: string = 'Resource') {
+        super(404, `${resource} not found`, 'NOT_FOUND');
+    }
+>>>>>>> Stashed changes
 =======
     constructor(resource: string = 'Resource') {
         super(404, `${resource} not found`, 'NOT_FOUND');
@@ -51,9 +63,15 @@ export class NotFoundError extends ApiError {
  */
 export class UnauthorizedError extends ApiError {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   constructor(message: string = 'Unauthorized') {
     super(401, message, 'UNAUTHORIZED');
   }
+=======
+    constructor(message: string = 'Unauthorized') {
+        super(401, message, 'UNAUTHORIZED');
+    }
+>>>>>>> Stashed changes
 =======
     constructor(message: string = 'Unauthorized') {
         super(401, message, 'UNAUTHORIZED');
@@ -66,9 +84,15 @@ export class UnauthorizedError extends ApiError {
  */
 export class ForbiddenError extends ApiError {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   constructor(message: string = 'Access forbidden') {
     super(403, message, 'FORBIDDEN');
   }
+=======
+    constructor(message: string = 'Access forbidden') {
+        super(403, message, 'FORBIDDEN');
+    }
+>>>>>>> Stashed changes
 =======
     constructor(message: string = 'Access forbidden') {
         super(403, message, 'FORBIDDEN');
@@ -81,9 +105,15 @@ export class ForbiddenError extends ApiError {
  */
 export class BadRequestError extends ApiError {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   constructor(message: string, details?: Record<string, unknown>) {
     super(400, message, 'BAD_REQUEST', details);
   }
+=======
+    constructor(message: string, details?: Record<string, unknown>) {
+        super(400, message, 'BAD_REQUEST', details);
+    }
+>>>>>>> Stashed changes
 =======
     constructor(message: string, details?: Record<string, unknown>) {
         super(400, message, 'BAD_REQUEST', details);
@@ -96,9 +126,15 @@ export class BadRequestError extends ApiError {
  */
 export class ConflictError extends ApiError {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   constructor(message: string = 'Resource already exists') {
     super(409, message, 'CONFLICT');
   }
+=======
+    constructor(message: string = 'Resource already exists') {
+        super(409, message, 'CONFLICT');
+    }
+>>>>>>> Stashed changes
 =======
     constructor(message: string = 'Resource already exists') {
         super(409, message, 'CONFLICT');
@@ -110,6 +146,7 @@ export class ConflictError extends ApiError {
  * Global error handler middleware
  */
 export const errorHandler = async (
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   err: Error,
   req: Request,
@@ -185,6 +222,8 @@ export const errorHandler = async (
     code: 'INTERNAL_ERROR',
   });
 =======
+=======
+>>>>>>> Stashed changes
     err: Error,
     req: Request,
     res: Response,
@@ -258,6 +297,9 @@ export const errorHandler = async (
         message: 'Internal server error',
         code: 'INTERNAL_ERROR',
     });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -266,17 +308,23 @@ export const errorHandler = async (
  */
 export const notFoundHandler = (req: Request, res: Response): void => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   res.status(404).json({
     success: false,
     message: `Cannot ${req.method} ${req.path}`,
     code: 'ROUTE_NOT_FOUND',
   });
 =======
+=======
+>>>>>>> Stashed changes
     res.status(404).json({
         success: false,
         message: `Cannot ${req.method} ${req.path}`,
         code: 'ROUTE_NOT_FOUND',
     });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -285,16 +333,22 @@ export const notFoundHandler = (req: Request, res: Response): void => {
  */
 export const asyncHandler = <T>(
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   fn: (req: Request, res: Response, next: NextFunction) => Promise<T>
 ) => {
   return (req: Request, res: Response, next: NextFunction): void => {
     Promise.resolve(fn(req, res, next)).catch(next);
   };
 =======
+=======
+>>>>>>> Stashed changes
     fn: (req: Request, res: Response, next: NextFunction) => Promise<T>
 ) => {
     return (req: Request, res: Response, next: NextFunction): void => {
         Promise.resolve(fn(req, res, next)).catch(next);
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };

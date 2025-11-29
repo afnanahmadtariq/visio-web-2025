@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IRequestLog extends Document {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   method: string;
   path: string;
   statusCode: number;
@@ -49,6 +50,8 @@ const requestLogSchema = new Schema<IRequestLog>(
     collection: 'request_logs',
   }
 =======
+=======
+>>>>>>> Stashed changes
     method: string;
     path: string;
     statusCode: number;
@@ -95,6 +98,9 @@ const requestLogSchema = new Schema<IRequestLog>(
         timestamps: { createdAt: 'timestamp', updatedAt: false },
         collection: 'request_logs',
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 );
 

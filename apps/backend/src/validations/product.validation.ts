@@ -5,6 +5,7 @@ import { z } from 'zod';
  */
 export const ProductSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   name: z
     .string()
     .min(2, 'Product name must be at least 2 characters')
@@ -32,6 +33,8 @@ export const ProductSchema = z.object({
   mainImageUrl: z.string().url('Invalid image URL').optional().nullable(),
   mainImagePublicId: z.string().optional().nullable(),
 =======
+=======
+>>>>>>> Stashed changes
     name: z
         .string()
         .min(2, 'Product name must be at least 2 characters')
@@ -58,6 +61,9 @@ export const ProductSchema = z.object({
     categories: z.array(z.string()).min(1, 'At least one category is required'),
     mainImageUrl: z.string().url('Invalid image URL').optional().nullable(),
     mainImagePublicId: z.string().optional().nullable(),
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -71,6 +77,7 @@ export const ProductUpdateSchema = ProductSchema.partial();
  */
 export const ProductImageSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   url: z.string().url('Invalid image URL'),
   publicId: z.string().min(1, 'Public ID is required'),
   width: z.number().int().positive().optional(),
@@ -78,12 +85,17 @@ export const ProductImageSchema = z.object({
   alt: z.string().max(200).optional(),
   sortOrder: z.number().int().min(0).optional().default(0),
 =======
+=======
+>>>>>>> Stashed changes
     url: z.string().url('Invalid image URL'),
     publicId: z.string().min(1, 'Public ID is required'),
     width: z.number().int().positive().optional(),
     height: z.number().int().positive().optional(),
     alt: z.string().max(200).optional(),
     sortOrder: z.number().int().min(0).optional().default(0),
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -91,6 +103,7 @@ export const ProductImageSchema = z.object({
  * Product Query Schema (for filtering/pagination)
  */
 export const ProductQuerySchema = z.object({
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   page: z.coerce.number().int().min(1).optional().default(1),
   limit: z.coerce.number().int().min(1).max(100).optional().default(20),
@@ -102,6 +115,8 @@ export const ProductQuerySchema = z.object({
   sortBy: z.enum(['price', 'name', 'createdAt', 'rating']).optional().default('createdAt'),
   sortOrder: z.enum(['asc', 'desc']).optional().default('desc'),
 =======
+=======
+>>>>>>> Stashed changes
     page: z.coerce.number().int().min(1).optional().default(1),
     limit: z.coerce.number().int().min(1).max(100).optional().default(20),
     category: z.string().optional(),
@@ -111,6 +126,9 @@ export const ProductQuerySchema = z.object({
     onSale: z.coerce.boolean().optional(),
     sortBy: z.enum(['price', 'name', 'createdAt', 'rating']).optional().default('createdAt'),
     sortOrder: z.enum(['asc', 'desc']).optional().default('desc'),
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -119,7 +137,11 @@ export const ProductQuerySchema = z.object({
  */
 export const ProductIdSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   id: z.string().cuid('Invalid product ID'),
+=======
+    id: z.string().cuid('Invalid product ID'),
+>>>>>>> Stashed changes
 =======
     id: z.string().cuid('Invalid product ID'),
 >>>>>>> Stashed changes

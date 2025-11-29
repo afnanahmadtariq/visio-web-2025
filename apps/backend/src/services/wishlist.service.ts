@@ -6,6 +6,7 @@ import { NotFoundError, ConflictError } from '../middlewares/errorHandler.middle
  */
 export const getWishlist = async (userId: string) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const items = await prisma.wishlistItem.findMany({
     where: { userId },
     orderBy: { createdAt: 'desc' },
@@ -52,6 +53,8 @@ export const getWishlist = async (userId: string) => {
     totalItems: wishlistItems.length,
   };
 =======
+=======
+>>>>>>> Stashed changes
     const items = await prisma.wishlistItem.findMany({
         where: { userId },
         orderBy: { createdAt: 'desc' },
@@ -97,6 +100,9 @@ export const getWishlist = async (userId: string) => {
         items: wishlistItems,
         totalItems: wishlistItems.length,
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -104,6 +110,7 @@ export const getWishlist = async (userId: string) => {
  * Add product to wishlist
  */
 export const addToWishlist = async (userId: string, productId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   // Verify product exists
   const product = await prisma.product.findUnique({
@@ -138,6 +145,8 @@ export const addToWishlist = async (userId: string, productId: string) => {
 
   return getWishlist(userId);
 =======
+=======
+>>>>>>> Stashed changes
     // Verify product exists
     const product = await prisma.product.findUnique({
         where: { id: productId },
@@ -170,6 +179,9 @@ export const addToWishlist = async (userId: string, productId: string) => {
     });
 
     return getWishlist(userId);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -177,6 +189,7 @@ export const addToWishlist = async (userId: string, productId: string) => {
  * Remove product from wishlist
  */
 export const removeFromWishlist = async (userId: string, productId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const item = await prisma.wishlistItem.findUnique({
     where: {
@@ -197,6 +210,8 @@ export const removeFromWishlist = async (userId: string, productId: string) => {
 
   return getWishlist(userId);
 =======
+=======
+>>>>>>> Stashed changes
     const item = await prisma.wishlistItem.findUnique({
         where: {
             userId_productId: {
@@ -215,6 +230,9 @@ export const removeFromWishlist = async (userId: string, productId: string) => {
     });
 
     return getWishlist(userId);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -222,6 +240,7 @@ export const removeFromWishlist = async (userId: string, productId: string) => {
  * Check if product is in user's wishlist
  */
 export const isInWishlist = async (userId: string, productId: string): Promise<boolean> => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const item = await prisma.wishlistItem.findUnique({
     where: {
@@ -235,6 +254,8 @@ export const isInWishlist = async (userId: string, productId: string): Promise<b
 
   return !!item;
 =======
+=======
+>>>>>>> Stashed changes
     const item = await prisma.wishlistItem.findUnique({
         where: {
             userId_productId: {
@@ -246,6 +267,9 @@ export const isInWishlist = async (userId: string, productId: string): Promise<b
     });
 
     return !!item;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -254,15 +278,21 @@ export const isInWishlist = async (userId: string, productId: string): Promise<b
  */
 export const moveToCart = async (userId: string, productId: string) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   // This would integrate with cart service
   // For now, just remove from wishlist
   await removeFromWishlist(userId, productId);
   return { success: true };
 =======
+=======
+>>>>>>> Stashed changes
     // This would integrate with cart service
     // For now, just remove from wishlist
     await removeFromWishlist(userId, productId);
     return { success: true };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -270,6 +300,7 @@ export const moveToCart = async (userId: string, productId: string) => {
  * Clear wishlist
  */
 export const clearWishlist = async (userId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   await prisma.wishlistItem.deleteMany({
     where: { userId },
@@ -286,6 +317,8 @@ export const wishlistService = {
   moveToCart,
   clearWishlist,
 =======
+=======
+>>>>>>> Stashed changes
     await prisma.wishlistItem.deleteMany({
         where: { userId },
     });
@@ -300,6 +333,9 @@ export const wishlistService = {
     isInWishlist,
     moveToCart,
     clearWishlist,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

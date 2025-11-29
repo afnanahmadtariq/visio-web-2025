@@ -8,6 +8,7 @@ import { isMongoConnected } from '../db/mongo';
  */
 export const requestLogger = async (
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   req: Request,
   res: Response,
   next: NextFunction
@@ -48,6 +49,8 @@ export const requestLogger = async (
 
   next();
 =======
+=======
+>>>>>>> Stashed changes
     req: Request,
     res: Response,
     next: NextFunction
@@ -87,6 +90,9 @@ export const requestLogger = async (
     } as typeof originalEnd;
 
     next();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -95,6 +101,7 @@ export const requestLogger = async (
  * Removes sensitive fields
  */
 function sanitizeBody(body: Record<string, unknown>): Record<string, unknown> | undefined {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   if (!body || typeof body !== 'object') return undefined;
 
@@ -113,6 +120,8 @@ function sanitizeBody(body: Record<string, unknown>): Record<string, unknown> | 
 
   return Object.keys(sanitized).length > 0 ? sanitized : undefined;
 =======
+=======
+>>>>>>> Stashed changes
     if (!body || typeof body !== 'object') return undefined;
 
     const sensitiveFields = ['password', 'passwordHash', 'token', 'refreshToken', 'cvv', 'cardNumber'];
@@ -129,6 +138,9 @@ function sanitizeBody(body: Record<string, unknown>): Record<string, unknown> | 
     }
 
     return Object.keys(sanitized).length > 0 ? sanitized : undefined;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
 
@@ -136,6 +148,7 @@ function sanitizeBody(body: Record<string, unknown>): Record<string, unknown> | 
  * Simple console logger for development
  */
 export const consoleLogger = (
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   req: Request,
   res: Response,
@@ -153,6 +166,8 @@ export const consoleLogger = (
 
   next();
 =======
+=======
+>>>>>>> Stashed changes
     req: Request,
     res: Response,
     next: NextFunction
@@ -168,5 +183,8 @@ export const consoleLogger = (
     });
 
     next();
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };

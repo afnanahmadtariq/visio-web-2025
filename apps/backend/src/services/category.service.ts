@@ -7,6 +7,7 @@ import type { CategoryInput, CategoryUpdateInput } from '../validations/category
  */
 export const getCategories = async () => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const categories = await prisma.category.findMany({
     where: { deletedAt: null },
     orderBy: { name: 'asc' },
@@ -30,6 +31,8 @@ export const getCategories = async () => {
     _count: undefined,
   }));
 =======
+=======
+>>>>>>> Stashed changes
     const categories = await prisma.category.findMany({
         where: { deletedAt: null },
         orderBy: { name: 'asc' },
@@ -52,6 +55,9 @@ export const getCategories = async () => {
         productCount: cat._count.products,
         _count: undefined,
     }));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -59,6 +65,7 @@ export const getCategories = async () => {
  * Get category by ID or slug
  */
 export const getCategoryByIdOrSlug = async (idOrSlug: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const category = await prisma.category.findFirst({
     where: {
@@ -89,6 +96,8 @@ export const getCategoryByIdOrSlug = async (idOrSlug: string) => {
     _count: undefined,
   };
 =======
+=======
+>>>>>>> Stashed changes
     const category = await prisma.category.findFirst({
         where: {
             OR: [{ id: idOrSlug }, { slug: idOrSlug }],
@@ -117,6 +126,9 @@ export const getCategoryByIdOrSlug = async (idOrSlug: string) => {
         productCount: category._count.products,
         _count: undefined,
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -124,6 +136,7 @@ export const getCategoryByIdOrSlug = async (idOrSlug: string) => {
  * Get root categories (no parent)
  */
 export const getRootCategories = async () => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const categories = await prisma.category.findMany({
     where: { parentId: null, deletedAt: null },
@@ -145,6 +158,8 @@ export const getRootCategories = async () => {
     _count: undefined,
   }));
 =======
+=======
+>>>>>>> Stashed changes
     const categories = await prisma.category.findMany({
         where: { parentId: null, deletedAt: null },
         orderBy: { name: 'asc' },
@@ -164,6 +179,9 @@ export const getRootCategories = async () => {
         productCount: cat._count.products,
         _count: undefined,
     }));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -171,6 +189,7 @@ export const getRootCategories = async () => {
  * Create a new category (Admin)
  */
 export const createCategory = async (input: CategoryInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   // Check if slug exists
   const existingSlug = await prisma.category.findUnique({
@@ -200,6 +219,8 @@ export const createCategory = async (input: CategoryInput) => {
 
   return category;
 =======
+=======
+>>>>>>> Stashed changes
     // Check if slug exists
     const existingSlug = await prisma.category.findUnique({
         where: { slug: input.slug },
@@ -227,6 +248,9 @@ export const createCategory = async (input: CategoryInput) => {
     });
 
     return category;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -234,6 +258,7 @@ export const createCategory = async (input: CategoryInput) => {
  * Update a category (Admin)
  */
 export const updateCategory = async (id: string, input: CategoryUpdateInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const existing = await prisma.category.findUnique({
     where: { id },
@@ -280,6 +305,8 @@ export const updateCategory = async (id: string, input: CategoryUpdateInput) => 
 
   return category;
 =======
+=======
+>>>>>>> Stashed changes
     const existing = await prisma.category.findUnique({
         where: { id },
         select: { id: true },
@@ -324,6 +351,9 @@ export const updateCategory = async (id: string, input: CategoryUpdateInput) => 
     });
 
     return category;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -331,6 +361,7 @@ export const updateCategory = async (id: string, input: CategoryUpdateInput) => 
  * Delete a category (Admin - soft delete)
  */
 export const deleteCategory = async (id: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const category = await prisma.category.findUnique({
     where: { id },
@@ -367,6 +398,8 @@ export const categoryService = {
   updateCategory,
   deleteCategory,
 =======
+=======
+>>>>>>> Stashed changes
     const category = await prisma.category.findUnique({
         where: { id },
         include: {
@@ -401,6 +434,9 @@ export const categoryService = {
     createCategory,
     updateCategory,
     deleteCategory,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

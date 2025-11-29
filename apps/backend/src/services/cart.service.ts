@@ -7,6 +7,7 @@ import type { AddToCartInput, UpdateCartItemInput } from '../validations/cart.va
  */
 const getOrCreateCart = async (userId: string) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   let cart = await prisma.cart.findFirst({
     where: { userId },
     include: {
@@ -57,6 +58,8 @@ const getOrCreateCart = async (userId: string) => {
 
   return cart;
 =======
+=======
+>>>>>>> Stashed changes
     let cart = await prisma.cart.findFirst({
         where: { userId },
         include: {
@@ -106,6 +109,9 @@ const getOrCreateCart = async (userId: string) => {
     }
 
     return cart;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -113,6 +119,7 @@ const getOrCreateCart = async (userId: string) => {
  * Get user's cart with items
  */
 export const getCart = async (userId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const cart = await getOrCreateCart(userId);
 
@@ -148,6 +155,8 @@ export const getCart = async (userId: string) => {
     totalAmount,
   };
 =======
+=======
+>>>>>>> Stashed changes
     const cart = await getOrCreateCart(userId);
 
     // Filter out deleted/inactive products and transform
@@ -181,6 +190,9 @@ export const getCart = async (userId: string) => {
         totalItems,
         totalAmount,
     };
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -188,6 +200,7 @@ export const getCart = async (userId: string) => {
  * Add item to cart
  */
 export const addToCart = async (userId: string, input: AddToCartInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { productId, quantity } = input;
 
@@ -248,6 +261,8 @@ export const addToCart = async (userId: string, input: AddToCartInput) => {
 
   return getCart(userId);
 =======
+=======
+>>>>>>> Stashed changes
     const { productId, quantity } = input;
 
     // Get product and verify it's available
@@ -306,6 +321,9 @@ export const addToCart = async (userId: string, input: AddToCartInput) => {
     }
 
     return getCart(userId);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -313,6 +331,7 @@ export const addToCart = async (userId: string, input: AddToCartInput) => {
  * Update cart item quantity
  */
 export const updateCartItem = async (userId: string, itemId: string, input: UpdateCartItemInput) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { quantity } = input;
 
@@ -348,6 +367,8 @@ export const updateCartItem = async (userId: string, itemId: string, input: Upda
 
   return getCart(userId);
 =======
+=======
+>>>>>>> Stashed changes
     const { quantity } = input;
 
     // Get cart item and verify ownership
@@ -381,6 +402,9 @@ export const updateCartItem = async (userId: string, itemId: string, input: Upda
     });
 
     return getCart(userId);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -388,6 +412,7 @@ export const updateCartItem = async (userId: string, itemId: string, input: Upda
  * Remove item from cart
  */
 export const removeFromCart = async (userId: string, itemId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   // Verify cart item belongs to user
   const cartItem = await prisma.cartItem.findFirst({
@@ -407,6 +432,8 @@ export const removeFromCart = async (userId: string, itemId: string) => {
 
   return getCart(userId);
 =======
+=======
+>>>>>>> Stashed changes
     // Verify cart item belongs to user
     const cartItem = await prisma.cartItem.findFirst({
         where: {
@@ -424,6 +451,9 @@ export const removeFromCart = async (userId: string, itemId: string) => {
     });
 
     return getCart(userId);
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 
@@ -431,6 +461,7 @@ export const removeFromCart = async (userId: string, itemId: string) => {
  * Clear cart
  */
 export const clearCart = async (userId: string) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const cart = await prisma.cart.findFirst({
     where: { userId },
@@ -453,6 +484,8 @@ export const cartService = {
   removeFromCart,
   clearCart,
 =======
+=======
+>>>>>>> Stashed changes
     const cart = await prisma.cart.findFirst({
         where: { userId },
         select: { id: true },
@@ -473,6 +506,9 @@ export const cartService = {
     updateCartItem,
     removeFromCart,
     clearCart,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

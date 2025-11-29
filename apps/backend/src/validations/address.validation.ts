@@ -5,6 +5,7 @@ import { z } from 'zod';
  */
 export const AddressSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   label: z.string().max(50, 'Label too long').optional().nullable(),
   fullName: z
     .string()
@@ -32,6 +33,8 @@ export const AddressSchema = z.object({
     .nullable(),
   isDefault: z.boolean().optional().default(false),
 =======
+=======
+>>>>>>> Stashed changes
     label: z.string().max(50, 'Label too long').optional().nullable(),
     fullName: z
         .string()
@@ -58,6 +61,9 @@ export const AddressSchema = z.object({
         .optional()
         .nullable(),
     isDefault: z.boolean().optional().default(false),
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -71,7 +77,11 @@ export const AddressUpdateSchema = AddressSchema.partial();
  */
 export const AddressIdSchema = z.object({
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   id: z.string().cuid('Invalid address ID'),
+=======
+    id: z.string().cuid('Invalid address ID'),
+>>>>>>> Stashed changes
 =======
     id: z.string().cuid('Invalid address ID'),
 >>>>>>> Stashed changes

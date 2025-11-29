@@ -12,6 +12,7 @@ import type { ProductInput, ProductUpdateInput, ProductQueryInput } from '../val
  */
 export const getProducts = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const query: ProductQueryInput = {
     page: Number(req.query.page) || 1,
     limit: Number(req.query.limit) || 20,
@@ -27,6 +28,8 @@ export const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const result = await productService.getProducts(query);
   return res.json(paginatedResponse(result.data, result.pagination));
 =======
+=======
+>>>>>>> Stashed changes
     const query: ProductQueryInput = {
         page: Number(req.query.page) || 1,
         limit: Number(req.query.limit) || 20,
@@ -41,6 +44,9 @@ export const getProducts = asyncHandler(async (req: Request, res: Response) => {
 
     const result = await productService.getProducts(query);
     return res.json(paginatedResponse(result.data, result.pagination));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -51,17 +57,23 @@ export const getProducts = asyncHandler(async (req: Request, res: Response) => {
  */
 export const getSaleProducts = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 20;
 
   const result = await productService.getSaleProducts(page, limit);
   return res.json(paginatedResponse(result.data, result.pagination));
 =======
+=======
+>>>>>>> Stashed changes
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 20;
 
     const result = await productService.getSaleProducts(page, limit);
     return res.json(paginatedResponse(result.data, result.pagination));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -72,6 +84,7 @@ export const getSaleProducts = asyncHandler(async (req: Request, res: Response) 
  */
 export const getProductsByCategory = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { categorySlug } = req.params;
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 20;
@@ -79,12 +92,17 @@ export const getProductsByCategory = asyncHandler(async (req: Request, res: Resp
   const result = await productService.getProductsByCategory(categorySlug, page, limit);
   return res.json(paginatedResponse(result.data, result.pagination));
 =======
+=======
+>>>>>>> Stashed changes
     const { categorySlug } = req.params;
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 20;
 
     const result = await productService.getProductsByCategory(categorySlug, page, limit);
     return res.json(paginatedResponse(result.data, result.pagination));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -95,9 +113,15 @@ export const getProductsByCategory = asyncHandler(async (req: Request, res: Resp
  */
 export const getProductById = asyncHandler(async (req: Request, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { idOrSlug } = req.params;
   const product = await productService.getProductById(idOrSlug);
   return res.json(successResponse(product));
+=======
+    const { idOrSlug } = req.params;
+    const product = await productService.getProductById(idOrSlug);
+    return res.json(successResponse(product));
+>>>>>>> Stashed changes
 =======
     const { idOrSlug } = req.params;
     const product = await productService.getProductById(idOrSlug);
@@ -112,17 +136,23 @@ export const getProductById = asyncHandler(async (req: Request, res: Response) =
  */
 export const createProduct = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const input: ProductInput = req.body;
   const adminId = req.user!.id;
 
   const product = await productService.createProduct(input, adminId);
   return res.status(201).json(successResponse(product, 'Product created successfully'));
 =======
+=======
+>>>>>>> Stashed changes
     const input: ProductInput = req.body;
     const adminId = req.user!.id;
 
     const product = await productService.createProduct(input, adminId);
     return res.status(201).json(successResponse(product, 'Product created successfully'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -133,6 +163,7 @@ export const createProduct = asyncHandler(async (req: AuthenticatedRequest, res:
  */
 export const updateProduct = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   const { id } = req.params;
   const input: ProductUpdateInput = req.body;
   const adminId = req.user!.id;
@@ -140,12 +171,17 @@ export const updateProduct = asyncHandler(async (req: AuthenticatedRequest, res:
   const product = await productService.updateProduct(id, input, adminId);
   return res.json(successResponse(product, 'Product updated successfully'));
 =======
+=======
+>>>>>>> Stashed changes
     const { id } = req.params;
     const input: ProductUpdateInput = req.body;
     const adminId = req.user!.id;
 
     const product = await productService.updateProduct(id, input, adminId);
     return res.json(successResponse(product, 'Product updated successfully'));
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 });
 
@@ -155,6 +191,7 @@ export const updateProduct = asyncHandler(async (req: AuthenticatedRequest, res:
  * @access  Admin
  */
 export const deleteProduct = asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
   const { id } = req.params;
   const adminId = req.user!.id;
@@ -172,6 +209,8 @@ export const productController = {
   updateProduct,
   deleteProduct,
 =======
+=======
+>>>>>>> Stashed changes
     const { id } = req.params;
     const adminId = req.user!.id;
 
@@ -187,6 +226,9 @@ export const productController = {
     createProduct,
     updateProduct,
     deleteProduct,
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 };
 

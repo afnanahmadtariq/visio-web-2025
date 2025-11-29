@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IErrorLog extends Document {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   level: 'error' | 'warn' | 'critical';
   message: string;
   stack?: string;
@@ -41,6 +42,8 @@ const errorLogSchema = new Schema<IErrorLog>(
     collection: 'error_logs',
   }
 =======
+=======
+>>>>>>> Stashed changes
     level: 'error' | 'warn' | 'critical';
     message: string;
     stack?: string;
@@ -79,6 +82,9 @@ const errorLogSchema = new Schema<IErrorLog>(
         timestamps: { createdAt: 'timestamp', updatedAt: false },
         collection: 'error_logs',
     }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 );
 
