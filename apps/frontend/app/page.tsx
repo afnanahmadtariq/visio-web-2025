@@ -1,9 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowRight, ShoppingBag, Star } from "lucide-react"
+import { ArrowRight, ShoppingBag, Star, Sparkles, Truck, Shield, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { useCart } from "@/context/cart-context"
@@ -61,42 +62,114 @@ export default function Home() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/10 z-0" />
-        <div className="container relative z-10 py-24 md:py-32">
-          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                  Discover Our New Collection
+      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/50">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-pulse" />
+          <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-secondary/10 blur-3xl animate-pulse delay-1000" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-accent/5 blur-3xl" />
+        </div>
+        
+        <div className="container relative z-10 py-16 md:py-24 lg:py-32">
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+            {/* Left Content */}
+            <div className="flex flex-col justify-center space-y-8">
+              <div className="space-y-6">
+                <Badge variant="secondary" className="w-fit px-4 py-1.5 text-sm font-medium bg-primary/10 text-primary border-0">
+                  <Sparkles className="mr-2 h-3.5 w-3.5" />
+                  New Collection 2025
+                </Badge>
+                
+                <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+                  <span className="block">Elevate Your</span>
+                  <span className="block bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                    Style Game
+                  </span>
                 </h1>
-                <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                  Elevate your style with our latest arrivals. Quality craftsmanship meets modern design.
+                
+                <p className="max-w-[540px] text-lg text-muted-foreground md:text-xl leading-relaxed">
+                  Discover curated collections that blend timeless elegance with contemporary design. 
+                  Premium quality, sustainable fashion.
                 </p>
               </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button size="lg" className="group bg-primary hover:bg-primary/90" asChild>
+
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <Button size="lg" className="group h-12 px-8 text-base bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30" asChild>
                   <Link href="/products">
-                    Shop Now
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    Shop Collection
+                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10" asChild>
+                <Button size="lg" variant="outline" className="h-12 px-8 text-base border-2 hover:bg-muted/50" asChild>
                   <Link href="/categories">
-                    Explore Collection
+                    Explore Categories
                   </Link>
                 </Button>
               </div>
+
+              {/* Trust Badges */}
+              <div className="flex flex-wrap gap-6 pt-4">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Truck className="h-5 w-5 text-primary" />
+                  <span>Free Shipping</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Shield className="h-5 w-5 text-primary" />
+                  <span>Secure Payment</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <RotateCcw className="h-5 w-5 text-primary" />
+                  <span>Easy Returns</span>
+                </div>
+              </div>
             </div>
-            <div className="hidden lg:block">
-              <div className="aspect-square overflow-hidden rounded-xl bg-muted/50">
-                <img
-                  src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
-                  alt="Featured product"
-                  width={600}
-                  height={600}
-                  className="object-cover w-full h-full transition-transform duration-500 hover:scale-105"
-                />
+
+            {/* Right Content - Image Grid */}
+            <div className="relative hidden lg:block">
+              <div className="grid grid-cols-2 gap-4">
+                {/* Main large image */}
+                <div className="col-span-2 aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl">
+                  <img
+                    src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80"
+                    alt="Fashion collection"
+                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                </div>
+                {/* Two smaller images */}
+                <div className="aspect-square overflow-hidden rounded-2xl shadow-xl">
+                  <img
+                    src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                    alt="Store interior"
+                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                </div>
+                <div className="aspect-square overflow-hidden rounded-2xl shadow-xl">
+                  <img
+                    src="https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                    alt="Fashion accessories"
+                    className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+                  />
+                </div>
+              </div>
+              
+              {/* Floating Stats Card */}
+              <div className="absolute -left-8 bottom-24 rounded-xl bg-background/95 backdrop-blur-sm border shadow-xl p-4 animate-in slide-in-from-left duration-500">
+                <div className="flex items-center gap-3">
+                  <div className="flex -space-x-2">
+                    <div className="h-8 w-8 rounded-full bg-primary/20 border-2 border-background" />
+                    <div className="h-8 w-8 rounded-full bg-secondary/20 border-2 border-background" />
+                    <div className="h-8 w-8 rounded-full bg-accent/20 border-2 border-background" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold">10K+ Happy Customers</p>
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-3 w-3 fill-secondary text-secondary" />
+                      ))}
+                      <span className="text-xs text-muted-foreground ml-1">4.9/5</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
