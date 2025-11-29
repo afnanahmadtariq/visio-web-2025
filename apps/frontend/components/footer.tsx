@@ -15,17 +15,17 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/categories" className="hover:text-primary transition-colors">
-                  New Arrivals
+                  Categories
                 </Link>
               </li>
               <li>
                 <Link href="/deals" className="hover:text-primary transition-colors">
-                  Best Sellers
+                  Deals & Offers
                 </Link>
               </li>
               <li>
-                <Link href="/deals" className="hover:text-primary transition-colors">
-                  Sale
+                <Link href="/wishlist" className="hover:text-primary transition-colors">
+                  Wishlist
                 </Link>
               </li>
             </ul>
@@ -39,18 +39,18 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
+                <Link href="/contact" className="hover:text-primary transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
-                  Blog
+                <Link href="/privacy" className="hover:text-primary transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="hover:text-primary transition-colors">
+                  Terms of Service
                 </Link>
               </li>
             </ul>
@@ -59,23 +59,23 @@ export default function Footer() {
             <h3 className="mb-4 text-lg font-medium">Support</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
-                  Help Center
+                <Link href="/faq" className="hover:text-primary transition-colors">
+                  FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
-                  Shipping
+                <Link href="/shipping" className="hover:text-primary transition-colors">
+                  Shipping Info
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
+                <Link href="/returns" className="hover:text-primary transition-colors">
                   Returns
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="hover:text-primary transition-colors">
-                  FAQ
+                <Link href="/cookies" className="hover:text-primary transition-colors">
+                  Cookie Policy
                 </Link>
               </li>
             </ul>
@@ -83,7 +83,7 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-medium">Contact</h3>
             <ul className="space-y-2 text-sm">
-              <li>Email: support@modernshop.com</li>
+              <li>Email: support@visiomart.com</li>
               <li>Phone: +1 (555) 123-4567</li>
               <li>Address: 123 Commerce St, City, Country</li>
             </ul>
@@ -91,7 +91,7 @@ export default function Footer() {
         </div>
         <div className="mt-8 border-t pt-8">
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <p className="text-sm text-muted-foreground">© 2023 ModernShop. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground">© 2025 Visio Mart. All rights reserved.</p>
             <div className="flex gap-4">
               <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
                 <span className="sr-only">Facebook</span>
