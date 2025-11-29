@@ -22,7 +22,7 @@ export class ApiError extends Error {
  * Not Found Error
  */
 export class NotFoundError extends ApiError {
-    constructor(resource: string = 'Resource') {
+    constructor(resource = 'Resource') {
         super(404, `${resource} not found`, 'NOT_FOUND');
     }
 }
@@ -31,7 +31,7 @@ export class NotFoundError extends ApiError {
  * Unauthorized Error
  */
 export class UnauthorizedError extends ApiError {
-    constructor(message: string = 'Unauthorized') {
+    constructor(message = 'Unauthorized') {
         super(401, message, 'UNAUTHORIZED');
     }
 }
@@ -40,7 +40,7 @@ export class UnauthorizedError extends ApiError {
  * Forbidden Error
  */
 export class ForbiddenError extends ApiError {
-    constructor(message: string = 'Access forbidden') {
+    constructor(message = 'Access forbidden') {
         super(403, message, 'FORBIDDEN');
     }
 }
@@ -58,7 +58,7 @@ export class BadRequestError extends ApiError {
  * Conflict Error (e.g., duplicate entry)
  */
 export class ConflictError extends ApiError {
-    constructor(message: string = 'Resource already exists') {
+    constructor(message = 'Resource already exists') {
         super(409, message, 'CONFLICT');
     }
 }
