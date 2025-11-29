@@ -61,8 +61,8 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/50">
+      {/* Hero Section - fits in remaining viewport height */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/50 h-[calc(100vh-4rem)] min-h-[600px]">
         {/* Animated background elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary/10 blur-3xl animate-pulse" />
@@ -70,8 +70,8 @@ export default function Home() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-accent/5 blur-3xl" />
         </div>
         
-        <div className="container relative z-10 py-16 md:py-24 lg:py-32">
-          <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center">
+        <div className="container relative z-10 h-full flex items-center py-8 md:py-12 lg:py-16">
+          <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-center w-full">
             {/* Left Content */}
             <div className="flex flex-col justify-center space-y-8">
               <div className="space-y-6">

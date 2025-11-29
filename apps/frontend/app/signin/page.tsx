@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ArrowLeft, Eye, EyeOff, Lock, Mail } from "lucide-react"
@@ -17,7 +17,7 @@ import Footer from "@/components/footer"
 import { useAuth } from "@/context/auth-context"
 import { SignInSchema, type SignInFormData } from "@/lib/validations/auth"
 
-export default function SignInPage() {
+function SignInForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { toast } = useToast()
@@ -51,9 +51,15 @@ export default function SignInPage() {
           title: "Success",
           description: result.message,
         })
-        // Redirect to original destination or home
-        const redirectTo = searchParams.get("redirect") || "/"
-        router.push(redirectTo)
+        // Role-based redirect: admin goes to admin panel, users go to homepage or original destination
+        const redirectTo = searchParams.get("redirect")
+        if (redirectTo) {
+          router.push(redirectTo)
+        } else if (result.isAdmin) {
+          router.push("/admin")
+        } else {
+          router.push("/")
+        }
       } else {
         toast({
           title: "Error",
@@ -61,7 +67,7 @@ export default function SignInPage() {
           variant: "destructive",
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
@@ -87,8 +93,15 @@ export default function SignInPage() {
         title: "Success",
         description: `Signed in as ${type === "admin" ? "Admin" : "Demo"} user!`,
       })
-      const redirectTo = searchParams.get("redirect") || "/"
-      router.push(redirectTo)
+      // Role-based redirect: admin goes to admin panel, users go to homepage or original destination
+      const redirectTo = searchParams.get("redirect")
+      if (redirectTo) {
+        router.push(redirectTo)
+      } else if (type === "admin") {
+        router.push("/admin")
+      } else {
+        router.push("/")
+      }
     } else {
       toast({
         title: "Error",
@@ -214,5 +227,13 @@ export default function SignInPage() {
       </main>
       <Footer />
     </div>
+  )
+}
+
+export default function SignInPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <SignInForm />
+    </Suspense>
   )
 }

@@ -1,15 +1,83 @@
 
 import Link from 'next/link';
+import { Package, ShoppingCart, Users, FileText, Plus, TrendingUp, DollarSign, Activity } from 'lucide-react';
 import { getProducts } from '../api/mock-data';
+
+// Stats cards data - in production these would come from the API
+const stats = [
+    { name: 'Total Products', value: '1,234', icon: Package, change: '+12%', changeType: 'positive' },
+    { name: 'Total Orders', value: '567', icon: ShoppingCart, change: '+8%', changeType: 'positive' },
+    { name: 'Total Revenue', value: '$45,678', icon: DollarSign, change: '+15%', changeType: 'positive' },
+    { name: 'Active Users', value: '2,345', icon: Users, change: '+5%', changeType: 'positive' },
+];
 
 export default async function AdminDashboard() {
     const products = await getProducts();
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            {/* Page Header */}
+            <div className="mb-8">
+                <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+                <p className="mt-2 text-gray-600">Welcome back! Here's what's happening with your store.</p>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+                {stats.map((stat) => (
+                    <div key={stat.name} className="bg-white overflow-hidden shadow rounded-lg">
+                        <div className="p-5">
+                            <div className="flex items-center">
+                                <div className="flex-shrink-0">
+                                    <stat.icon className="h-6 w-6 text-gray-400" aria-hidden="true" />
+                                </div>
+                                <div className="ml-5 w-0 flex-1">
+                                    <dl>
+                                        <dt className="text-sm font-medium text-gray-500 truncate">{stat.name}</dt>
+                                        <dd className="flex items-baseline">
+                                            <div className="text-2xl font-semibold text-gray-900">{stat.value}</div>
+                                            <div className={`ml-2 flex items-baseline text-sm font-semibold ${stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'}`}>
+                                                <TrendingUp className="h-4 w-4 mr-0.5" />
+                                                {stat.change}
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Quick Actions */}
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-8">
+                <Link href="/admin/add" className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg p-5 flex items-center gap-4 transition-colors">
+                    <Plus className="h-8 w-8" />
+                    <div>
+                        <h3 className="font-semibold">Add Product</h3>
+                        <p className="text-indigo-200 text-sm">Create a new product listing</p>
+                    </div>
+                </Link>
+                <Link href="/admin/logs" className="bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-center gap-4 transition-colors">
+                    <FileText className="h-8 w-8 text-gray-400" />
+                    <div>
+                        <h3 className="font-semibold text-gray-900">View Logs</h3>
+                        <p className="text-gray-500 text-sm">Monitor system activity</p>
+                    </div>
+                </Link>
+                <Link href="/products" className="bg-white hover:bg-gray-50 border border-gray-200 rounded-lg p-5 flex items-center gap-4 transition-colors">
+                    <Activity className="h-8 w-8 text-gray-400" />
+                    <div>
+                        <h3 className="font-semibold text-gray-900">View Store</h3>
+                        <p className="text-gray-500 text-sm">See your public storefront</p>
+                    </div>
+                </Link>
+            </div>
+
+            {/* Products Table */}
             <div className="sm:flex sm:items-center">
                 <div className="sm:flex-auto">
-                    <h1 className="text-xl font-semibold text-gray-900">Products</h1>
+                    <h2 className="text-xl font-semibold text-gray-900">Products</h2>
                     <p className="mt-2 text-sm text-gray-700">
                         A list of all the products in your store including their name, price, and category.
                     </p>

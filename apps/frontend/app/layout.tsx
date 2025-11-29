@@ -1,12 +1,12 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
 import "./globals.css"
 import { CartProvider } from "@/context/cart-context"
 import { AuthProvider } from "@/context/auth-context"
 import { Toaster } from "@/components/ui/toaster"
 
-const inter = Inter({ subsets: ["latin"] })
+// System font stack for better build reliability without external font fetching
+const fontClassName = "font-sans"
 
 export const metadata: Metadata = {
   title: "Visio Mart - Premium E-commerce Store",
@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={fontClassName}>
         <AuthProvider>
           <CartProvider>
             {children}

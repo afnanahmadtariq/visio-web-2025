@@ -10,16 +10,34 @@ import {
   selectIsAdmin,
   selectIsLoading,
 } from "@/lib/stores/auth-store"
-import { post } from "@/lib/api/client"
+import { post, APIError } from "@/lib/api/client"
 
 // Re-export types for convenience
 export type { AuthUser as User, UserRole }
 
+// API Response types
+interface AuthApiResponse {
+  success: boolean
+  message: string
+  data: {
+    user: {
+      id: string
+      email: string
+      username: string
+      role: "USER" | "ADMIN"
+      creditBalance: number
+    }
+    accessToken: string
+  }
+}
+
+type AuthResult = { success: boolean; message: string; isAdmin?: boolean }
+
 type AuthContextType = {
   user: AuthUser | null
   isLoading: boolean
-  signIn: (email: string, password: string) => Promise<{ success: boolean; message: string }>
-  signUp: (name: string, email: string, password: string) => Promise<{ success: boolean; message: string }>
+  signIn: (email: string, password: string) => Promise<AuthResult>
+  signUp: (name: string, email: string, password: string) => Promise<AuthResult>
   signOut: () => void
   isAuthenticated: boolean
   isAdmin: boolean
@@ -76,63 +94,52 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (
     email: string, 
     password: string
-  ): Promise<{ success: boolean; message: string }> => {
+  ): Promise<AuthResult> => {
     try {
-      // In production, this would call the backend API:
-      // const response = await post<AuthResponse>('/api/auth/login', { email, password })
+      const response = await post<AuthApiResponse>('/api/auth/login', { email, password }, { skipAuth: true })
       
-      // Demo implementation - simulates backend response
-      // In production, NEVER store passwords or do auth logic on frontend
-      
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      // Demo users with roles
-      const demoUsers: Array<AuthUser & { password: string }> = [
-        {
-          id: "admin-1",
-          email: "admin@visiomart.com",
-          name: "Admin User",
-          role: "ADMIN",
-          password: "admin123",
-          createdAt: new Date().toISOString(),
-        },
-        {
-          id: "demo-1",
-          email: "demo@visiomart.com",
-          name: "Demo User",
-          role: "USER",
-          password: "demo123",
-          createdAt: new Date().toISOString(),
-        },
-      ]
-      
-      const foundUser = demoUsers.find(
-        u => u.email === email && u.password === password
-      )
-      
-      if (foundUser) {
-        const { password: _, ...userWithoutPassword } = foundUser
+      if (response.success && response.data) {
+        const { user: apiUser, accessToken } = response.data
         
-        // Generate a mock JWT (in production, backend generates this)
-        const mockToken = `demo.${btoa(JSON.stringify(userWithoutPassword))}.signature`
+        // Transform API user to AuthUser format
+        const user: AuthUser = {
+          id: apiUser.id,
+          email: apiUser.email,
+          name: apiUser.username,
+          role: apiUser.role,
+          createdAt: new Date().toISOString(),
+        }
         
         // Store in Zustand (memory-only, safest approach)
-        setAuth(userWithoutPassword, mockToken)
+        setAuth(user, accessToken)
         
-        // For demo persistence across page navigation (not production-safe)
-        // In production, use httpOnly cookies managed by backend
+        // For demo persistence across page navigation
         sessionStorage.setItem("demoSession", JSON.stringify({
-          user: userWithoutPassword,
-          token: mockToken,
+          user,
+          token: accessToken,
         }))
         
-        return { success: true, message: "Successfully signed in!" }
+        return { success: true, message: response.message || "Successfully signed in!", isAdmin: apiUser.role === "ADMIN" }
       }
       
-      return { success: false, message: "Invalid email or password" }
+      return { success: false, message: response.message || "Login failed" }
     } catch (error) {
       console.error("Sign in error:", error)
+      
+      if (error instanceof APIError) {
+        // Handle lockout and other specific errors
+        if (error.status === 401) {
+          const errorData = error.data as { message?: string } | undefined
+          const message = errorData?.message || "Invalid email or password"
+          // Check for lockout
+          if (message.toLowerCase().includes("locked")) {
+            return { success: false, message: "Account is locked. Please contact support." }
+          }
+          return { success: false, message }
+        }
+        return { success: false, message: error.message }
+      }
+      
       return { success: false, message: "An error occurred during sign in" }
     }
   }
@@ -141,51 +148,48 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     name: string, 
     email: string, 
     password: string
-  ): Promise<{ success: boolean; message: string }> => {
+  ): Promise<AuthResult> => {
     try {
-      // In production, this would call the backend API:
-      // const response = await post<AuthResponse>('/api/auth/register', { name, email, password })
+      // Call the backend register API
+      // Note: Backend expects { email, username, password }
+      const response = await post<AuthApiResponse>('/api/auth/register', { 
+        email, 
+        username: name, 
+        password 
+      }, { skipAuth: true })
       
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 500))
-      
-      // Demo implementation - creates a new user
-      const newUser: AuthUser = {
-        id: `user-${Date.now()}`,
-        name,
-        email,
-        role: "USER", // New users are always regular users
-        createdAt: new Date().toISOString(),
+      if (response.success) {
+        // Registration successful - don't auto-login, let user sign in manually
+        return { success: true, message: response.message || "Account created successfully! Please sign in." }
       }
       
-      // Generate a mock JWT
-      const mockToken = `demo.${btoa(JSON.stringify(newUser))}.signature`
-      
-      // Store in Zustand
-      setAuth(newUser, mockToken)
-      
-      // Demo persistence
-      sessionStorage.setItem("demoSession", JSON.stringify({
-        user: newUser,
-        token: mockToken,
-      }))
-      
-      return { success: true, message: "Account created successfully!" }
+      return { success: false, message: response.message || "Registration failed" }
     } catch (error) {
       console.error("Sign up error:", error)
+      
+      if (error instanceof APIError) {
+        const errorData = error.data as { message?: string } | undefined
+        return { success: false, message: errorData?.message || error.message }
+      }
+      
       return { success: false, message: "An error occurred during sign up" }
     }
   }
 
-  const signOut = () => {
+  const signOut = async () => {
+    try {
+      // Call backend logout to clear httpOnly cookies
+      await post('/api/auth/logout', undefined, { skipAuth: false })
+    } catch (error) {
+      // Continue with client-side logout even if API call fails
+      console.error("Logout API error:", error)
+    }
+    
     // Clear Zustand state (removes token from memory)
     clearAuth()
     
     // Clear demo session storage
     sessionStorage.removeItem("demoSession")
-    
-    // In production with httpOnly cookies:
-    // await post('/api/auth/logout') // Backend clears the cookie
   }
 
   return (

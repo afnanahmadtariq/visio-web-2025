@@ -8,28 +8,33 @@ export const SignInSchema = z.object({
     .email("Please enter a valid email address"),
   password: z
     .string()
-    .min(1, "Password is required")
-    .min(6, "Password must be at least 6 characters"),
+    .min(1, "Password is required"),
 })
 
 export type SignInFormData = z.infer<typeof SignInSchema>
 
-// Sign Up Schema
+// Sign Up Schema - aligned with backend validation
 export const SignUpSchema = z
   .object({
     name: z
       .string()
-      .min(1, "Name is required")
-      .min(2, "Name must be at least 2 characters")
-      .max(50, "Name must be less than 50 characters"),
+      .min(1, "Username is required")
+      .min(3, "Username must be at least 3 characters")
+      .max(20, "Username must not exceed 20 characters")
+      .regex(
+        /^[a-zA-Z0-9_]+$/,
+        "Username can only contain letters, numbers, and underscores"
+      ),
     email: z
       .string()
       .min(1, "Email is required")
-      .email("Please enter a valid email address"),
+      .email("Please enter a valid email address")
+      .max(255, "Email is too long"),
     password: z
       .string()
       .min(1, "Password is required")
       .min(6, "Password must be at least 6 characters")
+      .max(100, "Password is too long")
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
         "Password must contain at least one uppercase letter, one lowercase letter, and one number"
