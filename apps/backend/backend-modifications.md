@@ -386,11 +386,66 @@ The platform includes a virtual credit system for purchases:
 
 ---
 
+## Email Service (EmailJS)
+
+### Overview
+
+Email functionality is implemented using **EmailJS** for transactional emails. This is a backend-only integration using the `@emailjs/nodejs` package.
+
+### Configuration
+
+Environment variables required in `.env`:
+
+```env
+EMAILJS_PUBLIC_KEY=your_public_key
+EMAILJS_PRIVATE_KEY=your_private_key
+EMAILJS_SERVICE_ID=your_service_id
+EMAILJS_TEMPLATE_ID=your_template_id
+```
+
+### File Location
+
+```
+apps/backend/src/lib/email.ts
+```
+
+### Available Functions
+
+| Function | Description | Template Params |
+|----------|-------------|-----------------|
+| `initEmailJS()` | Initialize EmailJS client | N/A |
+| `sendEmail(params)` | Generic email sender | Custom |
+| `sendWelcomeEmail(to, name)` | Welcome email on registration | `to_email`, `to_name`, `subject` |
+| `sendOrderConfirmation(to, name, orderId, orderTotal)` | Order confirmation | `to_email`, `to_name`, `subject`, `order_id`, `order_total` |
+| `sendPasswordReset(to, name, resetLink)` | Password reset email | `to_email`, `to_name`, `subject`, `reset_link` |
+| `sendContactFormNotification(from, name, message)` | Contact form notification | `from_email`, `from_name`, `subject`, `message` |
+
+### Usage Example
+
+```typescript
+import { initEmailJS, sendWelcomeEmail } from '../lib/email';
+
+// Initialize at app startup
+initEmailJS();
+
+// Send welcome email
+await sendWelcomeEmail('user@example.com', 'John Doe');
+```
+
+### Notes
+
+- EmailJS must be initialized before sending emails
+- All email functions are async and return promises
+- Template variables must match your EmailJS template configuration
+- Error handling is built-in with console logging
+
+---
+
 ## Pending/Future Enhancements
 
 - [ ] DLL integration for admin product management
 - [ ] OAuth providers (Google, GitHub)
-- [ ] Email notifications
+- [x] ~~Email notifications~~ (EmailJS integrated)
 - [ ] Payment gateway integration (Stripe)
 - [ ] WebSocket for real-time updates
 - [ ] Image upload to cloud storage
@@ -403,3 +458,5 @@ The platform includes a virtual credit system for purchases:
 | Date | Change | Author |
 |------|--------|--------|
 | 2024-XX-XX | Initial backend architecture implementation | AI Assistant |
+| 2024-XX-XX | Added EmailJS integration for transactional emails | AI Assistant |
+

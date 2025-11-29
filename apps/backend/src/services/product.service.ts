@@ -241,7 +241,7 @@ export const getProductsByCategory = async (categorySlug: string, page = 1, limi
 /**
  * Create a new product (Admin)
  */
-export const createProduct = async (input: ProductInput, adminId: string) => {
+export const createProduct = async (input: ProductInput, _adminId: string) => {
     const { categories, ...productData } = input;
 
     // Check if slug exists
@@ -301,7 +301,7 @@ export const createProduct = async (input: ProductInput, adminId: string) => {
 /**
  * Update a product (Admin)
  */
-export const updateProduct = async (id: string, input: ProductUpdateInput, adminId: string) => {
+export const updateProduct = async (id: string, input: ProductUpdateInput, _adminId: string) => {
     const { categories, ...productData } = input;
 
     // Check product exists
@@ -377,7 +377,7 @@ export const updateProduct = async (id: string, input: ProductUpdateInput, admin
 /**
  * Delete a product (Admin - soft delete)
  */
-export const deleteProduct = async (id: string, adminId: string) => {
+export const deleteProduct = async (id: string, _adminId: string) => {
     const product = await prisma.product.findUnique({
         where: { id },
         select: { id: true },
