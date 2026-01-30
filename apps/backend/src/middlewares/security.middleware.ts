@@ -1,4 +1,4 @@
-import { Application } from 'express';
+import { Application, RequestHandler } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
@@ -44,7 +44,7 @@ export const applySecurityMiddlewares = (app: Application): void => {
             onSanitize: ({ req, key }) => {
                 console.warn(`Sanitized request field: ${key} in ${req.path}`);
             },
-        })
+        }) as unknown as RequestHandler
     );
 
     // Global rate limiter
@@ -62,7 +62,7 @@ export const applySecurityMiddlewares = (app: Application): void => {
                 // Skip rate limiting for health checks
                 return req.path === '/health' || req.path === '/';
             },
-        })
+        }) as unknown as RequestHandler
     );
 };
 
@@ -83,7 +83,7 @@ export const loginRateLimiter = rateLimit({
         const email = req.body?.email || '';
         return `${req.ip}-${email}`;
     },
-});
+}) as unknown as RequestHandler;
 
 /**
  * API rate limiter for authenticated users (more lenient)
@@ -97,7 +97,7 @@ export const apiRateLimiter = rateLimit({
         success: false,
         message: 'API rate limit exceeded, please slow down.',
     },
-});
+}) as unknown as RequestHandler;
 
 /**
  * Admin API rate limiter
@@ -111,4 +111,4 @@ export const adminRateLimiter = rateLimit({
         success: false,
         message: 'Admin rate limit exceeded.',
     },
-});
+}) as unknown as RequestHandler;

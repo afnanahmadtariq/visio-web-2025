@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, RequestHandler } from 'express';
 import { addressController } from '../controllers/address.controller';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { isAuthenticated } from '../middlewares/auth.middleware';
@@ -7,7 +7,7 @@ import { AddressSchema, AddressUpdateSchema } from '../validations/address.valid
 const router = Router();
 
 // All address routes require authentication
-router.use(isAuthenticated);
+router.use(isAuthenticated as unknown as RequestHandler);
 
 /**
  * @route   GET /api/addresses

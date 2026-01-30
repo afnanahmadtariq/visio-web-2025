@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
-/**
- * Dummy Payment Schema
- */
-export const DummyPaymentSchema = z.object({
+// Base schemas for field definitions
+const dummyPaymentBodySchema = z.object({
     orderId: z.string().cuid('Invalid order ID'),
     cardNumber: z
         .string()
@@ -17,14 +15,25 @@ export const DummyPaymentSchema = z.object({
         .optional(),
 });
 
-/**
- * Payment Query Schema
- */
-export const PaymentQuerySchema = z.object({
+const paymentQuerySchema = z.object({
     orderId: z.string().cuid('Invalid order ID').optional(),
     status: z.enum(['PENDING', 'SUCCESS', 'FAILED']).optional(),
 });
 
-// Type exports
-export type DummyPaymentInput = z.infer<typeof DummyPaymentSchema>;
-export type PaymentQueryInput = z.infer<typeof PaymentQuerySchema>;
+/**
+ * Dummy Payment Schema (wrapped for validateRequest middleware)
+ */
+export const DummyPaymentSchema = z.object({
+    body: dummyPaymentBodySchema,
+});
+
+/**
+ * Payment Query Schema (wrapped for validateRequest middleware)
+ */
+export const PaymentQuerySchema = z.object({
+    query: paymentQuerySchema,
+});
+
+// Type exports (extract types for controller use)
+export type DummyPaymentInput = z.infer<typeof dummyPaymentBodySchema>;
+export type PaymentQueryInput = z.infer<typeof paymentQuerySchema>;

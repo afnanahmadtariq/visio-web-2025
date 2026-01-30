@@ -1,11 +1,11 @@
-import { Router } from 'express';
+import { Router, RequestHandler } from 'express';
 import { wishlistController } from '../controllers/wishlist.controller';
 import { isAuthenticated } from '../middlewares/auth.middleware';
 
 const router = Router();
 
 // All wishlist routes require authentication
-router.use(isAuthenticated);
+router.use(isAuthenticated as unknown as RequestHandler);
 
 /**
  * @route   GET /api/wishlist

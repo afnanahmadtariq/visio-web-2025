@@ -1,19 +1,21 @@
-import 'dotenv/config';
-import express from 'express';
+import * as dotenv from 'dotenv';
+import * as path from 'path';
+
+// Load environment variables from root .env or local .env
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../../.env') });
+
+import express, { RequestHandler } from 'express';
 import cookieParser from 'cookie-parser';
 import compression from 'compression';
 
 import { env, validateEnv } from './config/env';
 import { connectMongo } from './db/mongo';
 import { prisma } from './db/prisma';
-import {
-  helmetMiddleware,
-  corsMiddleware,
-  globalRateLimiter,
-  mongoSanitize,
-} from './middlewares/security.middleware';
+import { applySecurityMiddlewares } from './middlewares/security.middleware';
 import { requestLogger } from './middlewares/requestLogger.middleware';
-import { globalErrorHandler, NotFoundError } from './middlewares/errorHandler.middleware';
+import { errorHandler, NotFoundError } from './middlewares/errorHandler.middleware';
 import routes from './routes';
 
 // Validate environment on startup
@@ -24,18 +26,15 @@ const app = express();
 // ============================================
 // Security Middlewares
 // ============================================
-app.use(helmetMiddleware);
-app.use(corsMiddleware);
-app.use(globalRateLimiter);
+applySecurityMiddlewares(app);
 
 // ============================================
 // Body Parsers
 // ============================================
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-app.use(cookieParser());
-app.use(compression());
-app.use(mongoSanitize());
+app.use(cookieParser() as unknown as RequestHandler);
+app.use(compression() as unknown as RequestHandler);
 
 // ============================================
 // Request Logging (after body parsing)
@@ -64,7 +63,7 @@ app.use((req, res, next) => {
 // ============================================
 // Global Error Handler
 // ============================================
-app.use(globalErrorHandler);
+app.use(errorHandler);
 
 // ============================================
 // Graceful Shutdown

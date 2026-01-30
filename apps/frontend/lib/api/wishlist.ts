@@ -39,7 +39,7 @@ export async function removeFromWishlist(productId: string): Promise<Wishlist> {
 
 // Check if product is in wishlist
 export async function isInWishlist(productId: string): Promise<{ inWishlist: boolean }> {
-  return get<{ inWishlist: boolean }>(`/api/wishlist/${productId}/check`)
+  return get<{ inWishlist: boolean }>(`/api/wishlist/check/${productId}`)
 }
 
 // Move wishlist item to cart

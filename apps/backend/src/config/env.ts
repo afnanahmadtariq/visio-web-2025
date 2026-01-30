@@ -1,8 +1,7 @@
-import 'dotenv/config';
-
 /**
  * Centralized environment configuration
  * All environment variables are validated and typed here
+ * Note: dotenv is loaded in main.ts before this module is imported
  */
 export const env = {
     // Server
@@ -30,8 +29,8 @@ export const env = {
     dllUsername: process.env.DLL_USERNAME!,
     dllPassword: process.env.DLL_PASSWORD!,
 
-    // CORS
-    corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    // CORS - Use CORS_ORIGIN, FRONTEND_URL, or default
+    corsOrigin: process.env.CORS_ORIGIN || process.env.FRONTEND_URL || 'http://localhost:3000',
 
     // Cloudinary
     cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,

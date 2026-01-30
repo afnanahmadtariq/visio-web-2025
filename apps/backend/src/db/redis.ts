@@ -65,7 +65,7 @@ export async function invalidateProductCaches(productId?: string): Promise<void>
     if (!client) return;
 
     try {
-        const keysToDelete = [
+        const keysToDelete: string[] = [
             CACHE_KEYS.PRODUCT_LIST_ALL,
             CACHE_KEYS.PRODUCT_LIST_SALES,
         ];

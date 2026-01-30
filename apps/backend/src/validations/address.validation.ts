@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
-/**
- * User Address Create/Update Schema
- */
-export const AddressSchema = z.object({
+// Base schemas for field definitions
+const addressBodySchema = z.object({
     label: z.string().max(50, 'Label too long').optional().nullable(),
     fullName: z
         .string()
@@ -32,18 +30,33 @@ export const AddressSchema = z.object({
     isDefault: z.boolean().optional().default(false),
 });
 
-/**
- * Address Update Schema
- */
-export const AddressUpdateSchema = AddressSchema.partial();
+const addressUpdateBodySchema = addressBodySchema.partial();
 
-/**
- * Address ID Param Schema
- */
-export const AddressIdSchema = z.object({
+const addressIdParamsSchema = z.object({
     id: z.string().cuid('Invalid address ID'),
 });
 
-// Type exports
-export type AddressInput = z.infer<typeof AddressSchema>;
-export type AddressUpdateInput = z.infer<typeof AddressUpdateSchema>;
+/**
+ * User Address Create Schema (wrapped for validateRequest middleware)
+ */
+export const AddressSchema = z.object({
+    body: addressBodySchema,
+});
+
+/**
+ * Address Update Schema (wrapped for validateRequest middleware)
+ */
+export const AddressUpdateSchema = z.object({
+    body: addressUpdateBodySchema,
+});
+
+/**
+ * Address ID Param Schema (wrapped for validateRequest middleware)
+ */
+export const AddressIdSchema = z.object({
+    params: addressIdParamsSchema,
+});
+
+// Type exports (extract body types for controller use)
+export type AddressInput = z.infer<typeof addressBodySchema>;
+export type AddressUpdateInput = z.infer<typeof addressUpdateBodySchema>;

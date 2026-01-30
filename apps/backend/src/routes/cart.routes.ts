@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, RequestHandler } from 'express';
 import { cartController } from '../controllers/cart.controller';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { isAuthenticated } from '../middlewares/auth.middleware';
@@ -7,7 +7,7 @@ import { AddToCartSchema, UpdateCartItemSchema } from '../validations/cart.valid
 const router = Router();
 
 // All cart routes require authentication
-router.use(isAuthenticated);
+router.use(isAuthenticated as unknown as RequestHandler);
 
 /**
  * @route   GET /api/cart

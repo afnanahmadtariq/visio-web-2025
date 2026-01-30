@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, RequestHandler } from 'express';
 import { authController } from '../controllers/auth.controller';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { isAuthenticated } from '../middlewares/auth.middleware';
@@ -53,7 +53,7 @@ router.post('/logout', authController.logout);
  * @desc    Get current user profile
  * @access  Private
  */
-router.get('/me', isAuthenticated, authController.getProfile);
+router.get('/me', isAuthenticated as unknown as RequestHandler, authController.getProfile);
 
 /**
  * @route   PUT /api/auth/password
@@ -62,7 +62,7 @@ router.get('/me', isAuthenticated, authController.getProfile);
  */
 router.put(
     '/password',
-    isAuthenticated,
+    isAuthenticated as unknown as RequestHandler,
     validateRequest(ChangePasswordSchema),
     authController.changePassword
 );

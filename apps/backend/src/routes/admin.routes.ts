@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, RequestHandler } from 'express';
 import { productController } from '../controllers/product.controller';
 import { categoryController } from '../controllers/category.controller';
 import { orderController } from '../controllers/order.controller';
@@ -12,7 +12,11 @@ import { OrderStatusUpdateSchema } from '../validations/order.validation';
 const router = Router();
 
 // All admin routes require authentication and admin role
-router.use(isAuthenticated, isAdmin, adminRateLimiter);
+router.use(
+    isAuthenticated as unknown as RequestHandler,
+    isAdmin as unknown as RequestHandler,
+    adminRateLimiter
+);
 
 // ============ Product Management ============
 

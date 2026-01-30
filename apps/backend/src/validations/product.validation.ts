@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
-/**
- * Product Create/Update Schema (Admin)
- */
-export const ProductSchema = z.object({
+// Base schemas for field definitions
+const productBodySchema = z.object({
     name: z
         .string()
         .min(2, 'Product name must be at least 2 characters')
@@ -32,15 +30,9 @@ export const ProductSchema = z.object({
     mainImagePublicId: z.string().optional().nullable(),
 });
 
-/**
- * Product Update Schema (allows partial updates)
- */
-export const ProductUpdateSchema = ProductSchema.partial();
+const productUpdateBodySchema = productBodySchema.partial();
 
-/**
- * Product Image Schema
- */
-export const ProductImageSchema = z.object({
+const productImageBodySchema = z.object({
     url: z.string().url('Invalid image URL'),
     publicId: z.string().min(1, 'Public ID is required'),
     width: z.number().int().positive().optional(),
@@ -49,10 +41,7 @@ export const ProductImageSchema = z.object({
     sortOrder: z.number().int().min(0).optional().default(0),
 });
 
-/**
- * Product Query Schema (for filtering/pagination)
- */
-export const ProductQuerySchema = z.object({
+const productQuerySchema = z.object({
     page: z.coerce.number().int().min(1).optional().default(1),
     limit: z.coerce.number().int().min(1).max(100).optional().default(20),
     category: z.string().optional(),
@@ -64,15 +53,47 @@ export const ProductQuerySchema = z.object({
     sortOrder: z.enum(['asc', 'desc']).optional().default('desc'),
 });
 
-/**
- * Product ID Param Schema
- */
-export const ProductIdSchema = z.object({
+const productIdParamsSchema = z.object({
     id: z.string().cuid('Invalid product ID'),
 });
 
-// Type exports
-export type ProductInput = z.infer<typeof ProductSchema>;
-export type ProductUpdateInput = z.infer<typeof ProductUpdateSchema>;
-export type ProductImageInput = z.infer<typeof ProductImageSchema>;
-export type ProductQueryInput = z.infer<typeof ProductQuerySchema>;
+/**
+ * Product Create Schema (wrapped for validateRequest middleware)
+ */
+export const ProductSchema = z.object({
+    body: productBodySchema,
+});
+
+/**
+ * Product Update Schema (wrapped for validateRequest middleware)
+ */
+export const ProductUpdateSchema = z.object({
+    body: productUpdateBodySchema,
+});
+
+/**
+ * Product Image Schema (wrapped for validateRequest middleware)
+ */
+export const ProductImageSchema = z.object({
+    body: productImageBodySchema,
+});
+
+/**
+ * Product Query Schema (wrapped for validateRequest middleware)
+ */
+export const ProductQuerySchema = z.object({
+    query: productQuerySchema,
+});
+
+/**
+ * Product ID Param Schema (wrapped for validateRequest middleware)
+ */
+export const ProductIdSchema = z.object({
+    params: productIdParamsSchema,
+});
+
+// Type exports (extract types for controller use)
+export type ProductInput = z.infer<typeof productBodySchema>;
+export type ProductUpdateInput = z.infer<typeof productUpdateBodySchema>;
+export type ProductImageInput = z.infer<typeof productImageBodySchema>;
+export type ProductQueryInput = z.infer<typeof productQuerySchema>;

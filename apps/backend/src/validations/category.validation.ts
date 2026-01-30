@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
-/**
- * Category Create Schema
- */
-export const CategorySchema = z.object({
+// Base schemas for field definitions
+const categoryBodySchema = z.object({
     name: z
         .string()
         .min(2, 'Category name must be at least 2 characters')
@@ -17,25 +15,44 @@ export const CategorySchema = z.object({
     parentId: z.string().cuid('Invalid parent category ID').optional().nullable(),
 });
 
-/**
- * Category Update Schema
- */
-export const CategoryUpdateSchema = CategorySchema.partial();
+const categoryUpdateBodySchema = categoryBodySchema.partial();
 
-/**
- * Category ID Param Schema
- */
-export const CategoryIdSchema = z.object({
+const categoryIdParamsSchema = z.object({
     id: z.string().cuid('Invalid category ID'),
 });
 
-/**
- * Category Slug Param Schema
- */
-export const CategorySlugSchema = z.object({
+const categorySlugParamsSchema = z.object({
     slug: z.string().min(1, 'Slug is required'),
 });
 
-// Type exports
-export type CategoryInput = z.infer<typeof CategorySchema>;
-export type CategoryUpdateInput = z.infer<typeof CategoryUpdateSchema>;
+/**
+ * Category Create Schema (wrapped for validateRequest middleware)
+ */
+export const CategorySchema = z.object({
+    body: categoryBodySchema,
+});
+
+/**
+ * Category Update Schema (wrapped for validateRequest middleware)
+ */
+export const CategoryUpdateSchema = z.object({
+    body: categoryUpdateBodySchema,
+});
+
+/**
+ * Category ID Param Schema (wrapped for validateRequest middleware)
+ */
+export const CategoryIdSchema = z.object({
+    params: categoryIdParamsSchema,
+});
+
+/**
+ * Category Slug Param Schema (wrapped for validateRequest middleware)
+ */
+export const CategorySlugSchema = z.object({
+    params: categorySlugParamsSchema,
+});
+
+// Type exports (extract body types for controller use)
+export type CategoryInput = z.infer<typeof categoryBodySchema>;
+export type CategoryUpdateInput = z.infer<typeof categoryUpdateBodySchema>;

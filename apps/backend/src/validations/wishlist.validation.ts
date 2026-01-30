@@ -1,18 +1,27 @@
 import { z } from 'zod';
 
+// Base schemas for field definitions
+const wishlistAddBodySchema = z.object({
+    productId: z.string().cuid('Invalid product ID'),
+});
+
+const wishlistProductIdParamsSchema = z.object({
+    productId: z.string().cuid('Invalid product ID'),
+});
+
 /**
- * Wishlist Add Schema
+ * Wishlist Add Schema (wrapped for validateRequest middleware)
  */
 export const WishlistAddSchema = z.object({
-    productId: z.string().cuid('Invalid product ID'),
+    body: wishlistAddBodySchema,
 });
 
 /**
- * Wishlist Product ID Param Schema
+ * Wishlist Product ID Param Schema (wrapped for validateRequest middleware)
  */
 export const WishlistProductIdSchema = z.object({
-    productId: z.string().cuid('Invalid product ID'),
+    params: wishlistProductIdParamsSchema,
 });
 
-// Type exports
-export type WishlistAddInput = z.infer<typeof WishlistAddSchema>;
+// Type exports (extract body types for controller use)
+export type WishlistAddInput = z.infer<typeof wishlistAddBodySchema>;

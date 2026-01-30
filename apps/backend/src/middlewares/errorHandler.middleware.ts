@@ -155,11 +155,14 @@ export const notFoundHandler = (req: Request, res: Response): void => {
 
 /**
  * Async handler wrapper to catch errors in async route handlers
+ * Using eslint-disable to handle type incompatibility between different @types/express versions
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const asyncHandler = <T>(
-    fn: (req: Request, res: Response, next: NextFunction) => Promise<T>
+    fn: (req: any, res: Response, next: NextFunction) => Promise<T>
 ) => {
-    return (req: Request, res: Response, next: NextFunction): void => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (req: any, res: Response, next: NextFunction): void => {
         Promise.resolve(fn(req, res, next)).catch(next);
     };
 };

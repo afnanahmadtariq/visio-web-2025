@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
-/**
- * User Registration Schema
- */
-export const RegisterSchema = z.object({
+// Base schemas for field definitions
+const registerBodySchema = z.object({
     email: z
         .string()
         .email('Invalid email format')
@@ -24,25 +22,16 @@ export const RegisterSchema = z.object({
         ),
 });
 
-/**
- * User Login Schema
- */
-export const LoginSchema = z.object({
+const loginBodySchema = z.object({
     email: z.string().email('Invalid email format'),
     password: z.string().min(1, 'Password is required'),
 });
 
-/**
- * Refresh Token Schema
- */
-export const RefreshTokenSchema = z.object({
+const refreshTokenBodySchema = z.object({
     refreshToken: z.string().min(1, 'Refresh token is required'),
 });
 
-/**
- * Change Password Schema
- */
-export const ChangePasswordSchema = z.object({
+const changePasswordBodySchema = z.object({
     currentPassword: z.string().min(1, 'Current password is required'),
     newPassword: z
         .string()
@@ -54,10 +43,7 @@ export const ChangePasswordSchema = z.object({
         ),
 });
 
-/**
- * User Update Profile Schema
- */
-export const UpdateProfileSchema = z.object({
+const updateProfileBodySchema = z.object({
     username: z
         .string()
         .min(3, 'Username must be at least 3 characters')
@@ -66,9 +52,44 @@ export const UpdateProfileSchema = z.object({
         .optional(),
 });
 
-// Type exports
-export type RegisterInput = z.infer<typeof RegisterSchema>;
-export type LoginInput = z.infer<typeof LoginSchema>;
-export type RefreshTokenInput = z.infer<typeof RefreshTokenSchema>;
-export type ChangePasswordInput = z.infer<typeof ChangePasswordSchema>;
-export type UpdateProfileInput = z.infer<typeof UpdateProfileSchema>;
+/**
+ * User Registration Schema (wrapped for validateRequest middleware)
+ */
+export const RegisterSchema = z.object({
+    body: registerBodySchema,
+});
+
+/**
+ * User Login Schema (wrapped for validateRequest middleware)
+ */
+export const LoginSchema = z.object({
+    body: loginBodySchema,
+});
+
+/**
+ * Refresh Token Schema (wrapped for validateRequest middleware)
+ */
+export const RefreshTokenSchema = z.object({
+    body: refreshTokenBodySchema,
+});
+
+/**
+ * Change Password Schema (wrapped for validateRequest middleware)
+ */
+export const ChangePasswordSchema = z.object({
+    body: changePasswordBodySchema,
+});
+
+/**
+ * User Update Profile Schema (wrapped for validateRequest middleware)
+ */
+export const UpdateProfileSchema = z.object({
+    body: updateProfileBodySchema,
+});
+
+// Type exports (extract body types for controller use)
+export type RegisterInput = z.infer<typeof registerBodySchema>;
+export type LoginInput = z.infer<typeof loginBodySchema>;
+export type RefreshTokenInput = z.infer<typeof refreshTokenBodySchema>;
+export type ChangePasswordInput = z.infer<typeof changePasswordBodySchema>;
+export type UpdateProfileInput = z.infer<typeof updateProfileBodySchema>;

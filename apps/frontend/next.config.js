@@ -10,6 +10,26 @@ const nextConfig = {
   // Use this to set Nx-specific options
   // See: https://nx.dev/recipes/next/next-config-setup
   nx: {},
+
+  // API rewrites for development - proxy /api requests to backend
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:10000'}/api/:path*`,
+      },
+    ];
+  },
+
+  // Images configuration for external sources
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
 };
 
 const plugins = [

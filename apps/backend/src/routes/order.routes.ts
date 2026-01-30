@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, RequestHandler } from 'express';
 import { orderController } from '../controllers/order.controller';
 import { validateRequest } from '../middlewares/validateRequest.middleware';
 import { isAuthenticated } from '../middlewares/auth.middleware';
@@ -7,7 +7,7 @@ import { CheckoutSchema } from '../validations/order.validation';
 const router = Router();
 
 // All order routes require authentication
-router.use(isAuthenticated);
+router.use(isAuthenticated as unknown as RequestHandler);
 
 /**
  * @route   POST /api/orders/checkout

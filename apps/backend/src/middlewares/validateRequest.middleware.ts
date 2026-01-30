@@ -6,7 +6,7 @@ import { AnyZodObject, ZodError } from 'zod';
  * Validates request body, query, and params against provided schema
  */
 export const validateRequest = (schema: AnyZodObject) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const result = await schema.safeParseAsync({
                 body: req.body,
@@ -16,7 +16,7 @@ export const validateRequest = (schema: AnyZodObject) => {
 
             if (!result.success) {
                 const errors = result.error.flatten();
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     message: 'Validation failed',
                     errors: {
@@ -25,6 +25,7 @@ export const validateRequest = (schema: AnyZodObject) => {
                         params: errors.fieldErrors.params || {},
                     },
                 });
+                return;
             }
 
             // Overwrite with parsed and sanitized data
@@ -35,11 +36,12 @@ export const validateRequest = (schema: AnyZodObject) => {
             next();
         } catch (error) {
             if (error instanceof ZodError) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     message: 'Validation failed',
                     errors: error.flatten(),
                 });
+                return;
             }
             next(error);
         }
@@ -50,16 +52,17 @@ export const validateRequest = (schema: AnyZodObject) => {
  * Validate only request body
  */
 export const validateBody = (schema: AnyZodObject) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const result = await schema.safeParseAsync(req.body);
 
             if (!result.success) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     message: 'Validation failed',
                     errors: result.error.flatten().fieldErrors,
                 });
+                return;
             }
 
             req.body = result.data;
@@ -74,16 +77,17 @@ export const validateBody = (schema: AnyZodObject) => {
  * Validate only query parameters
  */
 export const validateQuery = (schema: AnyZodObject) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const result = await schema.safeParseAsync(req.query);
 
             if (!result.success) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     message: 'Invalid query parameters',
                     errors: result.error.flatten().fieldErrors,
                 });
+                return;
             }
 
             req.query = result.data;
@@ -98,16 +102,17 @@ export const validateQuery = (schema: AnyZodObject) => {
  * Validate only route parameters
  */
 export const validateParams = (schema: AnyZodObject) => {
-    return async (req: Request, res: Response, next: NextFunction) => {
+    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const result = await schema.safeParseAsync(req.params);
 
             if (!result.success) {
-                return res.status(400).json({
+                res.status(400).json({
                     success: false,
                     message: 'Invalid route parameters',
                     errors: result.error.flatten().fieldErrors,
                 });
+                return;
             }
 
             req.params = result.data;

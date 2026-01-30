@@ -20,9 +20,9 @@ export const getProductReviews = asyncHandler(async (req: Request, res: Response
     };
 
     const result = await reviewService.getProductReviews(productId, query);
+    const response = paginatedResponse(result.data, result.pagination);
     return res.json({
-        success: true,
-        ...paginatedResponse(result.data, result.pagination),
+        ...response,
         stats: result.stats,
     });
 });

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { SignOptions } from 'jsonwebtoken';
 import { env } from '../config/env';
 import { prisma } from '../db/prisma';
 
@@ -11,6 +11,13 @@ export interface JwtPayload {
     role: 'USER' | 'ADMIN';
     iat?: number;
     exp?: number;
+}
+
+/**
+ * Authenticated Request with user attached
+ */
+export interface AuthenticatedRequest extends Request {
+    user: JwtPayload;
 }
 
 /**
@@ -36,14 +43,14 @@ export const verifyAccessToken = (token: string): JwtPayload => {
  * Sign a new access token
  */
 export const signAccessToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): string => {
-    return jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn });
+    return jwt.sign(payload, env.jwtSecret, { expiresIn: env.jwtExpiresIn } as SignOptions);
 };
 
 /**
  * Sign a new refresh token
  */
 export const signRefreshToken = (payload: Omit<JwtPayload, 'iat' | 'exp'>): string => {
-    return jwt.sign(payload, env.refreshSecret, { expiresIn: env.refreshExpiresIn });
+    return jwt.sign(payload, env.refreshSecret, { expiresIn: env.refreshExpiresIn } as SignOptions);
 };
 
 /**
